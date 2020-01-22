@@ -45,7 +45,8 @@ public class DIYarrayList<T> implements List<T> {
     @Override
     public boolean add(T t) {
         if (size==elementData.length) grow(size+1);
-        elementData[size++] = t;
+        elementData[size] = t;
+        size++;
         return true;
     }
 
@@ -160,48 +161,51 @@ public class DIYarrayList<T> implements List<T> {
     }
     // iterator
     private class DIYarrayListIterator implements Iterator<T> {
-        private int corsor;
+        private int cursor;
         @Override
         public boolean hasNext() {
-            return corsor<size;
+            return cursor<size;
         }
         @Override
         public T next() {
-            return get(corsor++);
+            return get(cursor++);
         }
     }
 
     private class DIYarrayListListIterator implements ListIterator<T> {
-        private int corsor;
+        private int cursor;
         private int lastRet=-1;
         @Override
         public boolean hasNext() {
-            return corsor<size;
+            return cursor<size;
         }
         @Override
         public T next() {
-            lastRet=corsor;
-            return get(corsor++);
+            lastRet=cursor;
+            T result = get(cursor);
+            cursor++;
+            return result;
         }
         @Override
         public boolean hasPrevious() {
-            return corsor >0;
+            return cursor >0;
         }
 
         @Override
         public T previous() {
-            lastRet=--corsor;
-            return get(corsor);
+            cursor--;
+            lastRet=cursor;
+            return get(cursor);
         }
 
         @Override
         public int nextIndex() {
-            return corsor;
+            return cursor;
         }
 
         @Override
         public int previousIndex() {
-            return corsor-1;
+            return cursor-1;
         }
 
         @Override

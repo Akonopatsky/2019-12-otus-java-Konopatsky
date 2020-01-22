@@ -46,7 +46,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>ru.otus.homework.homework.HelloOtus</Main-Class>
+                                        <Main-Class>ru.otus.homework.HelloOtus</Main-Class>
                                         <Build-Number>0.1</Build-Number>
                                     </manifestEntries>
                                 </transformer>
