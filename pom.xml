@@ -11,6 +11,7 @@
     <modules>
         <module>hw01-maven</module>
         <module>hw02-ArrayList</module>
+        <module>hw03-gc</module>
     </modules>
     <developers>
         <developer>
