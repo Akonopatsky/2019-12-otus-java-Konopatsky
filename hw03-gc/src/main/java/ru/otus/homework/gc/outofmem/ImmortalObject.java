@@ -1,15 +1,13 @@
 package ru.otus.homework.gc.outofmem;
 
+import java.time.LocalTime;
+
 public class ImmortalObject {
     final private Integer number;
-    private Object obj;
+    final public LocalTime createTime;
 
     public ImmortalObject(Integer number) {
         this.number = number;
-    }
-    @Override
-    protected void finalize() throws Throwable {
-        System.out.println("finalize");
-        obj = this;
+        createTime = LocalTime.now();
     }
 }
