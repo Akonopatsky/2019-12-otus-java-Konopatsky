@@ -1,14 +1,12 @@
 package ru.otus.homework.gc.outofmem;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.io.*;
+import java.lang.management.GarbageCollectorMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
-/*О формате логов
-        http://openjdk.java.net/jeps/158
 
-
+/*
         -Xms512m
         -Xmx512m
         -Xlog:gc=debug:file=./logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m
@@ -24,39 +22,53 @@ Serial Collector -XX:+UseSerialGC
         ZGC -XX:+UnlockExperimental
         VMOptions -XX:+UseZGC
         */
-/*
-1)
-    default, time: 83 sec (82 without Label_1)
-2)
-    -XX:MaxGCPauseMillis=100000, time: 82 sec //Sets a target for the maximum GC pause time.
-3)
-    -XX:MaxGCPauseMillis=10, time: 91 sec
-*/
+
+
 public class OutOfMemGC {
-    public static void main(String[] args) throws InterruptedException {
-        int stepsBeforeSleep = 1000_000;
-        int sleepTime = 100;
-        int shortTimeArraySize = 20;
-        fillMemory(stepsBeforeSleep, sleepTime, shortTimeArraySize);
+    private static final int BIG_LOOPS = 1000;
+    private static final int SHORT_LOOPS = 10;
+    private static final int SLEEP_TIME = 50;
+    private static PrintStream writer;
+    private static final List<MemoryFillObject> immortalList = new ArrayList<>(BIG_LOOPS);
+
+    public static void main(String[] args) throws Exception {
+        List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
+        String gcName = gcbeans.get(0).getName();
+        String fileName = "./logs/" + gcName + ".txt";
+        try (PrintStream logWriter = new PrintStream(new FileOutputStream(fileName));) {
+            writer = logWriter;
+            fillMemory();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void fillMemory(int stepsBeforeSleep, int sleepTime, int shortTimeArraySize) throws InterruptedException {
-        List<MemoryFillObject> immortalList = new ArrayList<>();
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss:SSS");
-        System.out.println( LocalTime.now().format(timeFormat) + " > Start");
+    private static void fillMemory() throws InterruptedException {
         long beginTime = System.currentTimeMillis();
-
+        long count = 0;
+        writeLog("time","immortalList.size()", "MemoryFillObject.getQuantity()");
         while (true) {
-            List<MemoryFillObject> tempList = new ArrayList<>();
-            for (int i = 0; i < stepsBeforeSleep; i++) {
-                immortalList.add(new MemoryFillObject(Integer.valueOf(i)));
-                Object[] shortTimeArray = new Object[shortTimeArraySize];
-                for (int j = 0; j < shortTimeArraySize; j++) {
-                    shortTimeArray[j] = new MemoryFillObject(j);
+            for (int i = 0; i < BIG_LOOPS; i++) {
+                Object[] shortTimeArray = new Object[SHORT_LOOPS];
+                immortalList.add(new MemoryFillObject(new String(" ")));
+                for (int j = 0; j < SHORT_LOOPS; j++) {
+                    shortTimeArray[j] = new MemoryFillObject();
                 }
             }
-            System.out.println((System.currentTimeMillis() - beginTime) / 1000 + "s > " + immortalList.size());
-            Thread.sleep(sleepTime);
+            System.out.println((System.currentTimeMillis() - beginTime)/1000 + " s > "+count);
+            count++;
+            writeLog((System.currentTimeMillis() - beginTime),immortalList.size(),MemoryFillObject.getQuantity());
+            Thread.sleep(SLEEP_TIME);
+        }
+    }
+
+    private static void writeLog(Object ... objects) {
+        if (writer!=null) {
+            StringBuilder resultStr = new StringBuilder();
+            for (Object o : objects) {
+                resultStr.append(o.toString()).append(";");
+            }
+            writer.println(resultStr.toString());
         }
     }
 }
