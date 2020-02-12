@@ -1,6 +1,7 @@
 package ru.otus.homework.gc.outofmem;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,28 +34,28 @@ Serial Collector -XX:+UseSerialGC
 */
 public class OutOfMemGC {
     public static void main(String[] args) throws InterruptedException {
-        int stepsBeforeSleep = 5 * 1000 * 1000;
-        int sleepTime = 200;
-        fillMemory(stepsBeforeSleep, sleepTime);
+        int stepsBeforeSleep = 1000_000;
+        int sleepTime = 100;
+        int shortTimeArraySize = 20;
+        fillMemory(stepsBeforeSleep, sleepTime, shortTimeArraySize);
     }
 
-    private static void fillMemory(int stepsBeforeSleep, int sleepTime) throws InterruptedException {
-        List<MemoryFillObject> list = new ArrayList<>();
-        long count = 0;
-        System.out.println("Start "+ LocalTime.now());
+    private static void fillMemory(int stepsBeforeSleep, int sleepTime, int shortTimeArraySize) throws InterruptedException {
+        List<MemoryFillObject> immortalList = new ArrayList<>();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss:SSS");
+        System.out.println( LocalTime.now().format(timeFormat) + " > Start");
+        long beginTime = System.currentTimeMillis();
+
         while (true) {
+            List<MemoryFillObject> tempList = new ArrayList<>();
             for (int i = 0; i < stepsBeforeSleep; i++) {
-                list.add(new MemoryFillObject(Integer.valueOf(i)));
-                if(i%100000==0) System.out.println(i+" "+LocalTime.now());
+                immortalList.add(new MemoryFillObject(Integer.valueOf(i)));
+                Object[] shortTimeArray = new Object[shortTimeArraySize];
+                for (int j = 0; j < shortTimeArraySize; j++) {
+                    shortTimeArray[j] = new MemoryFillObject(j);
+                }
             }
-            System.out.println(1);
-            for (int i = 0; i < stepsBeforeSleep/2; i++) {
-                list.remove(list.size()-i-1);
-                if(i%100000==0) System.out.println(i+" "+LocalTime.now());
-            }
-            System.out.println(2);
-            count++;
-            System.out.println(count+" > "+LocalTime.now());
+            System.out.println((System.currentTimeMillis() - beginTime) / 1000 + "s > " + immortalList.size());
             Thread.sleep(sleepTime);
         }
     }
