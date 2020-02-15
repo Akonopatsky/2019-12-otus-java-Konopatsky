@@ -5,27 +5,8 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/*
-        -Xms512m
-        -Xmx512m
-        -Xlog:gc=debug:file=./logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m
-        -XX:+HeapDumpOnOutOfMemoryError
-        -XX:HeapDumpPath=./logs/dump
-        -XX:+UseG1GC
-        */
-/*
-Serial Collector -XX:+UseSerialGC
-        Parallel Collector -XX:+UseParallelGC
-        CMS -XX:+UseConcMarkSweepGC
-        G1 -XX:+UseG1GC
-        ZGC -XX:+UnlockExperimental
-        VMOptions -XX:+UseZGC
-        */
-
-
 public class OutOfMemGC {
-    private static final int BIG_LOOPS = 1000;
+    private static final int BIG_LOOPS = 10000;
     private static final int SHORT_LOOPS = 10;
     private static final int SLEEP_TIME = 50;
     private static PrintStream writer;
@@ -35,7 +16,7 @@ public class OutOfMemGC {
         List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
         String gcName = gcbeans.get(0).getName();
         String fileName = "./logs/" + gcName + ".txt";
-        try (PrintStream logWriter = new PrintStream(new FileOutputStream(fileName));) {
+        try (PrintStream logWriter = new PrintStream(new FileOutputStream(fileName))) {
             writer = logWriter;
             fillMemory();
         } catch (InterruptedException e) {
