@@ -8,10 +8,10 @@ import java.util.Deque;
 
 public class MyCell implements AtmCell {
     final private Deque<Banknote> banknotes = new ArrayDeque<>();
+    final private BanknoteType banknoteType;
     public MyCell(BanknoteType banknoteType) {
         this.banknoteType = banknoteType;
     }
-    final private BanknoteType banknoteType;
     @Override
     public Banknote getOutOneBanknote() {
         return banknotes.pop();
@@ -42,12 +42,9 @@ public class MyCell implements AtmCell {
     public BanknoteType getBanknoteType() {
         return banknoteType;
     }
-    // тут копия через инстанс
+
     public MyCell createCopy() {
         MyCell result = new MyCell(this.getBanknoteType());
-/*        for (Banknote banknote : banknotes) {
-            result.banknotes.add(banknote);
-        }*/
         result.banknotes.addAll(banknotes);
         return result;
     }

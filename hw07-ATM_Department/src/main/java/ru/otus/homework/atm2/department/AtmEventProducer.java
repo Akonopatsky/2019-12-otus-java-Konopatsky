@@ -8,7 +8,7 @@ public class AtmEventProducer {
     void addListener(AtmListener listener) {
         listeners.add(listener);
     }
-    void  addListeners(List<? extends AtmListener>  listeners) {
+    void addListeners(List<? extends AtmListener>  listeners) {
         this.listeners.addAll(listeners);
     }
     void removeListener(AtmListener listener) {
