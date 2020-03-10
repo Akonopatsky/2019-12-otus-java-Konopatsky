@@ -14,6 +14,7 @@
         <module>hw03-gc</module>
         <module>hw06-ATM</module>
         <module>hw07-ATM_Department</module>
+        <module>hw08-Json</module>
     </modules>
     <developers>
         <developer>
