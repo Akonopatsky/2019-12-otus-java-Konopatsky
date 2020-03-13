@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.homework.diyjson.temp.BagOfPrimitives;
+import ru.otus.homework.diyjson.temp.DiyGson;
 
 import java.util.ArrayList;
 import java.util.HashMap;

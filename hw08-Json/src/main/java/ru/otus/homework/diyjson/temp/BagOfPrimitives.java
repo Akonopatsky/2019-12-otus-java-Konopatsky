@@ -1,4 +1,4 @@
-package ru.otus.homework.diyjson;
+package ru.otus.homework.diyjson.temp;
 
 import java.util.Objects;
 
