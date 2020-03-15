@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.homework.diyjson.temp.BagOfPrimitives;
-import ru.otus.homework.diyjson.temp.DiyGson;
+import ru.otus.homework.diyjson.forTest.BagOfPrimitives;
+import ru.otus.homework.diyjson.forTest.Child;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +23,10 @@ private Gson gson = new Gson();
 
     @BeforeEach
     void setUp() {
+        array1 = new BagOfPrimitives[4];
+        array1[0] = new BagOfPrimitives(1,"1val2", 2);
+        array1[1] = new BagOfPrimitives(3,"2val2", 4);
+        array1[2] = new BagOfPrimitives(5,"3val2", 6);
 
     }
     @Test
@@ -30,7 +34,7 @@ private Gson gson = new Gson();
     void arrayOfObjacts() {
         String json = diyGson.toJson(array1);
         BagOfPrimitives[] array2 = gson.fromJson(json, BagOfPrimitives[].class);
-        assertEquals(array1, array2);
+        assertArrayEquals(array1, array2);
     }
     @Test
     @DisplayName("double")
@@ -41,10 +45,18 @@ private Gson gson = new Gson();
         assertEquals(d1,d2);
     }
     @Test
-    @DisplayName("hashmap")
-    void testhashMap() {
-        String json = diyGson.toJson(map1);
-        Map<Integer, BagOfPrimitives> map2 = gson.fromJson(json, HashMap.class);
-        assertEquals(map1,map2);
+    @DisplayName("List")
+    void testList() {
+        Child child1 = new Child();
+        BagOfPrimitives[] array2;
+        array2 = new BagOfPrimitives[3];
+        array2[0] = new BagOfPrimitives(1,"1val2", 2);
+        array2[1] = new BagOfPrimitives(3,"2val2", 4);
+        array2[2] = new BagOfPrimitives(5,"3val2", 6);
+        child1.bagOfPrimitivesList.add(array1);
+        child1.bagOfPrimitivesList.add(array2);
+        String json = diyGson.toJson(child1);
+        Child child2 = gson.fromJson(json, Child.class);
+        assertEquals(child1,child2);
     }
 }

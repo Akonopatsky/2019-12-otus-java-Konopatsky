@@ -1,4 +1,4 @@
-package ru.otus.homework.diyjson.temp;
+package ru.otus.homework.diyjson.forTest;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ public class BagOfPrimitives {
   private final String value2;
   private final int value3;
 
-  BagOfPrimitives(int value1, String value2, int value3) {
+  public BagOfPrimitives(int value1, String value2, int value3) {
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;

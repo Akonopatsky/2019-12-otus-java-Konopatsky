@@ -1,4 +1,4 @@
-package ru.otus.homework.diyjson.temp;
+package ru.otus.homework.diyjson.forTest;
 
 public class Parent {
     private String parentPrivate = "parentPrivateVal";

@@ -1,4 +1,4 @@
-package ru.otus.homework.diyjson.temp;
+package ru.otus.homework.diyjson.forTest;
 
 
 import javax.json.*;
