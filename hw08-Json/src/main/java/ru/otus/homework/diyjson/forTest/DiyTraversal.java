@@ -1,4 +1,4 @@
-package ru.otus.homework.diyjson;
+package ru.otus.homework.diyjson.forTest;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -79,22 +79,22 @@ public abstract class DiyTraversal {
             startTracking(o);
             elementEndAction(o);
         }
-
     }
     private void trackMap(Object obj) {
         throw new UnsupportedOperationException("map type is unsupported");
     }
-    protected abstract void objectEndAction(Object obj);
+    protected abstract void arrayBeforeAction(Object obj);
+    protected abstract void endArrayAction(Object obj);
+    protected abstract void collectionBeforeAction(Object obj);
+    protected abstract void collectionEndAction(Object obj);
     protected abstract void objectBeforeAction(Object obj);
-    protected abstract void fieldEndAction(Field field, Object obj);
+    protected abstract void objectEndAction(Object obj);
     protected abstract void fieldBeforeAction(Field field, Object obj);
+    protected abstract void fieldEndAction(Field field, Object obj);
     protected abstract void mapBeforeAction(Object obj);
     protected abstract void mapEndAction(Object obj);
     protected abstract void leafMeetAction(Object obj);
     protected abstract void nullMeetsAction(Object obj);
-    protected abstract void endArrayAction(Object obj);
-    protected abstract void arrayBeforeAction(Object obj);
-    protected abstract void collectionEndAction(Object obj);
-    protected abstract void collectionBeforeAction(Object obj);
+
 
 }

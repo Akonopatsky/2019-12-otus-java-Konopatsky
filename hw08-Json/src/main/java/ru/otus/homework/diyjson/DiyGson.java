@@ -1,169 +1,101 @@
 package ru.otus.homework.diyjson;
 
 import com.google.gson.Gson;
-import ru.otus.homework.diyjson.forTest.BagOfPrimitives;
-import ru.otus.homework.diyjson.forTest.Child;
-import ru.otus.homework.diyjson.forTest.EmptyClass;
 
+import javax.json.*;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class DiyGson extends DiyTraversal {
-private StringBuilder jsonStrig = new StringBuilder();
 
+public class DiyGson  {
+
+    public JsonValue startTracking(Object obj) {
+        Class<?> clazz = obj.getClass();
+        if (clazz.isArray()) {
+            return trackArray(obj);
+        }
+        if (obj instanceof Collection) {
+            return trackCollection(obj);
+        }
+        if (obj instanceof Map) {
+            return trackMap(obj);
+        }
+        if (isValueType(clazz)) {
+            return getJsonValue(obj);
+        }
+        return objectTraversal(obj);
+
+    }
+
+    private JsonValue getJsonValue(Object obj) {
+        if (obj instanceof Boolean) return (Boolean)obj ? JsonValue.TRUE: JsonValue.FALSE;
+        if (obj instanceof Long) return Json.createValue((Long)obj);
+        if (obj instanceof Integer) return Json.createValue((Integer) obj);
+        if (obj instanceof Byte) return Json.createValue((Byte) obj);
+        if (obj instanceof Short) return Json.createValue((Short) obj);
+        if (obj instanceof Double) return Json.createValue((Double) obj);
+        if (obj instanceof Float) return Json.createValue((Float) obj);
+        if (obj instanceof String) return Json.createValue((String) obj);
+        if (obj instanceof StringBuilder) return Json.createValue(obj.toString());
+        if (obj instanceof StringBuffer) return Json.createValue(obj.toString());
+        throw new UnsupportedOperationException("unsupport type in getJsonValue");
+    }
+
+    private boolean isValueType(Class<?> clazz) {
+        if (clazz.getPackageName().equals("java.lang")) return true;
+        return false;
+    }
+
+    private JsonValue objectTraversal(Object obj) {
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        List<Field> fieldList = new ArrayList<>();
+        getAllFields(obj.getClass(), fieldList);
+        for (Field field : fieldList) {
+            Boolean accessible = field.canAccess(obj);
+            field.setAccessible(true);
+            try {
+                if (field.get(obj)==null) jsonObjectBuilder.addNull(field.getName());
+                else jsonObjectBuilder.add(field.getName(), startTracking(field.get(obj)));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            field.setAccessible(accessible);
+        }
+        return jsonObjectBuilder.build();
+    }
+
+    private void getAllFields(Class<?> clazz, List<Field> fieldList) {
+        Field[] fields = clazz.getDeclaredFields();
+        fieldList.addAll(Arrays.asList(fields));
+        Class<?> superclass = clazz.getSuperclass();
+        if (superclass!=null) getAllFields(superclass,fieldList);
+    }
+    private JsonValue trackCollection(Object obj) {
+        Collection<Object> collection = (Collection<Object>) obj;
+        return trackArray(collection.toArray());
+    }
+    private JsonValue trackArray(Object obj) {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        Object[] arrayOfObject = (Object[])obj;
+        for (Object o : arrayOfObject) {
+            if (o==null) jsonArrayBuilder.addNull();
+            else jsonArrayBuilder.add(startTracking(o));
+        }
+        return  jsonArrayBuilder.build();
+    }
+    private JsonValue trackMap(Object obj) {
+        throw new UnsupportedOperationException("map type is unsupported");
+    }
     public String toJson(Object obj) {
-        jsonStrig = new StringBuilder();
-        startTracking(obj);
-        return jsonStrig.toString();
+        JsonValue json= startTracking(obj);
+        Writer writer = new StringWriter();
+        Json.createWriter(writer).write(json);
+        return json.toString();
     }
 
-    @Override
-    protected void fieldBeforeAction(Field field, Object obj) {
-        jsonStrig.append("\"").append(field.getName()).append("\"");
-        jsonStrig.append(":");
-    }
 
-    @Override
-    protected void fieldEndAction(Field field, Object obj) {
-        jsonStrig.append(",");
-    }
-
-    @Override
-    protected void elementEndAction(Object o) {
-        jsonStrig.append(",");
-    }
-
-    @Override
-    protected void elementBeforeAction(Object o) {
-
-    }
-
-    @Override
-    protected void leafMeetAction(Object obj) {
-        if (obj instanceof String) jsonStrig.append("\"");
-        jsonStrig.append(obj.toString());
-        if (obj instanceof String) jsonStrig.append("\"");
-    }
-
-    @Override
-    protected void nullMeetsAction(Object obj) {
-        jsonStrig.append("null");
-    }
-
-    @Override
-    protected void endArrayAction(Object obj) {
-        deleteLastComma();
-        jsonStrig.append("]");
-    }
-
-    @Override
-    protected void arrayBeforeAction(Object obj) {
-        jsonStrig.append("[");
-    }
-    @Override
-    protected void collectionBeforeAction(Object obj) {
-        jsonStrig.append("[");
-    }
-
-    @Override
-    protected void collectionEndAction(Object obj) {
-        deleteLastComma();
-        jsonStrig.append("]");
-    }
-
-    @Override
-    protected void objectBeforeAction(Object obj) {
-        jsonStrig.append("{");
-    }
-    @Override
-    protected void objectEndAction(Object obj) {
-        deleteLastComma();
-        jsonStrig.append("}");
-    }
-
-    private void deleteLastComma() {
-        if (jsonStrig.charAt(jsonStrig.length()-1)==',') jsonStrig.deleteCharAt(jsonStrig.length()-1);
-    }
-
-    @Override
-    protected void mapBeforeAction(Object obj) {    }
-
-    @Override
-    protected void mapEndAction(Object obj) {    }
-
-
-    public static void main(String[] args) throws IllegalAccessException {
-        String[] array = {"aa","bb"};
-        List<String> list = Arrays.asList("dd",null,"dhhh");
-        BagOfPrimitives bag = new BagOfPrimitives(22, "test", 10);
-        DiyGson diyGson = new DiyGson();
-        Gson gson = new Gson();
-        Map<String,String[]> map = new HashMap<>();
-        map.put("mapkey",array);
-Integer a = 34;
-
-        Child child = new Child();
-        EmptyClass empty = new EmptyClass();
-        boolean f = false;
-
-       System.out.println(gson.toJson(child));
-       System.out.println(diyGson.toJson(child));
-       System.out.println(gson.toJson(f));
-       System.out.println(diyGson.toJson(f));
-       System.out.println(gson.toJson(34));
-       System.out.println(diyGson.toJson(34));
-
-/*        diyGson.toJson(array);
-        diyGson.toJson(list);
-        Object[] arrayOfObj = new Object[5];
-        arrayOfObj[0] = list;
-        arrayOfObj[1] = array;
-        arrayOfObj[2] = bag;
-        arrayOfObj[3] = map;
-        Object[] arr2 = new Object[2];
-        arr2[0] = arrayOfObj;
-
-        Map<BagOfPrimitives, BagOfPrimitives> mapObj = new HashMap<>();
-        BagOfPrimitives b1 = new BagOfPrimitives(11, "key", 22);
-        BagOfPrimitives b2 = new BagOfPrimitives(31, "value", 33);
-        mapObj.put( b1, b2);
-        System.out.println(gson.toJson(mapObj));*/
-/*        System.out.println(gson.toJson(bag));
-        System.out.println(gson.toJson(map));
-        System.out.println(gson.toJson(list));*/
-
-
-/*        var jsonObject = Json.createObjectBuilder()
-                .add("firstName", "Duke")
-                .add("age", 28)
-                .add("streetAddress", "100 Internet Dr")
-                .add("phoneNumbers",
-                        Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
-                                        .add("type", "home")
-                                        .add("number", "222-222-2222")))
-                .build();
-        System.out.println(jsonObject);
-        var jsonObject1 = Json.createObjectBuilder()
-                .add("firstName", "Duke")
-                .add("age", 28)
-                .add("streetAddress", "100 Internet Dr")
-                .add("phoneNumbers",
-                        Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
-                                        .add("type", "home")
-                                        .add("number", "222-222-2222")))
-                .add("array", Json.createArrayBuilder()
-                .add(1)
-                .add(2))
-                .build();
-        String j1 = jsonObject1.toString();
-        System.out.println(j1);*/
-
-
-
-
-
-
+    public static void main(String[] args) {
     }
 }

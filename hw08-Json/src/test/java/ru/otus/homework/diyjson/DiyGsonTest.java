@@ -23,10 +23,11 @@ private Gson gson = new Gson();
 
     @BeforeEach
     void setUp() {
-        array1 = new BagOfPrimitives[4];
+        array1 = new BagOfPrimitives[5];
         array1[0] = new BagOfPrimitives(1,"1val2", 2);
         array1[1] = new BagOfPrimitives(3,"2val2", 4);
         array1[2] = new BagOfPrimitives(5,"3val2", 6);
+        array1[3] = new BagOfPrimitives(0,"",0);
 
     }
     @Test
@@ -47,16 +48,16 @@ private Gson gson = new Gson();
     @Test
     @DisplayName("List")
     void testList() {
-        Child child1 = new Child();
+        Child crazyInstance1 = new Child();
         BagOfPrimitives[] array2;
         array2 = new BagOfPrimitives[3];
         array2[0] = new BagOfPrimitives(1,"1val2", 2);
         array2[1] = new BagOfPrimitives(3,"2val2", 4);
         array2[2] = new BagOfPrimitives(5,"3val2", 6);
-        child1.bagOfPrimitivesList.add(array1);
-        child1.bagOfPrimitivesList.add(array2);
-        String json = diyGson.toJson(child1);
-        Child child2 = gson.fromJson(json, Child.class);
-        assertEquals(child1,child2);
+        crazyInstance1.bagOfPrimitivesList.add(array1);
+        crazyInstance1.bagOfPrimitivesList.add(array2);
+        String json = diyGson.toJson(crazyInstance1);
+        Child crazyInstance2 = gson.fromJson(json, Child.class);
+        assertTrue(crazyInstance1.equals(crazyInstance2));
     }
 }
