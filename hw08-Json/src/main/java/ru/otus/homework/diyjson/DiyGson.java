@@ -1,7 +1,5 @@
 package ru.otus.homework.diyjson;
 
-import com.google.gson.Gson;
-
 import javax.json.*;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,7 +24,6 @@ public class DiyGson  {
             return getJsonValue(obj);
         }
         return objectTraversal(obj);
-
     }
 
     private JsonValue getJsonValue(Object obj) {
@@ -40,20 +37,17 @@ public class DiyGson  {
         if (obj instanceof String) return Json.createValue((String) obj);
         if (obj instanceof StringBuilder) return Json.createValue(obj.toString());
         if (obj instanceof StringBuffer) return Json.createValue(obj.toString());
-        throw new UnsupportedOperationException("unsupport type in getJsonValue");
+        throw new UnsupportedOperationException("unsupported type " + obj.getClass().toString());
     }
-
     private boolean isValueType(Class<?> clazz) {
-        if (clazz.getPackageName().equals("java.lang")) return true;
-        return false;
+        return (clazz.getPackageName().equals("java.lang")) ;
     }
-
     private JsonValue objectTraversal(Object obj) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         List<Field> fieldList = new ArrayList<>();
         getAllFields(obj.getClass(), fieldList);
         for (Field field : fieldList) {
-            Boolean accessible = field.canAccess(obj);
+            boolean accessible = field.canAccess(obj);
             field.setAccessible(true);
             try {
                 if (field.get(obj)==null) jsonObjectBuilder.addNull(field.getName());
@@ -72,10 +66,12 @@ public class DiyGson  {
         Class<?> superclass = clazz.getSuperclass();
         if (superclass!=null) getAllFields(superclass,fieldList);
     }
+
     private JsonValue trackCollection(Object obj) {
         Collection<Object> collection = (Collection<Object>) obj;
         return trackArray(collection.toArray());
     }
+
     private JsonValue trackArray(Object obj) {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         Object[] arrayOfObject = (Object[])obj;
@@ -85,17 +81,15 @@ public class DiyGson  {
         }
         return  jsonArrayBuilder.build();
     }
+
     private JsonValue trackMap(Object obj) {
-        throw new UnsupportedOperationException("map type is unsupported");
+        throw new UnsupportedOperationException("map is unsupported in this version ");
     }
+
     public String toJson(Object obj) {
         JsonValue json= startTracking(obj);
         Writer writer = new StringWriter();
         Json.createWriter(writer).write(json);
         return json.toString();
-    }
-
-
-    public static void main(String[] args) {
     }
 }

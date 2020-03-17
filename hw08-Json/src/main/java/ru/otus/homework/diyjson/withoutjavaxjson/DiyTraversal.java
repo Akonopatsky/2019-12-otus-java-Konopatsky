@@ -1,6 +1,8 @@
-package ru.otus.homework.diyjson.forTest;
+package ru.otus.homework.diyjson.withoutjavaxjson;
 import java.lang.reflect.Field;
 import java.util.*;
+
+// попытка сделать разделенную логику, оказалась не совместима с javax.json
 
 public abstract class DiyTraversal {
     public void startTracking(Object obj) {
