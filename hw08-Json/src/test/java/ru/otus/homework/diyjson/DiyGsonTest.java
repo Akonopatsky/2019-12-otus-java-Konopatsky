@@ -15,11 +15,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DiyGsonTest {
-private BagOfPrimitives[] array1;
-private List<BagOfPrimitives> list1 = new ArrayList<>();
-private Map<Integer, BagOfPrimitives> map1 = new HashMap<>();
-DiyGson diyGson = new DiyGson();
-private Gson gson = new Gson();
+    private BagOfPrimitives[] array1;
+    private List<BagOfPrimitives> list1 = new ArrayList<>();
+    private Map<Integer, BagOfPrimitives> map1 = new HashMap<>();
+    private DiyGson diyGson = new DiyGson();
+    private Gson gson = new Gson();
 
     @BeforeEach
     void setUp() {
@@ -30,6 +30,7 @@ private Gson gson = new Gson();
         array1[3] = new BagOfPrimitives(0,"",0);
 
     }
+
     @Test
     @DisplayName("array of objects")
     void arrayOfObjacts() {
@@ -37,6 +38,7 @@ private Gson gson = new Gson();
         BagOfPrimitives[] array2 = gson.fromJson(json, BagOfPrimitives[].class);
         assertArrayEquals(array1, array2);
     }
+
     @Test
     @DisplayName("double")
     void testDouble() {
@@ -45,6 +47,7 @@ private Gson gson = new Gson();
         double d2 = gson.fromJson(json, double.class);
         assertEquals(d1,d2);
     }
+
     @Test
     @DisplayName("List")
     void testList() {
@@ -60,4 +63,5 @@ private Gson gson = new Gson();
         Child crazyInstance2 = gson.fromJson(json, Child.class);
         assertTrue(crazyInstance1.equals(crazyInstance2));
     }
+
 }

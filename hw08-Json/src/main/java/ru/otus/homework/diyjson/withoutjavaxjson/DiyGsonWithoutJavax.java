@@ -1,8 +1,9 @@
 package ru.otus.homework.diyjson.withoutjavaxjson;
 
+import java.lang.reflect.Field;
+
 // формирование json на основе абстрактого обходчика обьекта
 
-import java.lang.reflect.Field;
 public class DiyGsonWithoutJavax extends DiyTraversal {
     private StringBuilder jsonStrig = new StringBuilder();
 
@@ -11,11 +12,13 @@ public class DiyGsonWithoutJavax extends DiyTraversal {
         startTracking(obj);
         return jsonStrig.toString();
     }
+
     @Override
     protected void fieldBeforeAction(Field field, Object obj) {
         jsonStrig.append("\"").append(field.getName()).append("\"");
         jsonStrig.append(":");
     }
+
     @Override
     protected void fieldEndAction(Field field, Object obj) {
         jsonStrig.append(",");
@@ -30,6 +33,7 @@ public class DiyGsonWithoutJavax extends DiyTraversal {
     protected void elementBeforeAction(Object o) {
 
     }
+
     @Override
     protected void leafMeetAction(Object obj) {
         if (obj instanceof String) jsonStrig.append("\"");
@@ -52,6 +56,7 @@ public class DiyGsonWithoutJavax extends DiyTraversal {
     protected void arrayBeforeAction(Object obj) {
         jsonStrig.append("[");
     }
+
     @Override
     protected void collectionBeforeAction(Object obj) {
         jsonStrig.append("[");
@@ -67,6 +72,7 @@ public class DiyGsonWithoutJavax extends DiyTraversal {
     protected void objectBeforeAction(Object obj) {
         jsonStrig.append("{");
     }
+
     @Override
     protected void objectEndAction(Object obj) {
         deleteLastComma();

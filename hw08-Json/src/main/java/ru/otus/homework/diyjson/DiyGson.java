@@ -9,7 +9,14 @@ import java.util.*;
 
 public class DiyGson  {
 
-    public JsonValue startTracking(Object obj) {
+    public String toJson(Object obj) {
+        JsonValue json= startTracking(obj);
+        Writer writer = new StringWriter();
+        Json.createWriter(writer).write(json);
+        return json.toString();
+    }
+
+    private JsonValue startTracking(Object obj) {
         Class<?> clazz = obj.getClass();
         if (clazz.isArray()) {
             return trackArray(obj);
@@ -39,9 +46,11 @@ public class DiyGson  {
         if (obj instanceof StringBuffer) return Json.createValue(obj.toString());
         throw new UnsupportedOperationException("unsupported type " + obj.getClass().toString());
     }
+
     private boolean isValueType(Class<?> clazz) {
         return (clazz.getPackageName().equals("java.lang")) ;
     }
+
     private JsonValue objectTraversal(Object obj) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         List<Field> fieldList = new ArrayList<>();
@@ -86,10 +95,5 @@ public class DiyGson  {
         throw new UnsupportedOperationException("map is unsupported in this version ");
     }
 
-    public String toJson(Object obj) {
-        JsonValue json= startTracking(obj);
-        Writer writer = new StringWriter();
-        Json.createWriter(writer).write(json);
-        return json.toString();
-    }
 }
+
