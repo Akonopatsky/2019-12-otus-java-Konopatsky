@@ -4,13 +4,15 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.homework.diyjson.forTest.BagOfPrimitives;
-import ru.otus.homework.diyjson.forTest.Child;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ru.otus.homework.diyjson.JsonWriter.DiyGson;
+import ru.otus.homework.diyjson.forTest.BagOfPrimitives;
+import ru.otus.homework.diyjson.forTest.Child;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +20,7 @@ class DiyGsonTest {
     private BagOfPrimitives[] array1;
     private List<BagOfPrimitives> list1 = new ArrayList<>();
     private Map<Integer, BagOfPrimitives> map1 = new HashMap<>();
-    private DiyGson diyGson = new DiyGson();
+    private DiyJsonWriter diyGson = new DiyGson();
     private Gson gson = new Gson();
 
     @BeforeEach
@@ -33,7 +35,7 @@ class DiyGsonTest {
 
     @Test
     @DisplayName("array of objects")
-    void arrayOfObjacts() {
+    void arrayOfObjacts() throws UnsupportedTypeException {
         String json = diyGson.toJson(array1);
         BagOfPrimitives[] array2 = gson.fromJson(json, BagOfPrimitives[].class);
         assertArrayEquals(array1, array2);
@@ -41,7 +43,7 @@ class DiyGsonTest {
 
     @Test
     @DisplayName("double")
-    void testDouble() {
+    void testDouble() throws UnsupportedTypeException {
         double d1 = 12354.234d;
         String json = diyGson.toJson(d1);
         double d2 = gson.fromJson(json, double.class);
@@ -49,8 +51,8 @@ class DiyGsonTest {
     }
 
     @Test
-    @DisplayName("List")
-    void testList() {
+    @DisplayName("Object contains List of arrays of objects")
+    void testList() throws UnsupportedTypeException {
         Child crazyInstance1 = new Child();
         BagOfPrimitives[] array2;
         array2 = new BagOfPrimitives[3];

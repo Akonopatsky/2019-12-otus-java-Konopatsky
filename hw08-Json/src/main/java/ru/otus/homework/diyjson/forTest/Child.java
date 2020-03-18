@@ -5,8 +5,9 @@ import java.util.List;
 
 
 public class Child extends Parent {
-    private String chaildField = "childFieldVal";
     public List<BagOfPrimitives[]> bagOfPrimitivesList = new ArrayList<>();
+    private String chaildField = "childFieldVal";
+
 
     @Override
     public boolean equals(Object o) {
@@ -26,8 +27,10 @@ public class Child extends Parent {
         }
         return true;
     }
+
     @Override
     public String toString() {
         return chaildField + " " + bagOfPrimitivesList.toString();
     }
+
 }
