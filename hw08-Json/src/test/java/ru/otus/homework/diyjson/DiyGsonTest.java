@@ -30,7 +30,6 @@ class DiyGsonTest {
         array1[1] = new BagOfPrimitives(3,"2val2", 4);
         array1[2] = new BagOfPrimitives(5,"3val2", 6);
         array1[3] = new BagOfPrimitives(0,"",0);
-
     }
 
     @Test
