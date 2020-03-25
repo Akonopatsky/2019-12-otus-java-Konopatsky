@@ -16,7 +16,8 @@
         <module>hw07-ATM_Department</module>
         <module>hw08-Json</module>
         <module>hw04-AutoLog</module>
-        <module>hw05-TestingFramework</module>
+        <module>hw05-TestFW</module>
+
     </modules>
     <developers>
         <developer>
