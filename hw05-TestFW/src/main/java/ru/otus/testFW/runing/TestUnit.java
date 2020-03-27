@@ -24,18 +24,26 @@ class TestUnit {
         return this;
     }
 
-    Exception run() throws InvocationTargetException, IllegalAccessException {
+    Exception run() {
         Exception result = null;
-        for (Method methodBefore : listBefore) {
-            methodBefore.invoke(testingObject);
-        }
         try {
+            for (Method methodBefore : listBefore) {
+                methodBefore.invoke(testingObject);
+            }
             method.invoke(testingObject);
         } catch (Exception e) {
             result =  e;
         }
-        for (Method methodAfter : listAfter) {
-            methodAfter.invoke(testingObject);
+        finally {
+            try {
+                for (Method methodAfter : listAfter) {
+                    methodAfter.invoke(testingObject);
+                }
+            } catch (Exception e) {
+                if (result == null) {
+                    result =  e;
+                }
+            }
         }
         return result;
     }
