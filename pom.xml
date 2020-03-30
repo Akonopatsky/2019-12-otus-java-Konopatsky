@@ -17,6 +17,7 @@
         <module>hw08-Json</module>
         <module>hw04-AutoLog</module>
         <module>hw05-TestFW</module>
+        <module>hw09-JDBC</module>
 
     </modules>
     <developers>
