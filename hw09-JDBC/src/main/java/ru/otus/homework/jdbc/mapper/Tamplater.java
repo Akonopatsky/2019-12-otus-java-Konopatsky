@@ -1,6 +1,9 @@
 package ru.otus.homework.jdbc.mapper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,16 +11,28 @@ public class Tamplater<T> {
     final Class<?> clazz;
     final private String tableName;
     final private Field[] fields;
+    final private Class<?>[] fieldTypes;
     final private String insertSQLString;
     final private String selectSQLString;
     private String idFieldname;
 
+    public String getInsertSQLString() {
+        return insertSQLString;
+    }
 
+    public String getSelectSQLString() {
+        return selectSQLString;
+    }
+
+    public Class<?>[] getFieldTypes() {
+        return fieldTypes;
+    }
 
     public Tamplater(T object) throws UnsupportedTypeException {
         clazz = object.getClass();
         tableName = clazz.getSimpleName();
         fields = clazz.getFields();
+        fieldTypes = new Class[fields.length];
         initFields();
         insertSQLString = getInsertString();
         selectSQLString = getSelectString();
@@ -58,9 +73,10 @@ public class Tamplater<T> {
 
     private void initFields() throws UnsupportedTypeException {
         int idCount = 0;
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Id.class)) {
-                idFieldname = field.getName();
+        for (int i = 0; i < fields.length; i++) {
+            fieldTypes[i] = fields[i].getType();
+            if (fields[i].isAnnotationPresent(Id.class)) {
+                idFieldname = fields[i].getName();
                 idCount++;
             }
         }
@@ -68,7 +84,7 @@ public class Tamplater<T> {
             throw new UnsupportedTypeException("in class " + clazz.getName() + " find " +idCount + " id fields, must be 1 ");
     }
 
-    private List<String> getParams(T object) {
+    public List<String> getValues(T object) {
         List<String> result = new ArrayList<>();
         for (Field field : fields) {
             try {
@@ -78,6 +94,20 @@ public class Tamplater<T> {
             }
         }
         return result;
+    }
+
+    public T createObject(ResultSet resultSet) throws UnsupportedTypeException {
+        Object[] values = new Object[fields.length];
+        try {
+        for (int i = 0; i < values.length ; i++) {
+
+                values[i] = resultSet.getObject(i+1);
+        }
+            clazz.getConstructor(getFieldTypes()).newInstance(values);
+        } catch (Exception e) {
+            throw new UnsupportedTypeException(e);
+        }
+        return null;
     }
 
 }

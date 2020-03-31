@@ -23,7 +23,7 @@ public class DbServiceUserImpl implements DBServiceUser {
     try (SessionManager sessionManager = userDao.getSessionManager()) {
       sessionManager.beginSession();
       try {
-        long userId = userDao.saveUser(user);
+        long userId = userDao.save(user);
         sessionManager.commitSession();
 
         logger.info("created user: {}", userId);
