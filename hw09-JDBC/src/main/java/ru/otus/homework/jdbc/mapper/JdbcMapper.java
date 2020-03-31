@@ -6,8 +6,9 @@ import ru.otus.homework.jdbc.core.dao.UserDaoException;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
 
-import java.lang.reflect.Type;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Optional;
 
 public class JdbcMapper<T> implements Mapper<T> {
     private Logger logger = LoggerFactory.getLogger(JdbcMapper.class);
@@ -43,9 +44,21 @@ public class JdbcMapper<T> implements Mapper<T> {
 
     @Override
     public <T> T load(long id, Class<T> clazz) {
-
-
-        return null;
+        try {
+            return (T) dbExecutor.selectRecord(getConnection(), tamplater.getSelectSQLString(), id, resultSet -> {
+                try {
+                    if (resultSet.next()) {
+                        return tamplater.createObject(resultSet);
+                    }
+                } catch (SQLException | UnsupportedTypeException e) {
+                    logger.error(e.getMessage(), e);
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return (T) Optional.empty();
     }
 
     private Connection getConnection() {
