@@ -37,9 +37,6 @@ public class Demo {
       DataSource dataSource = new DataSourceH2();
       SessionManager sessionManager = new SessionManagerJdbc(dataSource);
       DbExecutor<User> userDbExecutor = new DbExecutor<>();
-
-
-
   }
 
   private void createTable(User user) throws SQLException {

@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Optional;
 
-public class UserDaoJdbc implements UserDao {
+public abstract class UserDaoJdbc implements UserDao {
   private static Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
 
   private final SessionManagerJdbc sessionManager;
@@ -48,8 +48,8 @@ public class UserDaoJdbc implements UserDao {
   }
 
 
-  @Override
-  public long save(User user) {
+
+  public long saveUser(User user) {
     try {
       return dbExecutor.insertRecord(getConnection(), "insert into user(name) values (?)", Collections.singletonList(user.getName()));
     } catch (Exception e) {

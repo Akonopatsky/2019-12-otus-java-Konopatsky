@@ -5,10 +5,10 @@ import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 
-public interface UserDao extends GenericDao<User>{
+public interface UserDao<T>{
   Optional findById(long id);
 
-  long save(User user);
+  long saveUser(T user);
 
   SessionManager getSessionManager();
 }

@@ -16,7 +16,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
     final private String insertSQLString;
     final private String selectSQLString;
     final private String updateSQLString;
-    private String idFieldname;
+    private String idFieldName;
 
     @Override
     public String getInsertStatement() {
@@ -54,7 +54,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         initFields();
         insertSQLString = getInsertString();
         selectSQLString = getSelectString();
-        updateSQLString = getUpdateSTring();
+        updateSQLString = getUpdateString();
     }
 
     private void initFields() throws UnsupportedTypeException {
@@ -62,7 +62,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         for (int i = 0; i < fields.length; i++) {
             fieldTypes[i] = fields[i].getType();
             if (fields[i].isAnnotationPresent(Id.class)) {
-                idFieldname = fields[i].getName();
+                idFieldName = fields[i].getName();
                 idCount++;
             }
         }
@@ -75,7 +75,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         result.append("select * from ")
                 .append(tableName)
                 .append("  where ")
-                .append(idFieldname)
+                .append(idFieldName)
                 .append(" = ?");
         return result.toString();
     }
@@ -103,8 +103,8 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         return result.toString();
     }
 
-    private String getUpdateSTring() {
-        throw new UnsupportedOperationException();
+    private String getUpdateString() {
+        return null;
     }
 
     public List<String> getValues(T object) {

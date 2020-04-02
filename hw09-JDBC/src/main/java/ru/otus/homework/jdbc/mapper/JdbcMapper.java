@@ -47,7 +47,7 @@ public class JdbcMapper<T> implements Mapper<T> {
 
     @Override
     public <T> T load(long id, Class<T> clazz) {
-        try {
+/*        try {
             return  dbExecutor.selectRecord(getConnection(), tamplater.getSelectSQLString(), id, resultSet -> {
                 try {
                     if (resultSet.next()) {
@@ -60,7 +60,7 @@ public class JdbcMapper<T> implements Mapper<T> {
             });
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-        }
+        }*/
         return (T) Optional.empty();
     }
 

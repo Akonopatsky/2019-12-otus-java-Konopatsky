@@ -14,21 +14,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class GenericDao<T> implements UserDao<T> {
+public class GenericDaoTemp implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(GenericDaoTemp.class);
 
     private final SessionManagerJdbc sessionManager;
-    private final DbExecutor<T> dbExecutor;
-    private final JdbcGenerator<T> jdbcGenerator;
+    private final DbExecutor<User> dbExecutor;
+    private final JdbcGenerator<User> jdbcGenerator;
 
-    public GenericDao(SessionManagerJdbc sessionManager, DbExecutor<T> dbExecutor, JdbcGenerator jdbcGenerator) {
+    public GenericDaoTemp(SessionManagerJdbc sessionManager, DbExecutor<User> dbExecutor, JdbcGenerator jdbcGenerator) {
         this.sessionManager = sessionManager;
         this.dbExecutor = dbExecutor;
         this.jdbcGenerator = jdbcGenerator;
     }
 
     @Override
-    public Optional<T> findById(long id) {
+    public Optional<User> findById(long id) {
         try {
             return dbExecutor.selectRecord(getConnection(), jdbcGenerator.getSelectStatement(), id, resultSet -> {
                 try {
@@ -46,7 +46,12 @@ public class GenericDao<T> implements UserDao<T> {
         return Optional.empty();
     }
 
-    public long saveUser(T user) {
+    @Override
+    public long saveUser(Object user) {
+        return 0;
+    }
+
+    public long saveUser(User user) {
         try {
             return dbExecutor.insertRecord(getConnection(), jdbcGenerator.getInsertStatement(), jdbcGenerator.getValues(user));
         } catch (Exception e) {
