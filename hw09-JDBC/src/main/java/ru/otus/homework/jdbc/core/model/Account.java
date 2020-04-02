@@ -6,15 +6,15 @@ public class Account {
     public int no;
     public String type;
     @Id
-    public int number;
+    public int rest;
 
     public Account() {
     }
 
-    public Account(int no, String type, int number) {
+    public Account(int no, String type, int rest) {
         this.no = no;
         this.type = type;
-        this.number = number;
+        this.rest = rest;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Account {
         return "Account{" +
                 "no=" + no +
                 ", type='" + type + '\'' +
-                ", number=" + number +
+                ", rest=" + rest +
                 '}';
     }
 }

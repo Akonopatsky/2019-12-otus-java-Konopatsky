@@ -1,9 +1,7 @@
 package ru.otus.homework.jdbc.mapper;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +43,6 @@ public class Tamplater<T> {
                 .append("  where ")
                 .append(idFieldname)
                 .append(" = ?");
-        System.out.println(result);
         return result.toString();
     }
 
@@ -55,19 +52,25 @@ public class Tamplater<T> {
         result.append("insert into ")
                 .append(tableName)
                 .append("(");
-        for (Field field : fields) {
+/*        for (Field field : fields) {
             result.append(field.getName())
+                    .append(",");
+        }*/
+        for (int i = 1; i < fields.length; i++) {
+            result.append(fields[i].getName())
                     .append(",");
         }
         result.deleteCharAt(result.length()-1);
         result.append(") ")
                 .append("values (");
-        for (Field field : fields) {
+/*        for (Field field : fields) {
+            result.append("?,");
+        }*/
+        for (int i = 1; i < fields.length ; i++) {
             result.append("?,");
         }
         result.deleteCharAt(result.length()-1);
         result.append(") ");
-        System.out.println(result);
         return result.toString();
     }
 
@@ -86,9 +89,17 @@ public class Tamplater<T> {
 
     public List<String> getValues(T object) {
         List<String> result = new ArrayList<>();
-        for (Field field : fields) {
+/*        for (Field field : fields) {
             try {
                 result.add(field.get(object).toString());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }*/
+
+        for (int i = 1; i < fields.length; i++) {
+            try {
+                result.add(fields[i].get(object).toString());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -96,18 +107,16 @@ public class Tamplater<T> {
         return result;
     }
 
-    public T createObject(ResultSet resultSet) throws UnsupportedTypeException {
+    public T createObject(ResultSet resultSet, Class<T> clazx) throws UnsupportedTypeException {
         Object[] values = new Object[fields.length];
         try {
         for (int i = 0; i < values.length ; i++) {
-
                 values[i] = resultSet.getObject(i+1);
         }
-            clazz.getConstructor(getFieldTypes()).newInstance(values);
+            return clazx.getConstructor(getFieldTypes()).newInstance(values);
         } catch (Exception e) {
             throw new UnsupportedTypeException(e);
         }
-        return null;
     }
 
 }

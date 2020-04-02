@@ -8,8 +8,6 @@ import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.h2.DataSourceH2;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
 import ru.otus.homework.jdbc.jdbc.sessionmanager.SessionManagerJdbc;
-import ru.otus.homework.jdbc.mapper.JdbcMapper;
-import ru.otus.homework.jdbc.mapper.Mapper;
 import ru.otus.homework.jdbc.mapper.Tamplater;
 import ru.otus.homework.jdbc.mapper.UnsupportedTypeException;
 
@@ -42,8 +40,6 @@ public class Demo {
 
 
 
-//      Mapper<Account> accountMapper = new JdbcMapper<Account>();
-
   }
 
   private void createTable(User user) throws SQLException {
@@ -57,24 +53,7 @@ public class Demo {
       pst.executeUpdate();
     }
   }
-/*
 
-  private void insertRecord(int id) throws SQLException {
-    try (PreparedStatement pst = connection.prepareStatement("insert into test(id, name) values (?, ?)")) {
-      Savepoint savePoint = this.connection.setSavepoint("savePointName");
-      pst.setInt(1, id);
-      pst.setString(2, "NameValue");
-      try {
-        int rowCount = pst.executeUpdate(); //Блокирующий вызов
-        this.connection.commit();
-        logger.info("inserted rowCount: {}", rowCount);
-      } catch (SQLException ex) {
-        this.connection.rollback(savePoint);
-        logger.error(ex.getMessage(), ex);
-      }
-    }
-  }
-*/
   private void selectAllRecords(String tableName) throws SQLException {
     try (PreparedStatement pst = this.connection.prepareStatement("select * from " + tableName)) {
       try (ResultSet rs = pst.executeQuery()) {
