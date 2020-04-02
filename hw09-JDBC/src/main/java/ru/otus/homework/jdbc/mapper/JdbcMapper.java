@@ -2,6 +2,7 @@ package ru.otus.homework.jdbc.mapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.homework.jdbc.DIY.Mapper;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
 
@@ -9,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class JdbcMapper<T> implements Mapper<T>{
+public class JdbcMapper<T> implements Mapper<T> {
     final private Logger logger = LoggerFactory.getLogger(JdbcMapper.class);
     final private SessionManager sessionManager;
     final private DbExecutor<T> dbExecutor;

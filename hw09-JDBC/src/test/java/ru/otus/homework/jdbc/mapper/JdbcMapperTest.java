@@ -3,6 +3,7 @@ package ru.otus.homework.jdbc.mapper;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.homework.jdbc.DIY.Mapper;
 import ru.otus.homework.jdbc.core.model.Account;
 import ru.otus.homework.jdbc.core.model.User;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
