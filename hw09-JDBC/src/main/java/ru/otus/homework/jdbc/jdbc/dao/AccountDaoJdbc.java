@@ -1,17 +1,16 @@
 package ru.otus.homework.jdbc.jdbc.dao;
 
-import ru.otus.homework.jdbc.DIY.GenericDao;
-import ru.otus.homework.jdbc.DIY.JdbcGenerator;
+import ru.otus.homework.jdbc.jdbc.mapper.StatementConstructor;
 import ru.otus.homework.jdbc.core.dao.DaoInterface;
 import ru.otus.homework.jdbc.core.model.Account;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
-import ru.otus.homework.jdbc.jdbc.sessionmanager.SessionManagerJdbc;
 
 import java.util.Optional;
 
-public class DiyAccountDaoJdbc extends GenericDao<Account> implements DaoInterface<Account> {
-    public DiyAccountDaoJdbc(SessionManagerJdbc sessionManager, DbExecutor<Account> dbExecutor, JdbcGenerator jdbcGenerator) {
+public class AccountDaoJdbc extends GenericDao<Account> implements DaoInterface<Account> {
+
+    public AccountDaoJdbc(SessionManager sessionManager, DbExecutor<Account> dbExecutor, StatementConstructor jdbcGenerator) {
         super(sessionManager, dbExecutor, jdbcGenerator);
     }
 

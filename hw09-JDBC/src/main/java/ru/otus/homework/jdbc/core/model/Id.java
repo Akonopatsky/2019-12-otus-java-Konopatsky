@@ -1,4 +1,4 @@
-package ru.otus.homework.jdbc.DIY;
+package ru.otus.homework.jdbc.core.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

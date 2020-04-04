@@ -1,4 +1,4 @@
-package ru.otus.homework.jdbc.DIY;
+package ru.otus.homework.jdbc.jdbc.mapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,18 +6,16 @@ import ru.otus.homework.jdbc.core.dao.DaoInterface;
 import ru.otus.homework.jdbc.core.service.DbServiceException;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 
-import java.lang.reflect.InvocationTargetException;
-
-
-public class JdbcTamplate<T> {
+public class JdbcTamplate<T> implements Mapper<T>{
     private static Logger logger = LoggerFactory.getLogger(JdbcTamplate.class);
-    private final DaoInterface dao;
+    private final DaoInterface<T> dao;
 
-    public JdbcTamplate(DaoInterface dao) {
+    public JdbcTamplate(DaoInterface<T> dao) {
         this.dao = dao;
     }
 
-    public void create(T objectData) throws UnsupportedTypeException {
+    @Override
+    public void create(T objectData) {
         try (SessionManager sessionManager = dao.getSessionManager()) {
             sessionManager.beginSession();
             try {
@@ -32,17 +30,21 @@ public class JdbcTamplate<T> {
         }
     }
 
-    public void update(T objectData) throws UnsupportedTypeException {
+    @Override
+    public void update(T objectData) {
         try (SessionManager sessionManager = dao.getSessionManager()) {
             sessionManager.beginSession();
             dao.update(objectData);
+            sessionManager.commitSession();
         }
     }
 
-    public void createOrUpdate(T objectData) throws UnsupportedTypeException {
+    public void createOrUpdate(T objectData) {
+        throw new UnsupportedOperationException();
 
     }
 
+    @Override
     public <T> T load(long id, Class<T> clazz) {
         try (SessionManager sessionManager = dao.getSessionManager()) {
             sessionManager.beginSession();

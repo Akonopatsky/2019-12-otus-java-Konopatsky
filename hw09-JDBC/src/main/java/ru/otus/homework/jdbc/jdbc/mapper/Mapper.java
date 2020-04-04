@@ -1,6 +1,4 @@
-package ru.otus.homework.jdbc.core.service;
-
-import ru.otus.homework.jdbc.DIY.UnsupportedTypeException;
+package ru.otus.homework.jdbc.jdbc.mapper;
 
 public interface Mapper<T> {
     void create(T objectData) throws UnsupportedTypeException;

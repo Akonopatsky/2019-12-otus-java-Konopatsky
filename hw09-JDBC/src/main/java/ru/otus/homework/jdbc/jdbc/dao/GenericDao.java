@@ -1,10 +1,12 @@
-package ru.otus.homework.jdbc.DIY;
+package ru.otus.homework.jdbc.jdbc.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.homework.jdbc.jdbc.mapper.UnsupportedTypeException;
+import ru.otus.homework.jdbc.core.dao.DaoException;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
-import ru.otus.homework.jdbc.jdbc.sessionmanager.SessionManagerJdbc;
+import ru.otus.homework.jdbc.jdbc.mapper.StatementConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,11 +15,11 @@ import java.util.Optional;
 public class GenericDao<T> {
     private static Logger logger = LoggerFactory.getLogger(GenericDao.class);
 
-    private final SessionManagerJdbc sessionManager;
+    private final SessionManager sessionManager;
     private final DbExecutor<T> dbExecutor;
-    private final JdbcGenerator<T> jdbcGenerator;
+    private final StatementConstructor<T> jdbcGenerator;
 
-    public GenericDao(SessionManagerJdbc sessionManager, DbExecutor<T> dbExecutor, JdbcGenerator jdbcGenerator) {
+    public GenericDao(SessionManager sessionManager, DbExecutor<T> dbExecutor, StatementConstructor<T> jdbcGenerator) {
         this.sessionManager = sessionManager;
         this.dbExecutor = dbExecutor;
         this.jdbcGenerator = jdbcGenerator;
@@ -52,7 +54,7 @@ public class GenericDao<T> {
 
     public long update(T object) {
         try {
-            return dbExecutor.insertRecord(getConnection(), jdbcGenerator.getUpdateStatement(), jdbcGenerator.getValuesForUpdate(object));
+            return dbExecutor.updateRecord(getConnection(), jdbcGenerator.getUpdateStatement(), jdbcGenerator.getValuesForUpdate(object));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new DaoException(e);

@@ -1,52 +1,38 @@
-package ru.otus.homework.jdbc.DIY;
+package ru.otus.homework.jdbc.jdbc.mapper;
+
+import ru.otus.homework.jdbc.core.model.Id;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcGenerator<T> implements StatementGenerator<T> {
+public class StatementConstructor<T> {
     final Class<?> clazz;
-    final private String tableName;
-    final private Field[] fields;
-    final private Class<?>[] fieldTypes;
-    final private String insertSQLString;
-    final private String selectSQLString;
-    final private String updateSQLString;
+    private final String tableName;
+    private final Field[] fields;
+    private final Class<?>[] fieldTypes;
+    private final String insertSQLString;
+    private final String selectSQLString;
+    private final String updateSQLString;
     private String idFieldName;
 
-    @Override
     public String getInsertStatement() {
         return insertSQLString;
     }
 
-    @Override
     public String getUpdateStatement() {
         return updateSQLString;
     }
 
-    @Override
     public String getSelectStatement() {
         return selectSQLString;
     }
 
-    @Override
-    public T createObject(ResultSet resultSet) throws UnsupportedTypeException {
-        Object[] values = new Object[fields.length];
-        try {
-            for (int i = 0; i < values.length ; i++) {
-                values[i] = resultSet.getObject(i+1);
-            }
-            return (T)clazz.getConstructor(fieldTypes).newInstance(values);
-        } catch (Exception e) {
-            throw new UnsupportedTypeException(e);
-        }
-    }
-
-    public JdbcGenerator(T object) throws UnsupportedTypeException {
+    public StatementConstructor(T object) throws UnsupportedTypeException {
         clazz = object.getClass();
-        tableName = clazz.getSimpleName();
-        fields = clazz.getFields();
+        tableName = clazz.getSimpleName().toLowerCase();
+        fields = clazz.getDeclaredFields();
         fieldTypes = new Class[fields.length];
         initFields();
         insertSQLString = insertString();
@@ -65,6 +51,18 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         }
         if (idCount != 1)
             throw new UnsupportedTypeException("in class " + clazz.getName() + " find " +idCount + " id fields, must be 1 ");
+    }
+
+    public T createObject(ResultSet resultSet) throws UnsupportedTypeException {
+        Object[] values = new Object[fields.length];
+        try {
+            for (int i = 0; i < values.length ; i++) {
+                values[i] = resultSet.getObject(i+1);
+            }
+            return (T)clazz.getConstructor(fieldTypes).newInstance(values);
+        } catch (Exception e) {
+            throw new UnsupportedTypeException(e);
+        }
     }
 
     private String selectString() {
@@ -107,23 +105,24 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         for (int i = 1; i < fields.length ; i++) {
             if (!fields[i].getName().equals(idFieldName)) {
                 result.append(fields[i].getName())
-                        .append(" = ?");
-                if (i<(fields.length-1)) result.append(", ");
+                        .append(" = ?,");
             }
         }
+        result.deleteCharAt(result.length()-1);
         result.append("  where ")
                 .append(idFieldName)
                 .append(" = ?");
-        System.out.println(result);
         return result.toString();
-
     }
 
     public List<String> getValuesForSave(T object) {
         List<String> result = new ArrayList<>();
         for (int i = 1; i < fields.length; i++) {
             try {
+                boolean accessible = fields[i].canAccess(object);
+                fields[i].setAccessible(true);
                 result.add(fields[i].get(object).toString());
+                fields[i].setAccessible(accessible);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -137,7 +136,10 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         for (int i = 1; i < fields.length; i++) {
             try {
                 if (!fields[i].getName().equals(idFieldName)) {
+                    boolean accessible = fields[i].canAccess(object);
+                    fields[i].setAccessible(true);
                     result.add(fields[i].get(object).toString());
+                    fields[i].setAccessible(accessible);
                 }
                 else {
                     idString = fields[i].get(object).toString();

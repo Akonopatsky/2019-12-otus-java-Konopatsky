@@ -1,12 +1,12 @@
 package ru.otus.homework.jdbc.core.model;
 
-import ru.otus.homework.jdbc.DIY.Id;
+import java.math.BigDecimal;
 
 public class Account {
-    public int no;
+    public long no;
     public String type;
     @Id
-    public int rest;
+    public BigDecimal rest;
 
     public Account() {
     }
@@ -17,11 +17,19 @@ public class Account {
         this.type = account.type;
     }
 
-
-    public Account(int no, String type, int rest) {
+    public Account(long no, String type, BigDecimal rest) {
         this.no = no;
         this.type = type;
         this.rest = rest;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account that = (Account) o;
+        if (!this.type.equals(that.type)) return false;
+        return this.rest.equals(that.rest);
     }
 
     @Override

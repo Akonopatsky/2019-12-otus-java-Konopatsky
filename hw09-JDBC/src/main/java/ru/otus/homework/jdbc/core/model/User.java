@@ -1,7 +1,5 @@
 package ru.otus.homework.jdbc.core.model;
 
-import ru.otus.homework.jdbc.DIY.Id;
-
 public class User {
     @Id
     public long id;
@@ -30,6 +28,14 @@ public class User {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User that = (User) o;
+        return (this.name.equals(that.name))&&(this.age == that.age) ;
     }
 
     public String getName() {

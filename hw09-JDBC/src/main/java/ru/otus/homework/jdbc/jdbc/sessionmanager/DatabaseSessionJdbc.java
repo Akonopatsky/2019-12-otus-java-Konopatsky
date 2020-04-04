@@ -1,7 +1,5 @@
 package ru.otus.homework.jdbc.jdbc.sessionmanager;
 
-
-
 import ru.otus.homework.jdbc.core.sessionmanager.DatabaseSession;
 
 import java.sql.Connection;
