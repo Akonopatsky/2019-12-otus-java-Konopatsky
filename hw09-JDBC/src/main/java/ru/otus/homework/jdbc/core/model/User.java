@@ -1,6 +1,6 @@
 package ru.otus.homework.jdbc.core.model;
 
-import ru.otus.homework.jdbc.mapper.Id;
+import ru.otus.homework.jdbc.DIY.Id;
 
 public class User {
     @Id
@@ -9,6 +9,12 @@ public class User {
     public int age;
 
     public User() {
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.age = user.age;
     }
 
     public User(long id, String name, int age) {

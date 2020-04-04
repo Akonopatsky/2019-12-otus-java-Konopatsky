@@ -2,20 +2,16 @@ package ru.otus.homework.jdbc.DIY;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.homework.jdbc.core.dao.UserDao;
-import ru.otus.homework.jdbc.core.dao.UserDaoException;
-import ru.otus.homework.jdbc.core.model.User;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 import ru.otus.homework.jdbc.jdbc.DbExecutor;
 import ru.otus.homework.jdbc.jdbc.sessionmanager.SessionManagerJdbc;
-import ru.otus.homework.jdbc.mapper.UnsupportedTypeException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class GenericDao<T> implements UserDao<T> {
-    private static Logger logger = LoggerFactory.getLogger(GenericDaoTemp.class);
+public class GenericDao<T> {
+    private static Logger logger = LoggerFactory.getLogger(GenericDao.class);
 
     private final SessionManagerJdbc sessionManager;
     private final DbExecutor<T> dbExecutor;
@@ -27,7 +23,6 @@ public class GenericDao<T> implements UserDao<T> {
         this.jdbcGenerator = jdbcGenerator;
     }
 
-    @Override
     public Optional<T> findById(long id) {
         try {
             return dbExecutor.selectRecord(getConnection(), jdbcGenerator.getSelectStatement(), id, resultSet -> {
@@ -46,12 +41,21 @@ public class GenericDao<T> implements UserDao<T> {
         return Optional.empty();
     }
 
-    public long saveUser(T user) {
+    public long save(T object) {
         try {
-            return dbExecutor.insertRecord(getConnection(), jdbcGenerator.getInsertStatement(), jdbcGenerator.getValues(user));
+            return dbExecutor.insertRecord(getConnection(), jdbcGenerator.getInsertStatement(), jdbcGenerator.getValuesForSave(object));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            throw new UserDaoException(e);
+            throw new DaoException(e);
+        }
+    }
+
+    public long update(T object) {
+        try {
+            return dbExecutor.insertRecord(getConnection(), jdbcGenerator.getUpdateStatement(), jdbcGenerator.getValuesForUpdate(object));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new DaoException(e);
         }
     }
 

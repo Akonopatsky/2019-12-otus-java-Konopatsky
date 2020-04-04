@@ -3,7 +3,7 @@ package ru.otus.homework.jdbc.mapper;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.homework.jdbc.DIY.Mapper;
+import ru.otus.homework.jdbc.DIY.UnsupportedTypeException;
 import ru.otus.homework.jdbc.core.model.Account;
 import ru.otus.homework.jdbc.core.model.User;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
@@ -13,9 +13,7 @@ import ru.otus.homework.jdbc.jdbc.sessionmanager.SessionManagerJdbc;
 
 import javax.sql.DataSource;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 class JdbcMapperTest {
@@ -54,35 +52,6 @@ class JdbcMapperTest {
 
     @Test
     void create() throws UnsupportedTypeException {
-        System.out.println("test");
-        Mapper<User> userMapper = new JdbcMapper<>(sessionManager, userDbExecutor, new User());
-        Mapper<Account> accountMapper = new JdbcMapper<>(sessionManager, accountDbExecutor, new Account());
-        userMapper.create(user);
-        accountMapper.create(account);
-        Tamplater<User> userTamplater = new Tamplater<>(new User());
-        Tamplater<Account> accountTamplater = new Tamplater<>(new Account());
-        Connection connection = sessionManager.getCurrentSession().getConnection();
-        try (PreparedStatement pst = connection.prepareStatement(userTamplater.getSelectSQLString())) {
-            pst.setLong(1, 1);
-            System.out.println(pst.toString());
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    logger.info(rs.getString(2));
-                    logger.info(userTamplater.createObject(rs, User.class).toString());
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-
-/*
-        User user2 = userMapper.load(1, User.class);
-        System.out.println(user2.toString());
-*/
-
-
 
     }
 

@@ -1,6 +1,6 @@
 package ru.otus.homework.jdbc.core.model;
 
-import ru.otus.homework.jdbc.mapper.Id;
+import ru.otus.homework.jdbc.DIY.Id;
 
 public class Account {
     public int no;
@@ -10,6 +10,13 @@ public class Account {
 
     public Account() {
     }
+
+    public Account(Account account) {
+        this.no = account.no;
+        this.rest = account.rest;
+        this.type = account.type;
+    }
+
 
     public Account(int no, String type, int rest) {
         this.no = no;

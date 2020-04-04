@@ -1,8 +1,5 @@
 package ru.otus.homework.jdbc.DIY;
 
-import ru.otus.homework.jdbc.mapper.Id;
-import ru.otus.homework.jdbc.mapper.UnsupportedTypeException;
-
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
 
     @Override
     public String getUpdateStatement() {
-        return null;
+        return updateSQLString;
     }
 
     @Override
@@ -52,9 +49,9 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         fields = clazz.getFields();
         fieldTypes = new Class[fields.length];
         initFields();
-        insertSQLString = getInsertString();
-        selectSQLString = getSelectString();
-        updateSQLString = getUpdateString();
+        insertSQLString = insertString();
+        selectSQLString = selectString();
+        updateSQLString = updateString();
     }
 
     private void initFields() throws UnsupportedTypeException {
@@ -70,7 +67,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
             throw new UnsupportedTypeException("in class " + clazz.getName() + " find " +idCount + " id fields, must be 1 ");
     }
 
-    private String getSelectString() {
+    private String selectString() {
         StringBuilder result = new StringBuilder();
         result.append("select * from ")
                 .append(tableName)
@@ -80,7 +77,7 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
         return result.toString();
     }
 
-    private String getInsertString() {
+    private String insertString() {
         if (fields.length<1) throw new UnsupportedOperationException("class has no one field");
         StringBuilder result = new StringBuilder();
         result.append("insert into ")
@@ -88,26 +85,41 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
                 .append("(");
 
         for (int i = 1; i < fields.length; i++) {
-            result.append(fields[i].getName())
-                    .append(",");
+            result.append(fields[i].getName());
+            if (i<(fields.length-1)) result.append(", ");
         }
-        result.deleteCharAt(result.length()-1);
         result.append(") ")
                 .append("values (");
 
         for (int i = 1; i < fields.length ; i++) {
-            result.append("?,");
+            result.append("?");
+            if (i<(fields.length-1)) result.append(", ");
         }
-        result.deleteCharAt(result.length()-1);
         result.append(") ");
         return result.toString();
     }
 
-    private String getUpdateString() {
-        return null;
+    private String updateString() {
+        StringBuilder result = new StringBuilder();
+        result.append("update ")
+                .append(tableName)
+                .append(" set ");
+        for (int i = 1; i < fields.length ; i++) {
+            if (!fields[i].getName().equals(idFieldName)) {
+                result.append(fields[i].getName())
+                        .append(" = ?");
+                if (i<(fields.length-1)) result.append(", ");
+            }
+        }
+        result.append("  where ")
+                .append(idFieldName)
+                .append(" = ?");
+        System.out.println(result);
+        return result.toString();
+
     }
 
-    public List<String> getValues(T object) {
+    public List<String> getValuesForSave(T object) {
         List<String> result = new ArrayList<>();
         for (int i = 1; i < fields.length; i++) {
             try {
@@ -116,6 +128,25 @@ public class JdbcGenerator<T> implements StatementGenerator<T> {
                 e.printStackTrace();
             }
         }
+        return result;
+    }
+
+    public List<String> getValuesForUpdate(T object) {
+        List<String> result = new ArrayList<>();
+        String idString = "";
+        for (int i = 1; i < fields.length; i++) {
+            try {
+                if (!fields[i].getName().equals(idFieldName)) {
+                    result.add(fields[i].get(object).toString());
+                }
+                else {
+                    idString = fields[i].get(object).toString();
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        result.add(idString);
         return result;
     }
 }

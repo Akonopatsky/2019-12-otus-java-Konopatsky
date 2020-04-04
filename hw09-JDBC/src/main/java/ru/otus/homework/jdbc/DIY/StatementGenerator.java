@@ -1,7 +1,5 @@
 package ru.otus.homework.jdbc.DIY;
 
-import ru.otus.homework.jdbc.mapper.UnsupportedTypeException;
-
 import java.sql.ResultSet;
 
 public interface StatementGenerator<T> {

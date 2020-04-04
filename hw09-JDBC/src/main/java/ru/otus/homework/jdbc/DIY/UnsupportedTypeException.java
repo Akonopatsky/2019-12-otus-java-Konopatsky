@@ -1,4 +1,4 @@
-package ru.otus.homework.jdbc.mapper;
+package ru.otus.homework.jdbc.DIY;
 
 public class UnsupportedTypeException extends Exception {
     public UnsupportedTypeException(String s) {
