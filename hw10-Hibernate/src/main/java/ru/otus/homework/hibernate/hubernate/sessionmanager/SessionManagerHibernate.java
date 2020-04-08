@@ -10,6 +10,11 @@ import ru.otus.homework.hibernate.core.sessionmanager.SessionManagerException;
 public class SessionManagerHibernate implements SessionManager {
 
   private DatabaseSessionHibernate databaseSession;
+
+  public SessionFactory getSessionFactory() {
+    return sessionFactory;
+  }
+
   private final SessionFactory sessionFactory;
 
   public SessionManagerHibernate(SessionFactory sessionFactory) {
