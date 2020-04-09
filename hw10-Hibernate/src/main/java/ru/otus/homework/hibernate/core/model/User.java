@@ -2,6 +2,7 @@ package ru.otus.homework.hibernate.core.model;
 
 import javax.persistence.*;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,11 +19,13 @@ public class User {
     @Column(name = "age")
     public int age;
 
-    @Column(name = "adress")
-    public AddressDataSet adress;
+    @OneToOne(targetEntity = AddressDataSet.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id")
+    public AddressDataSet address;
 
-    @Column(name = "phone")
-    public PhoneDataSet phone;
+    @OneToMany(targetEntity = PhoneDataSet.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "phone_id")
+    public List<PhoneDataSet> phones;
 
     public User() {
     }

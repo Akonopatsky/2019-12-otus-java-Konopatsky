@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.internal.CriteriaImpl;
 import ru.otus.homework.hibernate.core.dao.UserDao;
+import ru.otus.homework.hibernate.core.model.AddressDataSet;
+import ru.otus.homework.hibernate.core.model.PhoneDataSet;
 import ru.otus.homework.hibernate.core.model.User;
 import ru.otus.homework.hibernate.core.service.DBServiceUser;
 import ru.otus.homework.hibernate.core.service.DbServiceUserImpl;
@@ -20,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Demo {
-    private static SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml", User.class);
+    private static SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml"
+            , User.class, AddressDataSet.class, PhoneDataSet.class);
 
     public static void main(String[] args) {
         SessionManagerHibernate sessionManagerHibernate = new SessionManagerHibernate(sessionFactory);
