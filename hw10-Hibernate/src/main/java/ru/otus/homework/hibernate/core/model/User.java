@@ -18,6 +18,12 @@ public class User {
     @Column(name = "age")
     public int age;
 
+    @Column(name = "adress")
+    public AddressDataSet adress;
+
+    @Column(name = "phone")
+    public PhoneDataSet phone;
+
     public User() {
     }
 
