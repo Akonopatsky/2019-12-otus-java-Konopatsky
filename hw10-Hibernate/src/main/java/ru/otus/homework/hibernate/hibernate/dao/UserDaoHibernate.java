@@ -1,4 +1,4 @@
-package ru.otus.homework.hibernate.hubernate.dao;
+package ru.otus.homework.hibernate.hibernate.dao;
 
 
 import org.hibernate.Session;
@@ -8,8 +8,8 @@ import ru.otus.homework.hibernate.core.dao.UserDao;
 import ru.otus.homework.hibernate.core.dao.UserDaoException;
 import ru.otus.homework.hibernate.core.model.User;
 import ru.otus.homework.hibernate.core.sessionmanager.SessionManager;
-import ru.otus.homework.hibernate.hubernate.sessionmanager.DatabaseSessionHibernate;
-import ru.otus.homework.hibernate.hubernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.homework.hibernate.hibernate.sessionmanager.DatabaseSessionHibernate;
+import ru.otus.homework.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 
 
 import java.util.Optional;

@@ -8,8 +8,8 @@ import ru.otus.homework.hibernate.core.dao.UserDao;
 import ru.otus.homework.hibernate.core.model.User;
 import ru.otus.homework.hibernate.core.service.DBServiceUser;
 import ru.otus.homework.hibernate.core.service.DbServiceUserImpl;
-import ru.otus.homework.hibernate.hubernate.dao.UserDaoHibernate;
-import ru.otus.homework.hibernate.hubernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.homework.hibernate.hibernate.dao.UserDaoHibernate;
+import ru.otus.homework.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 
 
 import java.util.Optional;

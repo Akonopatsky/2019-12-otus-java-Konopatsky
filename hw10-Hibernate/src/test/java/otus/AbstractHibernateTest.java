@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import ru.otus.homework.hibernate.core.model.AddressDataSet;
 import ru.otus.homework.hibernate.core.model.PhoneDataSet;
 import ru.otus.homework.hibernate.core.model.User;
-import ru.otus.homework.hibernate.hubernate.HibernateUtils;
+import ru.otus.homework.hibernate.hibernate.HibernateUtils;
 
 
 public abstract class AbstractHibernateTest {

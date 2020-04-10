@@ -1,4 +1,4 @@
-package ru.otus.homework.hibernate.hubernate.sessionmanager;
+package ru.otus.homework.hibernate.hibernate.sessionmanager;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

@@ -6,7 +6,6 @@ import ru.otus.homework.hibernate.core.dao.UserDao;
 import ru.otus.homework.hibernate.core.model.User;
 import ru.otus.homework.hibernate.core.sessionmanager.SessionManager;
 
-
 import java.util.Optional;
 
 public class DbServiceUserImpl implements DBServiceUser {
@@ -25,7 +24,6 @@ public class DbServiceUserImpl implements DBServiceUser {
       try {
         long userId = userDao.saveUser(user);
         sessionManager.commitSession();
-
         logger.info("created user: {}", userId);
         return userId;
       } catch (Exception e) {
@@ -36,14 +34,12 @@ public class DbServiceUserImpl implements DBServiceUser {
     }
   }
 
-
   @Override
   public Optional<User> getUser(long id) {
     try (SessionManager sessionManager = userDao.getSessionManager()) {
       sessionManager.beginSession();
       try {
         Optional<User> userOptional = userDao.findById(id);
-
         logger.info("user: {}", userOptional.orElse(null));
         return userOptional;
       } catch (Exception e) {
