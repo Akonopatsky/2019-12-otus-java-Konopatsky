@@ -20,27 +20,29 @@ public class User {
     @Column(name = "age")
     private int age;
 
-    @OneToOne(targetEntity = AddressDataSet.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "address_id")
-    private AddressDataSet address;
+    private Address address;
 
-    @OneToMany(targetEntity = PhoneDataSet.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<PhoneDataSet> phones = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Phone> phones = new ArrayList<>();
 
     public User() {
-    }
-
-    public User(User user) {
-        this.id = user.id;
-        this.name = user.name;
-        this.age = user.age;
     }
 
     public User(long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
+    }
+
+    public User(long id, String name, int age, String street, String phone) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.address = new Address(street);
+        this.phones = new ArrayList<>();
+        this.addPhone(phone);
     }
 
     public User(String name, int age) {
@@ -69,7 +71,7 @@ public class User {
         return "unknown";
     }
 
-    public List<PhoneDataSet> getPhones() {
+    public List<Phone> getPhones() {
         return phones;
     }
 
@@ -78,11 +80,11 @@ public class User {
     }
 
     public void setAddress(String street) {
-        this.address = new AddressDataSet(street);
+        this.address = new Address(street);
     }
 
-    public void addPhones(String number) {
-        this.phones.add(new PhoneDataSet(this, number));
+    public void addPhone(String number) {
+        this.phones.add(new Phone(this, number));
     }
 
     @Override
@@ -101,7 +103,9 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
-        return (this.name.equals(that.name))&&(this.age == that.age) ;
+        return (this.name.equals(that.name))
+                &&(this.age == that.age)
+                &&(this.address.toString().equals(that.address.toString()))
+                &&(this.phones.toString().equals(that.phones.toString()));
     }
-
 }

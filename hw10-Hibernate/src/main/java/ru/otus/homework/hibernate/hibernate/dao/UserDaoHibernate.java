@@ -23,7 +23,6 @@ public class UserDaoHibernate implements UserDao {
     this.sessionManager = sessionManager;
   }
 
-
   @Override
   public Optional<User> findById(long id) {
     DatabaseSessionHibernate currentSession = sessionManager.getCurrentSession();
@@ -34,7 +33,6 @@ public class UserDaoHibernate implements UserDao {
     }
     return Optional.empty();
   }
-
 
   @Override
   public long saveUser(User user) {

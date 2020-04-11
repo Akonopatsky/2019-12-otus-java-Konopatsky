@@ -4,20 +4,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "addresses")
-public class AddressDataSet {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    public long id;
+    private long id;
 
     @Column(name = "address")
     private String street;
 
-    public AddressDataSet() {
+    public Address() {
     }
 
-    public AddressDataSet(String street) {
+    public Address(String street) {
         this.street = street;
     }
 

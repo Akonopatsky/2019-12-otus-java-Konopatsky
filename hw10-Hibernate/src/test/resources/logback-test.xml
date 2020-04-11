@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-<!--
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
@@ -9,13 +8,12 @@
     </encoder>
   </appender>
 
-  &lt;!&ndash;<logger name="org.hibernate.SQL" level="ERROR"/>&ndash;&gt;
+  <!--<logger name="org.hibernate.SQL" level="ERROR"/>-->
   <logger name="org.hibernate" level="ERROR"/>
   <logger name="ch.qos.logback" level="ERROR"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT"/>
   </root>
--->
 
 </configuration>

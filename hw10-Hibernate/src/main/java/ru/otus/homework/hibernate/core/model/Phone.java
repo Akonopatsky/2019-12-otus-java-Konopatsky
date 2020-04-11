@@ -4,31 +4,31 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "phones")
-public class PhoneDataSet {
+public class Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    public long id;
+    private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "phone")
     private String number;
 
-    public PhoneDataSet() {
+    public Phone() {
     }
 
-    public PhoneDataSet(User user, String number) {
+    public Phone(User user, String number) {
         this.user = user;
         this.number = number;
     }
 
     @Override
     public String toString() {
-        return "PhoneDataSet{" +
+        return "phone{" +
                 "number='" + number + '\'' +
                 '}';
     }
