@@ -1,12 +1,8 @@
-package ru.otus.hw.cashe.cachehw;
+package ru.otus.homework.cashe.cachehw;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author sergey
- * created on 14.12.18.
- */
 public class HWCacheDemo {
   private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
@@ -17,8 +13,7 @@ public class HWCacheDemo {
   private void demo() {
     HwCache<Integer, Integer> cache = new MyCache<>();
 
-    // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-    HwListener<Integer, Integer> listener = new HwListener<Integer, Integer>() {
+    HwListener<Integer, Integer> listener = new HwListener<>() {
       @Override
       public void notify(Integer key, Integer value, String action) {
         logger.info("key:{}, value:{}, action: {}", key, value, action);
@@ -27,6 +22,8 @@ public class HWCacheDemo {
 
     cache.addListener(listener);
     cache.put(1, 1);
+    cache.put(2, 3);
+    cache.put(3, 4);
 
     logger.info("getValue:{}", cache.get(1));
     cache.remove(1);

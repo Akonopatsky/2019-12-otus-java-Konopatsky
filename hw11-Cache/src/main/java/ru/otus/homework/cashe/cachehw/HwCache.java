@@ -1,4 +1,4 @@
-package ru.otus.hw.cashe.cachehw;
+package ru.otus.homework.cashe.cachehw;
 
 /**
  * @author sergey
