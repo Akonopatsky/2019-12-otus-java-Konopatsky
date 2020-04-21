@@ -19,6 +19,7 @@
         <module>hw05-TestFW</module>
         <module>hw09-JDBC</module>
         <module>hw10-Hibernate</module>
+        <module>hw11-Cache</module>
 
     </modules>
     <developers>
