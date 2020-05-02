@@ -1,7 +1,7 @@
-package ru.otus.servlet;
+package ru.otus.hw12.servlet;
 
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.UserAuthService;
+import ru.otus.hw12.services.TemplateProcessor;
+import ru.otus.hw12.services.UserAuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
 
-import static javax.servlet.http.HttpServletResponse.*;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class LoginServlet extends HttpServlet {

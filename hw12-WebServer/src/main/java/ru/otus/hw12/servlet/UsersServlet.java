@@ -1,7 +1,7 @@
-package ru.otus.servlet;
+package ru.otus.hw12.servlet;
 
-import ru.otus.dao.UserDao;
-import ru.otus.services.TemplateProcessor;
+import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.services.TemplateProcessor;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

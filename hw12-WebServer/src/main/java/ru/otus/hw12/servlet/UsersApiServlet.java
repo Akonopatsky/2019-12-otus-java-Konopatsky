@@ -1,8 +1,8 @@
-package ru.otus.servlet;
+package ru.otus.hw12.servlet;
 
 import com.google.gson.Gson;
-import ru.otus.dao.UserDao;
-import ru.otus.model.User;
+import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.model.User;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;

@@ -1,9 +1,9 @@
-package ru.otus.services;
+package ru.otus.hw12.services;
 
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.util.security.Password;
-import ru.otus.dao.UserDao;
-import ru.otus.model.User;
+import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.model.User;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package ru.otus.server;
+package ru.otus.hw12.server;
 
 public interface UsersWebServer {
     void start() throws Exception;

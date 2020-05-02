@@ -1,16 +1,16 @@
-package ru.otus;
+package ru.otus.hw12;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.LoginService;
-import ru.otus.dao.InMemoryUserDao;
-import ru.otus.dao.UserDao;
-import ru.otus.helpers.FileSystemHelper;
-import ru.otus.server.UsersWebServer;
-import ru.otus.server.UsersWebServerWithBasicSecurity;
-import ru.otus.services.InMemoryLoginServiceImpl;
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.TemplateProcessorImpl;
+import ru.otus.hw12.dao.InMemoryUserDao;
+import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.helpers.FileSystemHelper;
+import ru.otus.hw12.server.UsersWebServer;
+import ru.otus.hw12.server.UsersWebServerWithBasicSecurity;
+import ru.otus.hw12.services.InMemoryLoginServiceImpl;
+import ru.otus.hw12.services.TemplateProcessor;
+import ru.otus.hw12.services.TemplateProcessorImpl;
 
 /*
     Полезные для демо ссылки

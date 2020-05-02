@@ -1,4 +1,4 @@
-package ru.otus.model;
+package ru.otus.hw12.model;
 
 public class User {
 

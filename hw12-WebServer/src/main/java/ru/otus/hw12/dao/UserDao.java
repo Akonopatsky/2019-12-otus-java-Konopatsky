@@ -1,6 +1,6 @@
-package ru.otus.dao;
+package ru.otus.hw12.dao;
 
-import ru.otus.model.User;
+import ru.otus.hw12.model.User;
 
 import java.util.Optional;
 

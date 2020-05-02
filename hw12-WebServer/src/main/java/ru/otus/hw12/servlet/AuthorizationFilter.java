@@ -1,4 +1,4 @@
-package ru.otus.servlet;
+package ru.otus.hw12.servlet;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
