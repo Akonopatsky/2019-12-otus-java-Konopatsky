@@ -2,7 +2,6 @@ package ru.otus.hw12.servlet;
 
 import com.google.gson.Gson;
 import ru.otus.hw12.dao.UserDao;
-import ru.otus.hw12.model.User;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -25,11 +24,11 @@ public class UsersApiServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User user = userDao.findById(extractIdFromRequest(request)).orElse(null);
+/*        User user = userDao.findById(extractIdFromRequest(request)).orElse(null);
 
         response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
-        out.print(gson.toJson(user));
+        out.print(gson.toJson(user));*/
     }
 
     private long extractIdFromRequest(HttpServletRequest request) {

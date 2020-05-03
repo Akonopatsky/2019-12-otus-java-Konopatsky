@@ -15,7 +15,6 @@ import ru.otus.hw12.hibernate.hibernate.dao.UserDaoHibernate;
 import ru.otus.hw12.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.hw12.server.UsersWebServer;
 import ru.otus.hw12.server.UsersWebServerWithBasicSecurity;
-import ru.otus.hw12.services.InMemoryLoginServiceImpl;
 import ru.otus.hw12.services.TemplateProcessor;
 import ru.otus.hw12.services.TemplateProcessorImpl;
 
@@ -38,7 +37,7 @@ public class WebServerWithBasicSecurityDemo {
     private static final String REALM_NAME = "AnyRealm";
 
     public static void main(String[] args) throws Exception {
-        SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(
+/*        SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
@@ -54,6 +53,6 @@ public class WebServerWithBasicSecurityDemo {
                 loginService, userDao, gson, templateProcessor);
 
         usersWebServer.start();
-        usersWebServer.join();
+        usersWebServer.join();*/
     }
 }
