@@ -3,9 +3,16 @@ package ru.otus.hw12;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.LoginService;
-import ru.otus.hw12.dao.InMemoryUserDao;
+import org.hibernate.SessionFactory;
 import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.dao.UserDaoAdapter;
 import ru.otus.hw12.helpers.FileSystemHelper;
+import ru.otus.hw12.hibernate.core.model.Address;
+import ru.otus.hw12.hibernate.core.model.Phone;
+import ru.otus.hw12.hibernate.core.model.User;
+import ru.otus.hw12.hibernate.hibernate.HibernateUtils;
+import ru.otus.hw12.hibernate.hibernate.dao.UserDaoHibernate;
+import ru.otus.hw12.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.hw12.server.UsersWebServer;
 import ru.otus.hw12.server.UsersWebServerWithBasicSecurity;
 import ru.otus.hw12.services.InMemoryLoginServiceImpl;
@@ -31,7 +38,11 @@ public class WebServerWithBasicSecurityDemo {
     private static final String REALM_NAME = "AnyRealm";
 
     public static void main(String[] args) throws Exception {
-        UserDao userDao = new InMemoryUserDao();
+        SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(
+                "hibernate.cfg.xml", User.class, Address.class, Phone.class);
+        SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
+        UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
+        UserDao userDao = new UserDaoAdapter(userDaoHibernate);
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 
