@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.LoginService;
 import org.hibernate.SessionFactory;
-import ru.otus.hw12.dao.UserDao;
 import ru.otus.hw12.dao.UserDaoAdapter;
 import ru.otus.hw12.helpers.FileSystemHelper;
 import ru.otus.hw12.hibernate.core.model.Address;

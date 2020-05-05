@@ -1,6 +1,6 @@
 package ru.otus.hw12.servlet;
 
-import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.dao.UserDaoWebServer;
 import ru.otus.hw12.services.TemplateProcessor;
 
 import javax.servlet.http.HttpServlet;
@@ -16,10 +16,10 @@ public class UsersServlet extends HttpServlet {
     private static final String USERS_PAGE_TEMPLATE = "users.html";
     private static final String TEMPLATE_ATTR_RANDOM_USER = "randomUser";
 
-    private final UserDao userDao;
+    private final UserDaoWebServer userDao;
     private final TemplateProcessor templateProcessor;
 
-    public UsersServlet(TemplateProcessor templateProcessor, UserDao userDao) {
+    public UsersServlet(TemplateProcessor templateProcessor, UserDaoWebServer userDao) {
         this.templateProcessor = templateProcessor;
         this.userDao = userDao;
     }

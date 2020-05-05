@@ -1,7 +1,7 @@
 package ru.otus.hw12.servlet;
 
 import com.google.gson.Gson;
-import ru.otus.hw12.dao.UserDao;
+import ru.otus.hw12.dao.UserDaoWebServer;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +14,10 @@ public class UsersApiServlet extends HttpServlet {
 
     private static final int ID_PATH_PARAM_POSITION = 1;
 
-    private final UserDao userDao;
+    private final UserDaoWebServer userDao;
     private final Gson gson;
 
-    public UsersApiServlet(UserDao userDao, Gson gson) {
+    public UsersApiServlet(UserDaoWebServer userDao, Gson gson) {
         this.userDao = userDao;
         this.gson = gson;
     }

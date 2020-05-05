@@ -12,8 +12,9 @@ import ru.otus.hw12.hibernate.hibernate.HibernateUtils;
 import ru.otus.hw12.hibernate.hibernate.dao.UserDaoHibernate;
 import ru.otus.hw12.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-class UserDaoAdapterTest {
+class DbServiceWebServerTest {
     private final Logger logger = LoggerFactory.getLogger(UserDaoAdapter.class);
     private final int DB_SIZE = 50;
     private static SessionFactory sessionFactory;
@@ -30,12 +31,11 @@ class UserDaoAdapterTest {
     }
 
     @Test
-    void findById() {
+    void saveUser() {
     }
 
     @Test
-    void saveUser() {
-        insertusers(userDao);
+    void getUser() {
     }
 
     @Test
