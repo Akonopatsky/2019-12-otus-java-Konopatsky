@@ -12,14 +12,16 @@ import ru.otus.hw12.hibernate.hibernate.HibernateUtils;
 import ru.otus.hw12.hibernate.hibernate.dao.UserDaoHibernate;
 import ru.otus.hw12.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DbServiceWebServerTest {
     private final Logger logger = LoggerFactory.getLogger(UserDaoAdapter.class);
     private final int DB_SIZE = 50;
     private static SessionFactory sessionFactory;
     private SessionManagerHibernate sessionManager;
-    private UserDaoWebServer userDao;
+    private DbServiceWebServer userDao;
 
     @BeforeEach
     void setUp() {
@@ -27,22 +29,21 @@ class DbServiceWebServerTest {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        userDao = new UserDaoAdapter(userDaoHibernate);
-    }
-
-    @Test
-    void saveUser() {
-    }
-
-    @Test
-    void getUser() {
+        UserDaoAdapter userDaoAdapter = new UserDaoAdapter(userDaoHibernate);
+        userDao = new DbServiceWebServer(userDaoAdapter);
     }
 
     @Test
     void getAllUsers() {
+        insertusers(userDao);
+        List<User> allUsers = userDao.getAllUsers();
+        for (int i = 0; i < DB_SIZE; i++) {
+            User user = new User("user" + i, 25, "street" + i, "phone" + i);
+            assertEquals(allUsers.get(i), user);
+        }
     }
 
-    private void insertusers(UserDaoWebServer userDao) {
+    private void insertusers(DbServiceWebServer userDao) {
         for (int i = 0; i < DB_SIZE; i++) {
             User user = new User("user" + i, 25, "street" + i, "phone" + i);
             userDao.saveUser(user);
