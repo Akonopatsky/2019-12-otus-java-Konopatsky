@@ -14,7 +14,7 @@ import ru.otus.hw12.servlet.UsersApiServlet;
 import ru.otus.hw12.servlet.UsersServlet;
 
 public class UsersWebServerSimple implements UsersWebServer {
-    private static final String START_PAGE_NAME = "index.html";
+    private static final String START_PAGE_NAME = "startpage.html";
     private static final String COMMON_RESOURCES_DIR = "static";
 
     private final UserDaoWebServer userDao;
