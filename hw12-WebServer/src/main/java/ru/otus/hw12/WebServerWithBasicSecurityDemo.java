@@ -5,8 +5,9 @@ import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
 import org.hibernate.SessionFactory;
+import ru.otus.hw12.dao.DbServiceWebServer;
+import ru.otus.hw12.dao.UserDao;
 import ru.otus.hw12.dao.UserDaoAdapter;
-import ru.otus.hw12.dao.UserDaoWebServer;
 import ru.otus.hw12.helpers.FileSystemHelper;
 import ru.otus.hw12.hibernate.core.model.Address;
 import ru.otus.hw12.hibernate.core.model.Phone;
@@ -19,18 +20,6 @@ import ru.otus.hw12.server.UsersWebServerWithBasicSecurity;
 import ru.otus.hw12.services.TemplateProcessor;
 import ru.otus.hw12.services.TemplateProcessorImpl;
 
-/*
-    Полезные для демо ссылки
-
-    // Стартовая страница
-    http://localhost:8080
-
-    // Страница пользователей
-    http://localhost:8080/users
-
-    // REST сервис
-    http://localhost:8080/api/user/3
-*/
 public class WebServerWithBasicSecurityDemo {
     private static final int WEB_SERVER_PORT = 8080;
     private static final String TEMPLATES_DIR = "/templates/";
@@ -42,7 +31,8 @@ public class WebServerWithBasicSecurityDemo {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        UserDaoWebServer userDao = new UserDaoAdapter(userDaoHibernate);
+        UserDaoAdapter userDaoAdapter = new UserDaoAdapter(userDaoHibernate);
+        UserDao userDao = new DbServiceWebServer(userDaoAdapter);
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 

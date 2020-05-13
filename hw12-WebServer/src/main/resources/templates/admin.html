@@ -7,10 +7,10 @@
 <body>
 <h4>Создать пользователя</h4>
 <form action="/api/user/" method="post">
-        Имя : <input type="text" name="name">
-        Возраст : <input type="text" name="name">
-        Адрес : <input type="text" name="name">
-        Телефон : <input type="text" name="name">
+        Имя : <input type="text" name="name" value="user">
+        Возраст : <input type="text" name="age" value="5">
+        Адрес : <input type="text" name="address">
+        Телефон : <input type="text" name="phone">
     <input type="submit" value="создать пользователя">
 </form>
 <#if createdUser??>Создан ${createdUser.name}, ${createdUser.age}, ${createdUser.address}, ${createdUser.phones}!</#if>

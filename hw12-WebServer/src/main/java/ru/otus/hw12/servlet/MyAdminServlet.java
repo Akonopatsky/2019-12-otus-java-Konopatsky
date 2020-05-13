@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class UsersApiServlet extends HttpServlet {
-
+public class MyAdminServlet extends HttpServlet {
     private static final String USERS_PAGE_TEMPLATE = "admin.html";
     private static final String TEMPLATE_ATTR_CREATED_USER = "createdUser";
 
@@ -22,7 +20,7 @@ public class UsersApiServlet extends HttpServlet {
     private final UserDao userDao;
 
 
-    public UsersApiServlet(TemplateProcessor templateProcessor, UserDao userDao) {
+    public MyAdminServlet(TemplateProcessor templateProcessor, UserDao userDao) {
         this.userDao = userDao;
         this.templateProcessor = templateProcessor;
     }

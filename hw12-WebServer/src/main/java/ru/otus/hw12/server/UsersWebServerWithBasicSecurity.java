@@ -9,7 +9,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Constraint;
-import ru.otus.hw12.dao.UserDaoWebServer;
+import ru.otus.hw12.dao.UserDao;
 import ru.otus.hw12.services.TemplateProcessor;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
 
     public UsersWebServerWithBasicSecurity(int port,
                                            LoginService loginService,
-                                           UserDaoWebServer userDao,
+                                           UserDao userDao,
                                            Gson gson,
                                            TemplateProcessor templateProcessor) {
         super(port, userDao, gson, templateProcessor);
@@ -47,9 +47,7 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
         });
 
         ConstraintSecurityHandler security = new ConstraintSecurityHandler();
-        //как декодировать стороку с юзером:паролем https://www.base64decode.org/
         security.setAuthenticator(new BasicAuthenticator());
-
         security.setLoginService(loginService);
         security.setConstraintMappings(constraintMappings);
         security.setHandler(new HandlerList(servletContextHandler));

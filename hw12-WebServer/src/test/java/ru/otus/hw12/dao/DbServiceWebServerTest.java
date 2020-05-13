@@ -21,7 +21,7 @@ class DbServiceWebServerTest {
     private final int DB_SIZE = 50;
     private static SessionFactory sessionFactory;
     private SessionManagerHibernate sessionManager;
-    private DbServiceWebServer userDao;
+    private UserDao userDao;
 
     @BeforeEach
     void setUp() {
@@ -43,7 +43,7 @@ class DbServiceWebServerTest {
         }
     }
 
-    private void insertusers(DbServiceWebServer userDao) {
+    private void insertusers(UserDao userDao) {
         for (int i = 0; i < DB_SIZE; i++) {
             User user = new User("user" + i, 25, "street" + i, "phone" + i);
             userDao.saveUser(user);

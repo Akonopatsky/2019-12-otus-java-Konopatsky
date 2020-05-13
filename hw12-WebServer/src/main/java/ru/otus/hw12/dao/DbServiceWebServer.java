@@ -9,7 +9,7 @@ import ru.otus.hw12.hibernate.core.sessionmanager.SessionManager;
 import java.util.List;
 import java.util.Optional;
 
-public class DbServiceWebServer {
+public class DbServiceWebServer implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(DbServiceWebServer.class);
     private final UserDaoWebServer userDao;
 
@@ -17,6 +17,7 @@ public class DbServiceWebServer {
         this.userDao = userDao;
     }
 
+    @Override
     public long saveUser(User user) {
         try (SessionManager sessionManager = userDao.getSessionManager()) {
             sessionManager.beginSession();
@@ -33,6 +34,7 @@ public class DbServiceWebServer {
         }
     }
 
+    @Override
     public Optional<User> getUser(long id) {
         try (SessionManager sessionManager = userDao.getSessionManager()) {
             sessionManager.beginSession();
@@ -48,6 +50,7 @@ public class DbServiceWebServer {
         }
     }
 
+    @Override
     public List<User> getAllUsers() {
         try (SessionManager sessionManager = userDao.getSessionManager()) {
             sessionManager.beginSession();
