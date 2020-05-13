@@ -5,7 +5,14 @@
     <title>Страница Администратора</title>
 </head>
 <body>
-<h4>Создать пользователяd</h4>
-
+<h4>Создать пользователя</h4>
+<form action="/api/user/" method="post">
+        Имя : <input type="text" name="name">
+        Возраст : <input type="text" name="name">
+        Адрес : <input type="text" name="name">
+        Телефон : <input type="text" name="name">
+    <input type="submit" value="создать пользователя">
+</form>
+<#if createdUser??>Создан ${createdUser.name}, ${createdUser.age}, ${createdUser.address}, ${createdUser.phones}!</#if>
 </body>
 </html>
