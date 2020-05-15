@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyAdminServlet extends HttpServlet {
@@ -27,14 +28,7 @@ public class MyAdminServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        int age = Integer.parseInt(req.getParameter("age"));
-        String address = req.getParameter("address");
-        String phone = req.getParameter("phone");
-        User newUser = new User(name, age, address, phone);
         Map<String, Object> paramsMap = new HashMap<>();
-        userDao.saveUser(newUser);
-        paramsMap.put(TEMPLATE_ATTR_CREATED_USER, newUser);
         resp.setContentType("text/html");
         resp.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
     }
