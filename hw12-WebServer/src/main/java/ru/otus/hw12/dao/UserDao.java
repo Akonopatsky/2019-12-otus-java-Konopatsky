@@ -1,6 +1,6 @@
 package ru.otus.hw12.dao;
 
-import ru.otus.hw12.hibernate.core.model.User;
+import ru.otus.hw12.dao.hibernate.core.model.User;
 
 import java.util.List;
 import java.util.Optional;

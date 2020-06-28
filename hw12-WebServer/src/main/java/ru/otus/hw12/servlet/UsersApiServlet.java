@@ -1,7 +1,7 @@
 package ru.otus.hw12.servlet;
 
 import ru.otus.hw12.dao.UserDao;
-import ru.otus.hw12.hibernate.core.model.User;
+import ru.otus.hw12.dao.hibernate.core.model.User;
 import ru.otus.hw12.services.TemplateProcessor;
 
 import javax.servlet.ServletException;
