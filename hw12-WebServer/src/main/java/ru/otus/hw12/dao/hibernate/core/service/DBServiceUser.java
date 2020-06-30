@@ -2,6 +2,7 @@ package ru.otus.hw12.dao.hibernate.core.service;
 
 import ru.otus.hw12.dao.hibernate.core.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DBServiceUser {
@@ -10,4 +11,5 @@ public interface DBServiceUser {
 
   Optional<User> getUser(long id);
 
+  List<User> getAllUsers();
 }

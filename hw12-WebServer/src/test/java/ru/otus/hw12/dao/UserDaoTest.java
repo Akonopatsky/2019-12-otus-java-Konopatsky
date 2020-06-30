@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import ru.otus.hw12.dao.hibernate.core.model.Address;
 import ru.otus.hw12.dao.hibernate.core.model.Phone;
 import ru.otus.hw12.dao.hibernate.core.model.User;
+import ru.otus.hw12.dao.hibernate.core.service.DbServiceUserImplCache;
 import ru.otus.hw12.dao.hibernate.hibernate.HibernateUtils;
 import ru.otus.hw12.dao.hibernate.hibernate.dao.UserDaoHibernate;
 import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
@@ -16,8 +17,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UserDaoWebServerAdapterFromMyHibernateTest {
-    private final Logger logger = LoggerFactory.getLogger(UserDaoWebServerAdapterFromMyHibernate.class);
+class UserDaoTest {
+    private final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
     private final int DB_SIZE = 50;
     private static SessionFactory sessionFactory;
     private SessionManagerHibernate sessionManager;
@@ -29,7 +30,7 @@ class UserDaoWebServerAdapterFromMyHibernateTest {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        userDao = new UserDaoWebServerAdapterFromMyHibernate(userDaoHibernate);
+        userDao = new DbServiceUserImplCache(userDaoHibernate);
     }
 
     @Test

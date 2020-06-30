@@ -1,6 +1,5 @@
 package ru.otus.hw12.server;
 
-import com.google.gson.Gson;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -10,21 +9,18 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import ru.otus.hw12.dao.UserDao;
 import ru.otus.hw12.helpers.FileSystemHelper;
 import ru.otus.hw12.services.TemplateProcessor;
-import ru.otus.hw12.servlet.MyAdminServlet;
 import ru.otus.hw12.servlet.UsersApiServlet;
 
 public class UsersWebServerSimple implements UsersWebServer {
-    private static final String START_PAGE_NAME = "startpage.html";
+    private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
 
     private final UserDao userDao;
-    private final Gson gson;
     protected final TemplateProcessor templateProcessor;
     private final Server server;
 
-    public UsersWebServerSimple(int port, UserDao userDao, Gson gson, TemplateProcessor templateProcessor) {
+    public UsersWebServerSimple(int port, UserDao userDao, TemplateProcessor templateProcessor) {
         this.userDao = userDao;
-        this.gson = gson;
         this.templateProcessor = templateProcessor;
         server = new Server(port);
     }
@@ -54,7 +50,7 @@ public class UsersWebServerSimple implements UsersWebServer {
 
         HandlerList handlers = new HandlerList();
         handlers.addHandler(resourceHandler);
-        handlers.addHandler(applySecurity(servletContextHandler, "/admin", "/api/user/*", "/*"));
+        handlers.addHandler(applySecurity(servletContextHandler, "/api/user/*", "/*"));
 
         server.setHandler(handlers);
         return server;
@@ -74,7 +70,6 @@ public class UsersWebServerSimple implements UsersWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new MyAdminServlet(templateProcessor, userDao)), "/admin");
         servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(templateProcessor, userDao)), "/api/user/*");
         return servletContextHandler;
     }

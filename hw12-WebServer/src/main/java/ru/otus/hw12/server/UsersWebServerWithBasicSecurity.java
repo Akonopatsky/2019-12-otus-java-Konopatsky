@@ -1,6 +1,5 @@
 package ru.otus.hw12.server;
 
-import com.google.gson.Gson;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.LoginService;
@@ -26,9 +25,8 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
     public UsersWebServerWithBasicSecurity(int port,
                                            LoginService loginService,
                                            UserDao userDao,
-                                           Gson gson,
                                            TemplateProcessor templateProcessor) {
-        super(port, userDao, gson, templateProcessor);
+        super(port, userDao, templateProcessor);
         this.loginService = loginService;
     }
 

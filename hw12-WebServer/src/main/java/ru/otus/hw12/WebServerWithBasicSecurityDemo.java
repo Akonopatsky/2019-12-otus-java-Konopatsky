@@ -1,12 +1,10 @@
 package ru.otus.hw12;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
 import org.hibernate.SessionFactory;
 import ru.otus.hw12.dao.UserDao;
-import ru.otus.hw12.dao.UserDaoWebServerAdapterFromMyHibernate;
+import ru.otus.hw12.dao.hibernate.core.service.DbServiceUserImplCache;
 import ru.otus.hw12.helpers.FileSystemHelper;
 import ru.otus.hw12.dao.hibernate.core.model.Address;
 import ru.otus.hw12.dao.hibernate.core.model.Phone;
@@ -30,14 +28,13 @@ public class WebServerWithBasicSecurityDemo {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        UserDao userDao = new UserDaoWebServerAdapterFromMyHibernate(userDaoHibernate);
-        Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+        UserDao userDao = new DbServiceUserImplCache(userDaoHibernate);
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 
         String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);
         LoginService loginService = new HashLoginService(REALM_NAME, hashLoginServiceConfigPath);
         UsersWebServer usersWebServer = new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT,
-                loginService, userDao, gson, templateProcessor);
+                loginService, userDao, templateProcessor);
 
         usersWebServer.start();
         usersWebServer.join();

@@ -7,10 +7,12 @@ import ru.otus.hw12.dao.hibernate.cachehw.HwListener;
 import ru.otus.hw12.dao.hibernate.core.dao.UserDao;
 import ru.otus.hw12.dao.hibernate.core.model.User;
 import ru.otus.hw12.dao.hibernate.core.sessionmanager.SessionManager;
+import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.DatabaseSessionHibernate;
 
+import java.util.List;
 import java.util.Optional;
 
-public class DbServiceUserImplCache implements DBServiceUser {
+public class DbServiceUserImplCache implements DBServiceUser, ru.otus.hw12.dao.UserDao {
   private static Logger logger = LoggerFactory.getLogger(DbServiceUserImplCache.class);
   private final UserDao userDao;
   private HwCache<Long, User> cache = null;
@@ -67,6 +69,22 @@ public class DbServiceUserImplCache implements DBServiceUser {
       }
       return Optional.empty();
     }
+  }
+
+  @Override
+  public List<User> getAllUsers() {
+    try (SessionManager sessionManager = userDao.getSessionManager()) {
+      sessionManager.beginSession();
+      DatabaseSessionHibernate currentSession = (DatabaseSessionHibernate) sessionManager.getCurrentSession();
+      try {
+        return currentSession.getHibernateSession().createQuery("SELECT a FROM User a", User.class).getResultList();
+      } catch (Exception e) {
+        logger.error(e.getMessage(), e);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   private void putInCache(User user) throws InterruptedException {
