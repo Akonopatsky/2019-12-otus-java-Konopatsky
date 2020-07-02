@@ -58,8 +58,8 @@ public class UserDaoHibernate implements UserDao {
       return currentSession.getHibernateSession().createQuery("SELECT a FROM User a", User.class).getResultList();
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
+      throw new UserDaoException(e);
     }
-    return null;
   }
 
   @Override

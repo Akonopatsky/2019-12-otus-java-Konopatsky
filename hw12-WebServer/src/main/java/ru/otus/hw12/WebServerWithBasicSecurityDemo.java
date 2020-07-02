@@ -28,7 +28,7 @@ public class WebServerWithBasicSecurityDemo {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-DBServiceUser DBServiceUser = new DbServiceUserImplCache(userDaoHibernate);
+        DBServiceUser DBServiceUser = new DbServiceUserImplCache(userDaoHibernate);
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 
         String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);

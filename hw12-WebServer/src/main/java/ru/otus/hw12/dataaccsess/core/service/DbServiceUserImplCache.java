@@ -13,10 +13,10 @@ import java.util.Optional;
 
 public class DbServiceUserImplCache implements DBServiceUser {
   private static Logger logger = LoggerFactory.getLogger(DbServiceUserImplCache.class);
-  private final ru.otus.hw12.dataaccsess.core.dao.UserDao userDao;
+  private final UserDao userDao;
   private HwCache<Long, User> cache = null;
 
-  public DbServiceUserImplCache(ru.otus.hw12.dataaccsess.core.dao.UserDao userDao) {
+  public DbServiceUserImplCache(UserDao userDao) {
     this.userDao = userDao;
   }
 
@@ -76,13 +76,13 @@ public class DbServiceUserImplCache implements DBServiceUser {
       sessionManager.beginSession();
       try {
         List<User> result = userDao.getAllUsers();
-        logger.info("getAllUsers: {}", result.size());
+        logger.info("getAll {} Users", result.size());
         return result;
       } catch (Exception e) {
         logger.error(e.getMessage(), e);
         sessionManager.rollbackSession();
+        throw new DbServiceException(e);
       }
-      return null;
     }
   }
 
