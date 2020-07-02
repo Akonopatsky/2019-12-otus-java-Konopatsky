@@ -1,23 +1,22 @@
-package ru.otus.hw12.dao.hibernate.core.service;
+package ru.otus.hw12.dataaccsess.core.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.hw12.dao.hibernate.cachehw.HwCache;
-import ru.otus.hw12.dao.hibernate.cachehw.HwListener;
-import ru.otus.hw12.dao.hibernate.core.dao.UserDao;
-import ru.otus.hw12.dao.hibernate.core.model.User;
-import ru.otus.hw12.dao.hibernate.core.sessionmanager.SessionManager;
-import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.DatabaseSessionHibernate;
+import ru.otus.hw12.dataaccsess.cachehw.HwCache;
+import ru.otus.hw12.dataaccsess.cachehw.HwListener;
+import ru.otus.hw12.dataaccsess.core.dao.UserDao;
+import ru.otus.hw12.dataaccsess.core.model.User;
+import ru.otus.hw12.dataaccsess.core.sessionmanager.SessionManager;
 
 import java.util.List;
 import java.util.Optional;
 
-public class DbServiceUserImplCache implements DBServiceUser, ru.otus.hw12.dao.UserDao {
+public class DbServiceUserImplCache implements DBServiceUser {
   private static Logger logger = LoggerFactory.getLogger(DbServiceUserImplCache.class);
-  private final UserDao userDao;
+  private final ru.otus.hw12.dataaccsess.core.dao.UserDao userDao;
   private HwCache<Long, User> cache = null;
 
-  public DbServiceUserImplCache(UserDao userDao) {
+  public DbServiceUserImplCache(ru.otus.hw12.dataaccsess.core.dao.UserDao userDao) {
     this.userDao = userDao;
   }
 
@@ -75,16 +74,16 @@ public class DbServiceUserImplCache implements DBServiceUser, ru.otus.hw12.dao.U
   public List<User> getAllUsers() {
     try (SessionManager sessionManager = userDao.getSessionManager()) {
       sessionManager.beginSession();
-      DatabaseSessionHibernate currentSession = (DatabaseSessionHibernate) sessionManager.getCurrentSession();
       try {
-        return currentSession.getHibernateSession().createQuery("SELECT a FROM User a", User.class).getResultList();
+        List<User> result = userDao.getAllUsers();
+        logger.info("getAllUsers: {}", result.size());
+        return result;
       } catch (Exception e) {
         logger.error(e.getMessage(), e);
+        sessionManager.rollbackSession();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+      return null;
     }
-    return null;
   }
 
   private void putInCache(User user) throws InterruptedException {

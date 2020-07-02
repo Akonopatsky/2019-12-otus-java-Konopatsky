@@ -1,16 +1,17 @@
-package ru.otus.hw12.dao.hibernate.hibernate.dao;
+package ru.otus.hw12.dataaccsess.hibernate.dao;
 
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.hw12.dao.hibernate.core.dao.UserDao;
-import ru.otus.hw12.dao.hibernate.core.dao.UserDaoException;
-import ru.otus.hw12.dao.hibernate.core.model.User;
-import ru.otus.hw12.dao.hibernate.core.sessionmanager.SessionManager;
-import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.DatabaseSessionHibernate;
-import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.hw12.dataaccsess.core.dao.UserDao;
+import ru.otus.hw12.dataaccsess.core.dao.UserDaoException;
+import ru.otus.hw12.dataaccsess.core.model.User;
+import ru.otus.hw12.dataaccsess.core.sessionmanager.SessionManager;
+import ru.otus.hw12.dataaccsess.hibernate.sessionmanager.DatabaseSessionHibernate;
+import ru.otus.hw12.dataaccsess.hibernate.sessionmanager.SessionManagerHibernate;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserDaoHibernate implements UserDao {
@@ -48,6 +49,17 @@ public class UserDaoHibernate implements UserDao {
       logger.error(e.getMessage(), e);
       throw new UserDaoException(e);
     }
+  }
+
+  @Override
+  public List<User> getAllUsers() {
+    DatabaseSessionHibernate currentSession =  sessionManager.getCurrentSession();
+    try {
+      return currentSession.getHibernateSession().createQuery("SELECT a FROM User a", User.class).getResultList();
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+    }
+    return null;
   }
 
   @Override

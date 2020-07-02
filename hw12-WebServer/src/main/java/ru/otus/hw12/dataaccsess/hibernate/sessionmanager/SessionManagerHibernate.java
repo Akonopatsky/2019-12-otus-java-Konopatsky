@@ -1,10 +1,10 @@
-package ru.otus.hw12.dao.hibernate.hibernate.sessionmanager;
+package ru.otus.hw12.dataaccsess.hibernate.sessionmanager;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import ru.otus.hw12.dao.hibernate.core.sessionmanager.SessionManager;
-import ru.otus.hw12.dao.hibernate.core.sessionmanager.SessionManagerException;
+import ru.otus.hw12.dataaccsess.core.sessionmanager.SessionManager;
+import ru.otus.hw12.dataaccsess.core.sessionmanager.SessionManagerException;
 
 
 public class SessionManagerHibernate implements SessionManager {

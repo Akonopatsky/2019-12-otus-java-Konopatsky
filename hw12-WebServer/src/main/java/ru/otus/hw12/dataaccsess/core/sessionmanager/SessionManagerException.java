@@ -1,4 +1,4 @@
-package ru.otus.hw12.dao.hibernate.core.sessionmanager;
+package ru.otus.hw12.dataaccsess.core.sessionmanager;
 
 
 public class SessionManagerException extends RuntimeException {

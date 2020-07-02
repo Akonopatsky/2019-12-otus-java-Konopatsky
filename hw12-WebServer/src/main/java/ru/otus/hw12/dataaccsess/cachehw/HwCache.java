@@ -1,4 +1,4 @@
-package ru.otus.hw12.dao.hibernate.cachehw;
+package ru.otus.hw12.dataaccsess.cachehw;
 
 /**
  * @author sergey

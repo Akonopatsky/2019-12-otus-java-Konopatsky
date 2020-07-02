@@ -3,15 +3,15 @@ package ru.otus.hw12;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
 import org.hibernate.SessionFactory;
-import ru.otus.hw12.dao.UserDao;
-import ru.otus.hw12.dao.hibernate.core.service.DbServiceUserImplCache;
+import ru.otus.hw12.dataaccsess.core.service.DBServiceUser;
+import ru.otus.hw12.dataaccsess.core.service.DbServiceUserImplCache;
 import ru.otus.hw12.helpers.FileSystemHelper;
-import ru.otus.hw12.dao.hibernate.core.model.Address;
-import ru.otus.hw12.dao.hibernate.core.model.Phone;
-import ru.otus.hw12.dao.hibernate.core.model.User;
-import ru.otus.hw12.dao.hibernate.hibernate.HibernateUtils;
-import ru.otus.hw12.dao.hibernate.hibernate.dao.UserDaoHibernate;
-import ru.otus.hw12.dao.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.hw12.dataaccsess.core.model.Address;
+import ru.otus.hw12.dataaccsess.core.model.Phone;
+import ru.otus.hw12.dataaccsess.core.model.User;
+import ru.otus.hw12.dataaccsess.hibernate.HibernateUtils;
+import ru.otus.hw12.dataaccsess.hibernate.dao.UserDaoHibernate;
+import ru.otus.hw12.dataaccsess.hibernate.sessionmanager.SessionManagerHibernate;
 import ru.otus.hw12.server.UsersWebServer;
 import ru.otus.hw12.server.UsersWebServerWithBasicSecurity;
 import ru.otus.hw12.services.TemplateProcessor;
@@ -28,13 +28,13 @@ public class WebServerWithBasicSecurityDemo {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        UserDao userDao = new DbServiceUserImplCache(userDaoHibernate);
+DBServiceUser DBServiceUser = new DbServiceUserImplCache(userDaoHibernate);
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 
         String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);
         LoginService loginService = new HashLoginService(REALM_NAME, hashLoginServiceConfigPath);
         UsersWebServer usersWebServer = new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT,
-                loginService, userDao, templateProcessor);
+                loginService, DBServiceUser, templateProcessor);
 
         usersWebServer.start();
         usersWebServer.join();

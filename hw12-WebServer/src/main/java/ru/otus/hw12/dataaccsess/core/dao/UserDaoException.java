@@ -1,4 +1,4 @@
-package ru.otus.hw12.dao.hibernate.core.dao;
+package ru.otus.hw12.dataaccsess.core.dao;
 
 public class UserDaoException extends RuntimeException {
   public UserDaoException(Exception ex) {

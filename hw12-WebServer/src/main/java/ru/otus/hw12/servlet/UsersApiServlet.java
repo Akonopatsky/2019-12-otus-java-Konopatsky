@@ -1,7 +1,7 @@
 package ru.otus.hw12.servlet;
 
-import ru.otus.hw12.dao.UserDao;
-import ru.otus.hw12.dao.hibernate.core.model.User;
+import ru.otus.hw12.dataaccsess.core.service.DBServiceUser;
+import ru.otus.hw12.dataaccsess.core.model.User;
 import ru.otus.hw12.services.TemplateProcessor;
 
 import javax.servlet.ServletException;
@@ -21,12 +21,12 @@ public class UsersApiServlet extends HttpServlet {
     private static final String TEMPLATE_ATTR_ALL_USERS = "allUsers";
 
     private final TemplateProcessor templateProcessor;
-    private final UserDao userDao;
+    private final DBServiceUser DBServiceUser;
 
     private User lastSavedUser;
 
-    public UsersApiServlet(TemplateProcessor templateProcessor, UserDao userDao) {
-        this.userDao = userDao;
+    public UsersApiServlet(TemplateProcessor templateProcessor, DBServiceUser DBServiceUser) {
+        this.DBServiceUser = DBServiceUser;
         this.templateProcessor = templateProcessor;
     }
 
@@ -38,7 +38,7 @@ public class UsersApiServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         User newUser = new User(name, age, address, phone);
         Map<String, Object> paramsMap = new HashMap<>();
-        userDao.saveUser(newUser);
+        DBServiceUser.saveUser(newUser);
         lastSavedUser = newUser;
         putLastSavedUserInParams(paramsMap);
         resp.setContentType("text/html");
@@ -59,7 +59,7 @@ public class UsersApiServlet extends HttpServlet {
     }
 
     private void putAllUsersInParams(Map<String, Object> paramsMap) {
-        List<User> allUsers = userDao.getAllUsers();
+        List<User> allUsers = DBServiceUser.getAllUsers();
         paramsMap.put(TEMPLATE_ATTR_ALL_USERS, allUsers);
     }
 }

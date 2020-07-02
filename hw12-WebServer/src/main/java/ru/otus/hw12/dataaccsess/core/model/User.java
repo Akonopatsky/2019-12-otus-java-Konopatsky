@@ -1,4 +1,4 @@
-package ru.otus.hw12.dao.hibernate.core.model;
+package ru.otus.hw12.dataaccsess.core.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;

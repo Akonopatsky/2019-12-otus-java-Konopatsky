@@ -1,4 +1,4 @@
-package ru.otus.hw12.dao.hibernate.hibernate;
+package ru.otus.hw12.dataaccsess.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
