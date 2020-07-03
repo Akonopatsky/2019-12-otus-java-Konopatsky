@@ -24,9 +24,9 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
 
     public UsersWebServerWithBasicSecurity(int port,
                                            LoginService loginService,
-                                           DBServiceUser DBServiceUser,
+                                           DBServiceUser dbServiceUser,
                                            TemplateProcessor templateProcessor) {
-        super(port, DBServiceUser, templateProcessor);
+        super(port, dbServiceUser, templateProcessor);
         this.loginService = loginService;
     }
 

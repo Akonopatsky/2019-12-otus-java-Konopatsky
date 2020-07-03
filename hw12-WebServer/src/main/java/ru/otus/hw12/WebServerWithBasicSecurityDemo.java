@@ -28,13 +28,13 @@ public class WebServerWithBasicSecurityDemo {
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDaoHibernate userDaoHibernate = new UserDaoHibernate(sessionManager);
-        DBServiceUser DBServiceUser = new DbServiceUserImplCache(userDaoHibernate);
+        DBServiceUser dbServiceUser = new DbServiceUserImplCache(userDaoHibernate);
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 
         String hashLoginServiceConfigPath = FileSystemHelper.localFileNameOrResourceNameToFullPath(HASH_LOGIN_SERVICE_CONFIG_NAME);
         LoginService loginService = new HashLoginService(REALM_NAME, hashLoginServiceConfigPath);
         UsersWebServer usersWebServer = new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT,
-                loginService, DBServiceUser, templateProcessor);
+                loginService, dbServiceUser, templateProcessor);
 
         usersWebServer.start();
         usersWebServer.join();

@@ -14,19 +14,16 @@ import java.util.List;
 import java.util.Map;
 
 
-public class UsersApiServlet extends HttpServlet {
+public class UsersServlet extends HttpServlet {
 
     private static final String USERS_PAGE_TEMPLATE = "admin.html";
-    private static final String TEMPLATE_ATTR_CREATED_USER = "createdUser";
     private static final String TEMPLATE_ATTR_ALL_USERS = "allUsers";
 
     private final TemplateProcessor templateProcessor;
-    private final DBServiceUser DBServiceUser;
+    private final DBServiceUser dbServiceUser;
 
-    private User lastSavedUser;
-
-    public UsersApiServlet(TemplateProcessor templateProcessor, DBServiceUser DBServiceUser) {
-        this.DBServiceUser = DBServiceUser;
+    public UsersServlet(TemplateProcessor templateProcessor, DBServiceUser dbServiceUser) {
+        this.dbServiceUser = dbServiceUser;
         this.templateProcessor = templateProcessor;
     }
 
@@ -37,12 +34,8 @@ public class UsersApiServlet extends HttpServlet {
         String address = req.getParameter("address");
         String phone = req.getParameter("phone");
         User newUser = new User(name, age, address, phone);
-        Map<String, Object> paramsMap = new HashMap<>();
-        DBServiceUser.saveUser(newUser);
-        lastSavedUser = newUser;
-        putLastSavedUserInParams(paramsMap);
-        resp.setContentType("text/html");
-        resp.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+        dbServiceUser.saveUser(newUser);
+        doGet(req, resp);
     }
 
     @Override
@@ -50,16 +43,11 @@ public class UsersApiServlet extends HttpServlet {
         Map<String, Object> paramsMap = new HashMap<>();
         resp.setContentType("text/html");
         putAllUsersInParams(paramsMap);
-        putLastSavedUserInParams(paramsMap);
         resp.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
     }
 
-    private void putLastSavedUserInParams(Map<String, Object> paramsMap) {
-        paramsMap.put(TEMPLATE_ATTR_CREATED_USER, lastSavedUser);
-    }
-
     private void putAllUsersInParams(Map<String, Object> paramsMap) {
-        List<User> allUsers = DBServiceUser.getAllUsers();
+        List<User> allUsers = dbServiceUser.getAllUsers();
         paramsMap.put(TEMPLATE_ATTR_ALL_USERS, allUsers);
     }
 }

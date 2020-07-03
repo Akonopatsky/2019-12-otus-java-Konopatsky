@@ -9,18 +9,18 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import ru.otus.hw12.dataaccsess.core.service.DBServiceUser;
 import ru.otus.hw12.helpers.FileSystemHelper;
 import ru.otus.hw12.services.TemplateProcessor;
-import ru.otus.hw12.servlet.UsersApiServlet;
+import ru.otus.hw12.servlet.UsersServlet;
 
 public class UsersWebServerSimple implements UsersWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
 
-    private final DBServiceUser DBServiceUser;
+    private final DBServiceUser dbServiceUser;
     protected final TemplateProcessor templateProcessor;
     private final Server server;
 
-    public UsersWebServerSimple(int port, DBServiceUser DBServiceUser, TemplateProcessor templateProcessor) {
-        this.DBServiceUser = DBServiceUser;
+    public UsersWebServerSimple(int port, DBServiceUser dbServiceUser, TemplateProcessor templateProcessor) {
+        this.dbServiceUser = dbServiceUser;
         this.templateProcessor = templateProcessor;
         server = new Server(port);
     }
@@ -50,7 +50,7 @@ public class UsersWebServerSimple implements UsersWebServer {
 
         HandlerList handlers = new HandlerList();
         handlers.addHandler(resourceHandler);
-        handlers.addHandler(applySecurity(servletContextHandler, "/api/user/*", "/*"));
+        handlers.addHandler(applySecurity(servletContextHandler, "/users", "/*"));
 
         server.setHandler(handlers);
         return server;
@@ -70,7 +70,7 @@ public class UsersWebServerSimple implements UsersWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(templateProcessor, DBServiceUser)), "/api/user/*");
+        servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, dbServiceUser)), "/users/*");
         return servletContextHandler;
     }
 }
