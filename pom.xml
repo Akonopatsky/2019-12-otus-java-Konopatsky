@@ -20,6 +20,7 @@
         <module>hw09-JDBC</module>
         <module>hw10-Hibernate</module>
         <module>hw11-Cache</module>
+        <module>hw12-WebServer</module>
 
     </modules>
     <developers>

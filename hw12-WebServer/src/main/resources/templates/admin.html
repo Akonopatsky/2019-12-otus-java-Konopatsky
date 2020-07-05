@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница Администратора</title>
+</head>
+<h4>Создать пользователя</h4>
+<form action="/users" method="post">
+    Имя : <input type="text" name="name" value="Имя">
+    Возраст : <input type="text" name="age" value="5">
+    Адрес : <input type="text" name="address" value="Город, улица, д-кв">
+    Телефон : <input type="text" name="phone" value="0-000-000-00-00">
+    <input type="submit" value="создать пользователя">
+</form>
+<br>
+<#if createdUser??>Создан:
+    ${createdUser.name},
+    ${createdUser.age},
+    ${createdUser.address},
+    <#list createdUser.phones>
+        <#items as phone>
+        ${phone}<#sep>, </#sep>
+    </#items>
+    </#list>
+</#if>
+<br>
+<br>
+<form method="get">
+    <input type="submit" value="получить список всех пользователей">
+</form>
+<br>
+<#if allUsers??>
+<#list allUsers>
+    <ul>
+        <#items as user>
+        <li>
+        ${user.name},
+        ${user.age},
+        ${user.address},
+            <#list user.phones>
+            <#items as phone>
+            ${phone}<#sep>, </#sep>
+            </#items>
+            </#list>
+        </#items>
+    </ul>
+</#list>
+</#if>
+
+</body>
+</html>
