@@ -14,21 +14,21 @@ public class Child extends Parent {
         if (o == null || getClass() != o.getClass()) return false;
         Child that = (Child) o;
         if (!this.chaildField.equals(that.chaildField)) return false;
-        if (this.bagOfPrimitivesList.size()!=that.bagOfPrimitivesList.size()) return false;
+        if (this.bagOfPrimitivesList.size() != that.bagOfPrimitivesList.size()) return false;
 
         Iterator<BagOfPrimitives[]> iter1 = this.bagOfPrimitivesList.iterator();
         Iterator<BagOfPrimitives[]> iter2 = that.bagOfPrimitivesList.iterator();
         while (iter1.hasNext()) {
             BagOfPrimitives[] thisArray = iter1.next();
             BagOfPrimitives[] thatArray = iter2.next();
-            if (thisArray.length!=thatArray.length) return false;
-            for (int j = 0; j < thisArray.length ; j++) {
+            if (thisArray.length != thatArray.length) return false;
+            for (int j = 0; j < thisArray.length; j++) {
                 if ((thatArray[j] != null || thisArray[j] != null) &&
                         !thisArray[j].equals(thatArray[j])) return false;
             }
         }
         return true;
-        }
+    }
 
     @Override
     public String toString() {

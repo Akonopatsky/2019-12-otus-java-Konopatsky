@@ -15,10 +15,12 @@ class TestUnit {
         this.method = method;
         this.testingObject = testingObject;
     }
+
     TestUnit addBefore(Method beforeMethod) {
         listBefore.add(beforeMethod);
         return this;
     }
+
     TestUnit addAfter(Method afterMethod) {
         listAfter.add(afterMethod);
         return this;
@@ -32,16 +34,15 @@ class TestUnit {
             }
             method.invoke(testingObject);
         } catch (Exception e) {
-            result =  e;
-        }
-        finally {
+            result = e;
+        } finally {
             try {
                 for (Method methodAfter : listAfter) {
                     methodAfter.invoke(testingObject);
                 }
             } catch (Exception e) {
                 if (result == null) {
-                    result =  e;
+                    result = e;
                 }
             }
         }

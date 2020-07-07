@@ -9,7 +9,7 @@ import java.util.*;
 public abstract class DiyTraversal {
 
     public void startTracking(Object obj) {
-        if (obj== null) {
+        if (obj == null) {
             nullMeetsAction(obj);
             return;
         }
@@ -68,7 +68,7 @@ public abstract class DiyTraversal {
         Field[] fields = clazz.getDeclaredFields();
         fieldList.addAll(Arrays.asList(fields));
         Class<?> superclass = clazz.getSuperclass();
-        if (superclass!=null) getAllFields(superclass,fieldList);
+        if (superclass != null) getAllFields(superclass, fieldList);
     }
 
     private void trackCollection(Object obj) {
@@ -81,30 +81,44 @@ public abstract class DiyTraversal {
     }
 
     private void trackArray(Object obj) {
-        Object[] arrayOfObject = (Object[])obj;
+        Object[] arrayOfObject = (Object[]) obj;
         for (Object o : arrayOfObject) {
             elementBeforeAction(o);
             startTracking(o);
             elementEndAction(o);
         }
     }
+
     private void trackMap(Object obj) {
         throw new UnsupportedOperationException("map type is unsupported");
     }
 
     protected abstract void arrayBeforeAction(Object obj);
+
     protected abstract void endArrayAction(Object obj);
+
     protected abstract void collectionBeforeAction(Object obj);
+
     protected abstract void collectionEndAction(Object obj);
+
     protected abstract void objectBeforeAction(Object obj);
+
     protected abstract void objectEndAction(Object obj);
+
     protected abstract void fieldBeforeAction(Field field, Object obj);
+
     protected abstract void fieldEndAction(Field field, Object obj);
+
     protected abstract void mapBeforeAction(Object obj);
+
     protected abstract void mapEndAction(Object obj);
+
     protected abstract void leafMeetAction(Object obj);
+
     protected abstract void nullMeetsAction(Object obj);
+
     protected abstract void elementEndAction(Object o);
+
     protected abstract void elementBeforeAction(Object o);
 
 

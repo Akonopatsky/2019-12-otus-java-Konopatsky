@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
-      </Pattern>
-    </encoder>
-  </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
 
-  <!--<logger name="org.hibernate.SQL" level="ERROR"/>-->
-  <logger name="org.hibernate" level="ERROR"/>
-  <logger name="ch.qos.logback" level="ERROR"/>
-  <logger name="ru.otus.homework.hibernate.hibernate.dao.UserDaoHibernate" level="OFF" additivity ="false"/>
-  <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImpl" level="OFF" additivity ="false"/>
-  <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImplCache" level="OFF" additivity ="false"/>
+    <!--<logger name="org.hibernate.SQL" level="ERROR"/>-->
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="ch.qos.logback" level="ERROR"/>
+    <logger name="ru.otus.homework.hibernate.hibernate.dao.UserDaoHibernate" level="OFF" additivity="false"/>
+    <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImpl" level="OFF" additivity="false"/>
+    <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImplCache" level="OFF" additivity="false"/>
 
-  <root level="INFO">
-    <appender-ref ref="STDOUT"/>
-  </root>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
 
 </configuration>

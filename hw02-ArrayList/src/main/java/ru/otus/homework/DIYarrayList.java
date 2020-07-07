@@ -1,4 +1,5 @@
 package ru.otus.homework;
+
 import java.util.*;
 
 public class DIYarrayList<T> implements List<T> {
@@ -6,10 +7,12 @@ public class DIYarrayList<T> implements List<T> {
     private Object[] elementData;
     private int size;
     private final Object[] EMPTY_ARRAY = {};
+
     public DIYarrayList() {
         this.elementData = new Object[DEFAULT_CAPACITY];
-        size=0;
+        size = 0;
     }
+
     @Override
     public int size() {
         return size;
@@ -17,7 +20,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
-        if (size==elementData.length) grow(size+1);
+        if (size == elementData.length) grow(size + 1);
         elementData[size] = t;
         size++;
         return true;
@@ -94,13 +97,13 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        return (T)elementData[index];
+        return (T) elementData[index];
     }
 
     @Override
     public T set(int index, T element) {
         Objects.checkIndex(index, size);
-        T oldValue = (T)elementData[index];
+        T oldValue = (T) elementData[index];
         elementData[index] = element;
         return oldValue;
     }
@@ -147,25 +150,29 @@ public class DIYarrayList<T> implements List<T> {
 
     private void grow(int minCapacity) {
         int oldCapacity = elementData.length;
-        if (oldCapacity > 0 ) {
-            int newCapacity = oldCapacity*2;
+        if (oldCapacity > 0) {
+            int newCapacity = oldCapacity * 2;
             elementData = Arrays.copyOf(elementData, newCapacity);
         } else {
             elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
         }
     }
-    private void unsupport(){
+
+    private void unsupport() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         String methodName = stackTrace[2].getMethodName();
-        throw new UnsupportedOperationException(methodName+ " is unsupported");
+        throw new UnsupportedOperationException(methodName + " is unsupported");
     }
+
     // iterator
     private class DIYarrayListIterator implements Iterator<T> {
         private int cursor;
+
         @Override
         public boolean hasNext() {
-            return cursor<size;
+            return cursor < size;
         }
+
         @Override
         public T next() {
             return get(cursor++);
@@ -174,27 +181,30 @@ public class DIYarrayList<T> implements List<T> {
 
     private class DIYarrayListListIterator implements ListIterator<T> {
         private int cursor;
-        private int lastRet=-1;
+        private int lastRet = -1;
+
         @Override
         public boolean hasNext() {
-            return cursor<size;
+            return cursor < size;
         }
+
         @Override
         public T next() {
-            lastRet=cursor;
+            lastRet = cursor;
             T result = get(cursor);
             cursor++;
             return result;
         }
+
         @Override
         public boolean hasPrevious() {
-            return cursor >0;
+            return cursor > 0;
         }
 
         @Override
         public T previous() {
             cursor--;
-            lastRet=cursor;
+            lastRet = cursor;
             return get(cursor);
         }
 
@@ -205,16 +215,17 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public int previousIndex() {
-            return cursor-1;
+            return cursor - 1;
         }
 
         @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
+
         @Override
         public void set(T t) {
-            DIYarrayList.this.set(lastRet,t);
+            DIYarrayList.this.set(lastRet, t);
         }
 
         @Override

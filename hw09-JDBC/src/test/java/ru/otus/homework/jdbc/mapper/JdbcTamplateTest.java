@@ -32,7 +32,7 @@ class JdbcTamplateTest {
     private DbExecutor<User> userDbExecutor = new DbExecutor<>();
     private DbExecutor<Account> accountDbExecutor = new DbExecutor<>();
     private DaoInterface<User> userDao;
-    private DaoInterface<Account>  accountDao;
+    private DaoInterface<Account> accountDao;
     private JdbcTamplate<User> userJdbcTamplate;
     private JdbcTamplate<Account> accountJdbcTamplate;
     private User user;
@@ -72,8 +72,8 @@ class JdbcTamplateTest {
 
     @Test
     void update() {
-        accountJdbcTamplate.create(new Account(3,"old", new BigDecimal(13)));
-        accountJdbcTamplate.create(new Account(4,"temp", new BigDecimal(14)));
+        accountJdbcTamplate.create(new Account(3, "old", new BigDecimal(13)));
+        accountJdbcTamplate.create(new Account(4, "temp", new BigDecimal(14)));
         accountJdbcTamplate.update(new Account(1, "updated", new BigDecimal(13)));
         Account redAcc = accountJdbcTamplate.load(13, Account.class);
         assertEquals(redAcc.type, "updated");

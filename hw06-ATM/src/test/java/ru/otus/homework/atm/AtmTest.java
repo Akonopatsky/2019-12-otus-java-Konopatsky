@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AtmTest {
     private Atm atm1 = new SimpleAtm();
-    private  Banknote s10 = new SimpleBanknote(10);
-    private  Banknote s50 = new SimpleBanknote(50);
-    private  Banknote s100 = new SimpleBanknote(100);
-    private  Banknote s500 = new SimpleBanknote(500);
-    private  Banknote s1000 = new SimpleBanknote(1000);
+    private Banknote s10 = new SimpleBanknote(10);
+    private Banknote s50 = new SimpleBanknote(50);
+    private Banknote s100 = new SimpleBanknote(100);
+    private Banknote s500 = new SimpleBanknote(500);
+    private Banknote s1000 = new SimpleBanknote(1000);
 
     @BeforeEach
     void setUp() {
@@ -37,6 +37,7 @@ class AtmTest {
             e.printStackTrace();
         }
     }
+
     @Test
     void addCell() throws UnsupportedBanknoteException {
         PackOfBanknotes pack1 = new SimplePack();
@@ -45,15 +46,16 @@ class AtmTest {
         atm1.addCell(new SimpleCell(new SimpleBanknoteType(200)));
         assertTrue(atm1.putPack(pack1));
     }
+
     @Test
     void getMoney() {
         PackOfBanknotes pack1 = new SimplePack();
-        atm1.getMoney(600,pack1);
+        atm1.getMoney(600, pack1);
         assertEquals(1060, atm1.getAmount());
         List<Banknote> pack2 = new ArrayList<>();
         pack2.add(s500);
         pack2.add(s100);
-        assertEquals(pack1,pack2);
+        assertEquals(pack1, pack2);
     }
 
     @Test
@@ -66,7 +68,7 @@ class AtmTest {
         } catch (UnsupportedBanknoteException e) {
             e.printStackTrace();
         }
-        assertEquals(atm1.getAmount(),2760);
+        assertEquals(atm1.getAmount(), 2760);
 
     }
 
@@ -74,11 +76,12 @@ class AtmTest {
     void getAmount() {
         assertEquals(1660, atm1.getAmount());
     }
+
     @Test
-    void removeAllCells(){
+    void removeAllCells() {
         atm1.removeAllCells();
         PackOfBanknotes pack = new SimplePack();
         pack.add(s10);
-        assertEquals(0,atm1.getAmount());
+        assertEquals(0, atm1.getAmount());
     }
 }

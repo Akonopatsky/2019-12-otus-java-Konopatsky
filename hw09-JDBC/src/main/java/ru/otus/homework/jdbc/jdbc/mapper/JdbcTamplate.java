@@ -6,7 +6,7 @@ import ru.otus.homework.jdbc.core.dao.DaoInterface;
 import ru.otus.homework.jdbc.core.service.DbServiceException;
 import ru.otus.homework.jdbc.core.sessionmanager.SessionManager;
 
-public class JdbcTamplate<T> implements Mapper<T>{
+public class JdbcTamplate<T> implements Mapper<T> {
     private static Logger logger = LoggerFactory.getLogger(JdbcTamplate.class);
     private final DaoInterface<T> dao;
 
@@ -21,7 +21,7 @@ public class JdbcTamplate<T> implements Mapper<T>{
             try {
                 long id = dao.save(objectData);
                 sessionManager.commitSession();
-                logger.info("created "+objectData.getClass().getSimpleName() + ": {}", id);
+                logger.info("created " + objectData.getClass().getSimpleName() + ": {}", id);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
                 sessionManager.rollbackSession();

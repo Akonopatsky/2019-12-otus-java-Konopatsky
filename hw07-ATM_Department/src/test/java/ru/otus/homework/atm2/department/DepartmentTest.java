@@ -9,16 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DepartmentTest {
     private Department department;
-    private MyPack pack150 = new MyPack().addBanknotes(50,100);
-    private MyPack pack600= new MyPack().addBanknotes(100,500);
-    private MyPack pack3000 = new MyPack().addBanknotes(1000,2000);
-    private MyPack pack7000 = new MyPack().addBanknotes(2000,5000);
-    private AtmForDepartment.AtmProducer produceSmallAtm = new AtmForDepartment.AtmProducer(50,100,500);
+    private MyPack pack150 = new MyPack().addBanknotes(50, 100);
+    private MyPack pack600 = new MyPack().addBanknotes(100, 500);
+    private MyPack pack3000 = new MyPack().addBanknotes(1000, 2000);
+    private MyPack pack7000 = new MyPack().addBanknotes(2000, 5000);
+    private AtmForDepartment.AtmProducer produceSmallAtm = new AtmForDepartment.AtmProducer(50, 100, 500);
     private AtmForDepartment.AtmProducer produceBigAtm = new AtmForDepartment.AtmProducer().addCell(1000).addCell(2000).addCell(5000);
     private AtmForDepartment atm1;
     private AtmForDepartment atm2;
     private AtmForDepartment atm3;
     private AtmForDepartment atm4;
+
     @BeforeEach
     void setUp() {
         department = new Department();
@@ -31,6 +32,7 @@ class DepartmentTest {
         atm3.putPack(pack3000);
         atm4.putPack(pack7000);
     }
+
     @AfterEach
     void tearDown() {
 
@@ -49,9 +51,9 @@ class DepartmentTest {
     void addNewAtm() {
         assertEquals(0, department.getAtmCount());
         department
-                .addNewAtm(100,200,500)
-                .addNewAtm(100,200,500)
-                .addNewAtm(100,200,500);
+                .addNewAtm(100, 200, 500)
+                .addNewAtm(100, 200, 500)
+                .addNewAtm(100, 200, 500);
         assertEquals(3, department.getAtmCount());
     }
 
@@ -77,7 +79,7 @@ class DepartmentTest {
                 .addExistedAtm(atm2)
                 .addExistedAtm(atm3)
                 .addExistedAtm(atm4)
-                .addNewAtm(50,100,500,1000,2000,5000);
+                .addNewAtm(50, 100, 500, 1000, 2000, 5000);
 
         department.getAtm(4).putPack(pack150);
         department.getAtm(4).putPack(pack7000);
@@ -94,7 +96,7 @@ class DepartmentTest {
                 .addExistedAtm(atm2)
                 .addExistedAtm(atm3)
                 .addExistedAtm(atm4)
-                .addNewAtm(50,100,500,1000,2000,5000);
+                .addNewAtm(50, 100, 500, 1000, 2000, 5000);
 
         department.getAtm(4).putPack(pack150);
         department.getAtm(4).putPack(pack7000);
@@ -110,7 +112,7 @@ class DepartmentTest {
                 .addExistedAtm(atm2)
                 .addExistedAtm(atm3)
                 .addExistedAtm(atm4)
-                .addNewAtm(50,100,500,1000,2000,5000);
+                .addNewAtm(50, 100, 500, 1000, 2000, 5000);
 
         department.getAtm(4).putPack(pack150);
         department.getAtm(4).putPack(pack7000);

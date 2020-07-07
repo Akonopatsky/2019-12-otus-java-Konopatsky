@@ -83,13 +83,15 @@ public class DiyGsonWithoutJavax extends DiyTraversal implements DiyJsonWriter {
     }
 
     private void deleteLastComma() {
-        if (jsonStrig.charAt(jsonStrig.length()-1)==',') jsonStrig.deleteCharAt(jsonStrig.length()-1);
+        if (jsonStrig.charAt(jsonStrig.length() - 1) == ',') jsonStrig.deleteCharAt(jsonStrig.length() - 1);
     }
 
     @Override
-    protected void mapBeforeAction(Object obj) {    }
+    protected void mapBeforeAction(Object obj) {
+    }
 
     @Override
-    protected void mapEndAction(Object obj) {    }
+    protected void mapEndAction(Object obj) {
+    }
 
 }

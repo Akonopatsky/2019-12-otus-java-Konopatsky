@@ -50,16 +50,16 @@ public class StatementConstructor<T> {
             }
         }
         if (idCount != 1)
-            throw new UnsupportedTypeException("in class " + clazz.getName() + " find " +idCount + " id fields, must be 1 ");
+            throw new UnsupportedTypeException("in class " + clazz.getName() + " find " + idCount + " id fields, must be 1 ");
     }
 
     public T createObject(ResultSet resultSet) throws UnsupportedTypeException {
         Object[] values = new Object[fields.length];
         try {
-            for (int i = 0; i < values.length ; i++) {
-                values[i] = resultSet.getObject(i+1);
+            for (int i = 0; i < values.length; i++) {
+                values[i] = resultSet.getObject(i + 1);
             }
-            return (T)clazz.getConstructor(fieldTypes).newInstance(values);
+            return (T) clazz.getConstructor(fieldTypes).newInstance(values);
         } catch (Exception e) {
             throw new UnsupportedTypeException(e);
         }
@@ -76,7 +76,7 @@ public class StatementConstructor<T> {
     }
 
     private String insertString() {
-        if (fields.length<1) throw new UnsupportedOperationException("class has no one field");
+        if (fields.length < 1) throw new UnsupportedOperationException("class has no one field");
         StringBuilder result = new StringBuilder();
         result.append("insert into ")
                 .append(tableName)
@@ -84,14 +84,14 @@ public class StatementConstructor<T> {
 
         for (int i = 1; i < fields.length; i++) {
             result.append(fields[i].getName());
-            if (i<(fields.length-1)) result.append(", ");
+            if (i < (fields.length - 1)) result.append(", ");
         }
         result.append(") ")
                 .append("values (");
 
-        for (int i = 1; i < fields.length ; i++) {
+        for (int i = 1; i < fields.length; i++) {
             result.append("?");
-            if (i<(fields.length-1)) result.append(", ");
+            if (i < (fields.length - 1)) result.append(", ");
         }
         result.append(") ");
         return result.toString();
@@ -102,13 +102,13 @@ public class StatementConstructor<T> {
         result.append("update ")
                 .append(tableName)
                 .append(" set ");
-        for (int i = 1; i < fields.length ; i++) {
+        for (int i = 1; i < fields.length; i++) {
             if (!fields[i].getName().equals(idFieldName)) {
                 result.append(fields[i].getName())
                         .append(" = ?,");
             }
         }
-        result.deleteCharAt(result.length()-1);
+        result.deleteCharAt(result.length() - 1);
         result.append("  where ")
                 .append(idFieldName)
                 .append(" = ?");
@@ -140,8 +140,7 @@ public class StatementConstructor<T> {
                     fields[i].setAccessible(true);
                     result.add(fields[i].get(object).toString());
                     fields[i].setAccessible(accessible);
-                }
-                else {
+                } else {
                     idString = fields[i].get(object).toString();
                 }
             } catch (IllegalAccessException e) {

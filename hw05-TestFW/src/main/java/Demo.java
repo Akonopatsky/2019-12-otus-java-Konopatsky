@@ -4,6 +4,7 @@ import ru.otus.testFW.runing.TestFrameWork;
 
 public class Demo {
     static private Logger logger = LoggerFactory.getLogger(Demo.class);
+
     public static void main(String[] args) throws ReflectiveOperationException {
         TestFrameWork testFrameWork = new TestFrameWork();
         testFrameWork.startTesting("TestClass");

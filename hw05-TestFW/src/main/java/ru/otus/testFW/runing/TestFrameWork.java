@@ -29,7 +29,7 @@ public class TestFrameWork {
     public void startTesting(String className) throws ReflectiveOperationException {
         init(className);
         for (Method testMethod : listTest) {
-            Object instance =testingClass.getDeclaredConstructor().newInstance();
+            Object instance = testingClass.getDeclaredConstructor().newInstance();
             TestUnit testUnit = new TestUnit(instance, testMethod);
             for (Method methodBefore : listBefore) {
                 testUnit.addBefore(methodBefore);

@@ -9,93 +9,93 @@ import ru.otus.homework.hibernate.core.sessionmanager.SessionManagerException;
 
 public class SessionManagerHibernate implements SessionManager {
 
-  private DatabaseSessionHibernate databaseSession;
+    private DatabaseSessionHibernate databaseSession;
 
-  public SessionFactory getSessionFactory() {
-    return sessionFactory;
-  }
-
-  private final SessionFactory sessionFactory;
-
-  public SessionManagerHibernate(SessionFactory sessionFactory) {
-    if (sessionFactory == null) {
-      throw new SessionManagerException("SessionFactory is null");
-    }
-    this.sessionFactory = sessionFactory;
-  }
-
-  @Override
-  public void beginSession() {
-    try {
-      databaseSession = new DatabaseSessionHibernate(sessionFactory.openSession());
-    } catch (Exception e) {
-      throw new SessionManagerException(e);
-    }
-  }
-
-  @Override
-  public void commitSession() {
-    checkSessionAndTransaction();
-    try {
-      databaseSession.getTransaction().commit();
-      databaseSession.getHibernateSession().close();
-    } catch (Exception e) {
-      throw new SessionManagerException(e);
-    }
-  }
-
-  @Override
-  public void rollbackSession() {
-    checkSessionAndTransaction();
-    try {
-      databaseSession.getTransaction().rollback();
-      databaseSession.getHibernateSession().close();
-    } catch (Exception e) {
-      throw new SessionManagerException(e);
-    }
-  }
-
-  @Override
-  public void close() {
-    if (databaseSession == null) {
-      return;
-    }
-    Session session = databaseSession.getHibernateSession();
-    if (session == null || !session.isConnected()) {
-      return;
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
-    Transaction transaction = databaseSession.getTransaction();
-    if (transaction == null || !transaction.isActive()) {
-      return;
+    private final SessionFactory sessionFactory;
+
+    public SessionManagerHibernate(SessionFactory sessionFactory) {
+        if (sessionFactory == null) {
+            throw new SessionManagerException("SessionFactory is null");
+        }
+        this.sessionFactory = sessionFactory;
     }
 
-    try {
-      databaseSession.close();
-      databaseSession = null;
-    } catch (Exception e) {
-      throw new SessionManagerException(e);
-    }
-  }
-
-  @Override
-  public DatabaseSessionHibernate getCurrentSession() {
-    checkSessionAndTransaction();
-    return databaseSession;
-  }
-
-  private void checkSessionAndTransaction() {
-    if (databaseSession == null) {
-      throw new SessionManagerException("DatabaseSession not opened ");
-    }
-    Session session = databaseSession.getHibernateSession();
-    if (session == null || !session.isConnected()) {
-      throw new SessionManagerException("Session not opened ");
+    @Override
+    public void beginSession() {
+        try {
+            databaseSession = new DatabaseSessionHibernate(sessionFactory.openSession());
+        } catch (Exception e) {
+            throw new SessionManagerException(e);
+        }
     }
 
-    Transaction transaction = databaseSession.getTransaction();
-    if (transaction == null || !transaction.isActive()) {
-      throw new SessionManagerException("Transaction not opened ");
+    @Override
+    public void commitSession() {
+        checkSessionAndTransaction();
+        try {
+            databaseSession.getTransaction().commit();
+            databaseSession.getHibernateSession().close();
+        } catch (Exception e) {
+            throw new SessionManagerException(e);
+        }
     }
-  }
+
+    @Override
+    public void rollbackSession() {
+        checkSessionAndTransaction();
+        try {
+            databaseSession.getTransaction().rollback();
+            databaseSession.getHibernateSession().close();
+        } catch (Exception e) {
+            throw new SessionManagerException(e);
+        }
+    }
+
+    @Override
+    public void close() {
+        if (databaseSession == null) {
+            return;
+        }
+        Session session = databaseSession.getHibernateSession();
+        if (session == null || !session.isConnected()) {
+            return;
+        }
+
+        Transaction transaction = databaseSession.getTransaction();
+        if (transaction == null || !transaction.isActive()) {
+            return;
+        }
+
+        try {
+            databaseSession.close();
+            databaseSession = null;
+        } catch (Exception e) {
+            throw new SessionManagerException(e);
+        }
+    }
+
+    @Override
+    public DatabaseSessionHibernate getCurrentSession() {
+        checkSessionAndTransaction();
+        return databaseSession;
+    }
+
+    private void checkSessionAndTransaction() {
+        if (databaseSession == null) {
+            throw new SessionManagerException("DatabaseSession not opened ");
+        }
+        Session session = databaseSession.getHibernateSession();
+        if (session == null || !session.isConnected()) {
+            throw new SessionManagerException("Session not opened ");
+        }
+
+        Transaction transaction = databaseSession.getTransaction();
+        if (transaction == null || !transaction.isActive()) {
+            throw new SessionManagerException("Transaction not opened ");
+        }
+    }
 }

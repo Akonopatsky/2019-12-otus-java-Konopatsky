@@ -35,7 +35,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
-        return (this.name.equals(that.name))&&(this.age == that.age) ;
+        return (this.name.equals(that.name)) && (this.age == that.age);
     }
 
     public String getName() {

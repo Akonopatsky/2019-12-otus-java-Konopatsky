@@ -73,9 +73,9 @@ class DbServiceUserImplTest {
             Optional<User> expectedUser = dbService.getUser(i + 1);
             assertEquals(new User("user" + i, 25, "street" + i, "phone" + i), expectedUser.get());
         }
-        for (int i = READ_COUNT -1; i >= 0; i--) {
-            Optional<User> expectedUser = dbService.getUser(i+1);
-            assertEquals(new User("user"+i, 25,"street"+i,"phone"+i), expectedUser.get());
+        for (int i = READ_COUNT - 1; i >= 0; i--) {
+            Optional<User> expectedUser = dbService.getUser(i + 1);
+            assertEquals(new User("user" + i, 25, "street" + i, "phone" + i), expectedUser.get());
         }
     }
 
@@ -85,7 +85,7 @@ class DbServiceUserImplTest {
         startTime = System.currentTimeMillis();
         readusers(dbService);
         readusers(dbService);
-        time = System.currentTimeMillis()-startTime;
+        time = System.currentTimeMillis() - startTime;
         return time;
     }
 }

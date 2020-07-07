@@ -14,6 +14,7 @@ public class SimpleCell implements AtmCell {
     }
 
     final private BanknoteType banknoteType;
+
     @Override
     public Banknote getOutOneBanknote() {
         return banknotes.pop();
@@ -23,23 +24,26 @@ public class SimpleCell implements AtmCell {
     public boolean canPutInBanknote(Banknote banknote) {
         return getBanknoteType().equals(banknote.getBanknoteType());
     }
+
     @Override
     public boolean putInOneBanknote(Banknote banknote) {
-        if (banknote.getBanknoteType().equals(this.getBanknoteType()))
-        {
+        if (banknote.getBanknoteType().equals(this.getBanknoteType())) {
             banknotes.push(banknote);
             return true;
         }
         return false;
     }
+
     @Override
     public long getCellNominal() {
         return this.getBanknoteType().getNominal();
     }
+
     @Override
     public int getQuantity() {
-        return  banknotes.size();
+        return banknotes.size();
     }
+
     @Override
     public BanknoteType getBanknoteType() {
         return banknoteType;

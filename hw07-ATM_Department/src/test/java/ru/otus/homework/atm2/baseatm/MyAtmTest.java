@@ -8,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MyAtmTest {
     private MyAtm atm1 = new MyAtm();
-    private  Banknote s10 = new SimpleBanknote(10);
-    private  Banknote s50 = new SimpleBanknote(50);
-    private  Banknote s100 = new SimpleBanknote(100);
-    private  Banknote s500 = new SimpleBanknote(500);
-    private  Banknote s1000 = new SimpleBanknote(1000);
+    private Banknote s10 = new SimpleBanknote(10);
+    private Banknote s50 = new SimpleBanknote(50);
+    private Banknote s100 = new SimpleBanknote(100);
+    private Banknote s500 = new SimpleBanknote(500);
+    private Banknote s1000 = new SimpleBanknote(1000);
+
     @BeforeEach
     void setUp() {
         atm1.removeAllCells();
@@ -37,16 +38,16 @@ class MyAtmTest {
     @Test
     void createCopy() {
         MyAtm copyOfAtm1 = atm1.createCopy();
-        assertEquals(copyOfAtm1.getAmount(),atm1.getAmount());
+        assertEquals(copyOfAtm1.getAmount(), atm1.getAmount());
         long oldAmount = atm1.getAmount();
         MyPack pack = new MyPack();
         assertTrue(atm1.getMoney(1000, pack));
         long atm1Amount = atm1.getAmount();
-        assertEquals(copyOfAtm1.getAmount(),oldAmount);
-        assertTrue(copyOfAtm1.getMoney(1500,pack));
-        assertEquals(atm1.getAmount(),atm1Amount);
+        assertEquals(copyOfAtm1.getAmount(), oldAmount);
+        assertTrue(copyOfAtm1.getMoney(1500, pack));
+        assertEquals(atm1.getAmount(), atm1Amount);
         copyOfAtm1.removeAllCells();
-        assertEquals(atm1.getAmount(),atm1Amount);
+        assertEquals(atm1.getAmount(), atm1Amount);
         assertEquals(2500, pack.getAmount());
     }
 }

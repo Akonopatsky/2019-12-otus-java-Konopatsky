@@ -9,6 +9,7 @@ public class SimpleBanknote implements Banknote {
     public SimpleBanknote(int nominal) {
         this.banknoteType = new MyBanknoteType(nominal);
     }
+
     @Override
     public BanknoteType getBanknoteType() {
         return banknoteType;

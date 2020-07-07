@@ -1,7 +1,9 @@
 package ru.otus.homework.atm.firstatm;
+
 import ru.otus.homework.atm.Banknote;
 import ru.otus.homework.atm.PackOfBanknotes;
 import ru.otus.homework.atm.secondatm.NewBanknote;
+
 public class SimpleAtmDemo {
     public static void main(String[] args) throws Exception {
         SimpleAtm atm1 = new SimpleAtm();
@@ -12,7 +14,7 @@ public class SimpleAtmDemo {
         atm1.addCell(new SimpleCell(new SimpleBanknoteType(1000)));
         Banknote n10 = new SimpleBanknote(10);
         Banknote n50 = new SimpleBanknote(50);
-        Banknote n100 = new NewBanknote(100, 810,1230245645L);
+        Banknote n100 = new NewBanknote(100, 810, 1230245645L);
         Banknote n200 = new SimpleBanknote(200);
         Banknote n500 = new SimpleBanknote(500);
         Banknote n1000 = new NewBanknote(1000, 810, 12135454534L);

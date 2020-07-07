@@ -14,14 +14,15 @@
 </form>
 <br>
 <#if createdUser??>Создан:
-    ${createdUser.name},
-    ${createdUser.age},
-    ${createdUser.address},
-    <#list createdUser.phones>
-        <#items as phone>
-        ${phone}<#sep>, </#sep>
-    </#items>
-    </#list>
+${createdUser.name},
+${createdUser.age},
+${createdUser.address},
+<#list createdUser.phones>
+<#items as phone>
+${phone}<#sep>,
+</#sep>
+</#items>
+</#list>
 </#if>
 <br>
 <br>
@@ -31,19 +32,21 @@
 <br>
 <#if allUsers??>
 <#list allUsers>
-    <ul>
-        <#items as user>
-        <li>
+<ul>
+    <#items as user>
+    <li>
         ${user.name},
         ${user.age},
         ${user.address},
-            <#list user.phones>
-            <#items as phone>
-            ${phone}<#sep>, </#sep>
-            </#items>
-            </#list>
-        </#items>
-    </ul>
+        <#list user.phones>
+        <#items as phone>
+        ${phone}<#sep>,
+    </
+    #sep>
+</#items>
+</#list>
+</#items>
+</ul>
 </#list>
 </#if>
 

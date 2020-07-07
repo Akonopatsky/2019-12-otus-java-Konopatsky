@@ -74,7 +74,7 @@ public class User {
     }
 
     public String getAddress() {
-        if (address!=null) return address.toString();
+        if (address != null) return address.toString();
         return "unknown";
     }
 
@@ -111,8 +111,8 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User that = (User) o;
         return (this.name.equals(that.name))
-                &&(this.age == that.age)
-                &&(this.address.toString().equals(that.address.toString()))
-                &&(this.phones.toString().equals(that.phones.toString()));
+                && (this.age == that.age)
+                && (this.address.toString().equals(that.address.toString()))
+                && (this.phones.toString().equals(that.phones.toString()));
     }
 }

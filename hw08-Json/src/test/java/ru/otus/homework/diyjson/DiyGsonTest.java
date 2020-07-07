@@ -26,10 +26,10 @@ class DiyGsonTest {
     @BeforeEach
     void setUp() {
         array1 = new BagOfPrimitives[5];
-        array1[0] = new BagOfPrimitives(1,"1val2", 2);
-        array1[1] = new BagOfPrimitives(3,"2val2", 4);
-        array1[2] = new BagOfPrimitives(5,"3val2", 6);
-        array1[3] = new BagOfPrimitives(0,"",0);
+        array1[0] = new BagOfPrimitives(1, "1val2", 2);
+        array1[1] = new BagOfPrimitives(3, "2val2", 4);
+        array1[2] = new BagOfPrimitives(5, "3val2", 6);
+        array1[3] = new BagOfPrimitives(0, "", 0);
     }
 
     @Test
@@ -46,7 +46,7 @@ class DiyGsonTest {
         double d1 = 12354.234d;
         String json = diyGson.toJson(d1);
         double d2 = gson.fromJson(json, double.class);
-        assertEquals(d1,d2);
+        assertEquals(d1, d2);
     }
 
     @Test
@@ -55,9 +55,9 @@ class DiyGsonTest {
         Child crazyInstance1 = new Child();
         BagOfPrimitives[] array2;
         array2 = new BagOfPrimitives[3];
-        array2[0] = new BagOfPrimitives(1,"1val2", 2);
-        array2[1] = new BagOfPrimitives(3,"2val2", 4);
-        array2[2] = new BagOfPrimitives(5,"3val2", 6);
+        array2[0] = new BagOfPrimitives(1, "1val2", 2);
+        array2[1] = new BagOfPrimitives(3, "2val2", 4);
+        array2[2] = new BagOfPrimitives(5, "3val2", 6);
         crazyInstance1.bagOfPrimitivesList.add(array1);
         crazyInstance1.bagOfPrimitivesList.add(array2);
         String json = diyGson.toJson(crazyInstance1);

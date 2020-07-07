@@ -9,11 +9,11 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class DiyGson  implements DiyJsonWriter {
+public class DiyGson implements DiyJsonWriter {
 
     @Override
     public String toJson(Object obj) throws UnsupportedTypeException {
-        JsonValue json= startTracking(obj);
+        JsonValue json = startTracking(obj);
         Writer writer = new StringWriter();
         Json.createWriter(writer).write(json);
         return json.toString();
@@ -44,7 +44,7 @@ public class DiyGson  implements DiyJsonWriter {
             boolean accessible = field.canAccess(obj);
             field.setAccessible(true);
             try {
-                if (field.get(obj)==null) jsonObjectBuilder.addNull(field.getName());
+                if (field.get(obj) == null) jsonObjectBuilder.addNull(field.getName());
                 else jsonObjectBuilder.add(field.getName(), startTracking(field.get(obj)));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -56,12 +56,12 @@ public class DiyGson  implements DiyJsonWriter {
 
     private JsonValue trackArray(Object obj) throws UnsupportedTypeException {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        Object[] arrayOfObject = (Object[])obj;
+        Object[] arrayOfObject = (Object[]) obj;
         for (Object o : arrayOfObject) {
-            if (o==null) jsonArrayBuilder.addNull();
+            if (o == null) jsonArrayBuilder.addNull();
             else jsonArrayBuilder.add(startTracking(o));
         }
-        return  jsonArrayBuilder.build();
+        return jsonArrayBuilder.build();
     }
 
     private JsonValue trackCollection(Object obj) throws UnsupportedTypeException {
@@ -70,8 +70,8 @@ public class DiyGson  implements DiyJsonWriter {
     }
 
     private JsonValue getJsonValue(Object obj) throws UnsupportedTypeException {
-        if (obj instanceof Boolean) return (Boolean)obj ? JsonValue.TRUE: JsonValue.FALSE;
-        if (obj instanceof Long) return Json.createValue((Long)obj);
+        if (obj instanceof Boolean) return (Boolean) obj ? JsonValue.TRUE : JsonValue.FALSE;
+        if (obj instanceof Long) return Json.createValue((Long) obj);
         if (obj instanceof Integer) return Json.createValue((Integer) obj);
         if (obj instanceof Byte) return Json.createValue((Byte) obj);
         if (obj instanceof Short) return Json.createValue((Short) obj);
@@ -84,14 +84,14 @@ public class DiyGson  implements DiyJsonWriter {
     }
 
     private boolean isValueType(Class<?> clazz) {
-        return (clazz.getPackageName().equals("java.lang")) ;
+        return (clazz.getPackageName().equals("java.lang"));
     }
 
     private void getAllFields(Class<?> clazz, List<Field> fieldList) {
         Field[] fields = clazz.getDeclaredFields();
         fieldList.addAll(Arrays.asList(fields));
         Class<?> superclass = clazz.getSuperclass();
-        if (superclass!=null) getAllFields(superclass,fieldList);
+        if (superclass != null) getAllFields(superclass, fieldList);
     }
 
     private JsonValue trackMap(Object obj) throws UnsupportedTypeException {
