@@ -19,7 +19,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private final List<Object> appComponents = new ArrayList<>();
     private final Map<String, Object> appComponentsByName = new HashMap<>();
 
-    public AppComponentsContainerImpl(Class<?> initialConfigClass) throws Exception {
+    public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
     }
 
@@ -27,13 +27,17 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         processConfig(appPackage);
     }
 
-    private void processConfig(Class<?> configClass) throws Exception {
+    private void processConfig(Class<?> configClass) {
         checkConfigClass(configClass);
-        var configObject = configClass.getDeclaredConstructor().newInstance();
-        Arrays.stream(configObject.getClass().getDeclaredMethods())
-                .filter(method -> method.isAnnotationPresent(AppComponent.class))
-                .sorted(Comparator.comparing(method -> method.getAnnotation(AppComponent.class).order()))
-                .forEach(method -> initAppComponent(configObject, method));
+        try {
+            var configObject = configClass.getDeclaredConstructor().newInstance();
+            Arrays.stream(configObject.getClass().getDeclaredMethods())
+                    .filter(method -> method.isAnnotationPresent(AppComponent.class))
+                    .sorted(Comparator.comparing(method -> method.getAnnotation(AppComponent.class).order()))
+                    .forEach(method -> initAppComponent(configObject, method));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void processConfig(String packageName) {
@@ -62,7 +66,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         }
     }
 
-    protected void initAppComponent(Object configObject, Method method) {
+    private void initAppComponent(Object configObject, Method method) {
         var args = Arrays.stream(method.getParameterTypes())
                 .map(this::getAppComponent)
                 .toArray();

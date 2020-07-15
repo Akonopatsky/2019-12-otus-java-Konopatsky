@@ -15,8 +15,14 @@ PS Приложение представляет из себя тренажер 
 
 public class App {
 
-    public static void main(String[] args) throws Exception {
-        AppComponentsContainer container = new AppComponentsContainerImpl(AppConfig.class);
+    public static void main(String[] args) {
+
+//      сборка конфигурации из одного класса
+//      AppComponentsContainer container = new AppComponentsContainerImpl(AppConfig.class);
+
+//      сборка конфигурации из пакета
+        AppComponentsContainer container = new AppComponentsContainerImpl("ru.otus.config.additionaltask");
+
         GameProcessor gameProcessor = container.getAppComponent(GameProcessor.class);
         gameProcessor.startGame();
     }
