@@ -21,6 +21,7 @@
         <module>hw10-Hibernate</module>
         <module>hw11-Cache</module>
         <module>hw12-WebServer</module>
+        <module>hw13-IoC</module>
 
     </modules>
     <developers>

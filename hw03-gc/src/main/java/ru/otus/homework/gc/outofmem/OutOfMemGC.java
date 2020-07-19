@@ -27,7 +27,7 @@ public class OutOfMemGC {
     private static void fillMemory() throws InterruptedException {
         long beginTime = System.currentTimeMillis();
         long count = 0;
-        writeLog("time","immortalList.size()", "MemoryFillObject.getQuantity()");
+        writeLog("time", "immortalList.size()", "MemoryFillObject.getQuantity()");
         while (true) {
             for (int i = 0; i < BIG_LOOPS; i++) {
                 Object[] shortTimeArray = new Object[SHORT_LOOPS];
@@ -36,15 +36,15 @@ public class OutOfMemGC {
                     shortTimeArray[j] = new MemoryFillObject();
                 }
             }
-            System.out.println((System.currentTimeMillis() - beginTime)/1000 + " s > "+count);
+            System.out.println((System.currentTimeMillis() - beginTime) / 1000 + " s > " + count);
             count++;
-            writeLog((System.currentTimeMillis() - beginTime),immortalList.size(),MemoryFillObject.getQuantity());
+            writeLog((System.currentTimeMillis() - beginTime), immortalList.size(), MemoryFillObject.getQuantity());
             Thread.sleep(SLEEP_TIME);
         }
     }
 
-    private static void writeLog(Object ... objects) {
-        if (writer!=null) {
+    private static void writeLog(Object... objects) {
+        if (writer != null) {
             StringBuilder resultStr = new StringBuilder();
             for (Object o : objects) {
                 resultStr.append(o.toString()).append(";");
