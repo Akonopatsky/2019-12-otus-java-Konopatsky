@@ -5,15 +5,19 @@ public class MemoryFillObject {
     final private long number;
     final private long createTime;
     public Object[] objects;
+
     public static long getQuantity() {
         return quantity;
     }
+
     public long getNumber() {
         return number;
     }
+
     public long getCreateTime() {
         return createTime;
     }
+
     public MemoryFillObject(Object... objects) {
         quantity++;
         number = quantity;

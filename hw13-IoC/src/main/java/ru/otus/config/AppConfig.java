@@ -23,7 +23,7 @@ public class AppConfig {
                                        EquationPreparer equationPreparer) {
         return new GameProcessorImpl(ioService, equationPreparer, playerService);
     }
-    @AppComponent(order = 5, name = "ioService")
+    @AppComponent(order = 0, name = "ioService")
     public IOService ioService() {
         return new IOServiceConsole(System.out, System.in);
     }

@@ -58,7 +58,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         int startSize;
         do {
             startSize = initiators.size();
-            initiators.removeIf(ComponentInitiator::tryInit);
+            initiators.removeIf(this::tryInit);
         } while (startSize > initiators.size() && !initiators.isEmpty());
 
         if (initiators.size() > 0) {
@@ -84,6 +84,14 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
             throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
         }
+    }
+
+    public boolean tryInit(ComponentInitiator initiator) {
+        for (Class<?> argsType : initiator.argsTypes) {
+            if (getAppComponent(argsType) == null) return false;
+        }
+        initAppComponent(initiator.configObject, initiator.method);
+        return true;
     }
 
     @Override
@@ -112,14 +120,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
             }
             this.method = method;
             argsTypes = method.getParameterTypes();
-        }
-
-        public boolean tryInit() {
-            for (Class<?> argsType : argsTypes) {
-                if (getAppComponent(argsType) == null) return false;
-            }
-            initAppComponent(configObject, method);
-            return true;
         }
     }
 }
