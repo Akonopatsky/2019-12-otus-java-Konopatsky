@@ -89,24 +89,6 @@
         <finalName>webapp</finalName>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                    <addResources>true</addResources>
-                    <sourceDirectory>src/main/resources</sourceDirectory>
-                    <additionalProperties>src/main/resources</additionalProperties>
-                    <directories>src/main/resources</directories>
-                    <folders>src/main/resources</folders>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-<!--    <build>
-        <finalName>webapp</finalName>
-        <plugins>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
@@ -127,7 +109,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 
 </project>
 
