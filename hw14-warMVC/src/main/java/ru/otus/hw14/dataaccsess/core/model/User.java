@@ -19,6 +19,10 @@ public class User {
     @Column(name = "age")
     private int age;
 
+    public void setAddress(String address) {
+        this.address = new Address(address);
+    }
+
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -84,10 +88,6 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public void setAddress(String street) {
-        this.address = new Address(street);
     }
 
     public void addPhone(String number) {

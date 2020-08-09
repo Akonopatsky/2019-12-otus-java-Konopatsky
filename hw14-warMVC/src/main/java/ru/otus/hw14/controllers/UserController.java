@@ -25,12 +25,20 @@ public class UserController {
     @GetMapping({"/", "/user/list"})
     public String userListView(Model model) {
         List<User> users = dbServiceUser.getAllUsers();
+        User newuser = new User("Постовой", 25, "тестовая", "000-00000");
+        model.addAttribute("createdUser", newuser);
         model.addAttribute("users", users);
         return "admin.html";
     }
 
     @PostMapping("/user/save")
-    public RedirectView userSave(@ModelAttribute User user) {
+    public RedirectView userSave(@ModelAttribute User user, Model model) {
+        dbServiceUser.saveUser(user);
+        return new RedirectView("/", true);
+    }
+
+    @GetMapping("/user/save")
+    public RedirectView userSaveget(@ModelAttribute User user, Model model) {
         dbServiceUser.saveUser(user);
         return new RedirectView("/", true);
     }
