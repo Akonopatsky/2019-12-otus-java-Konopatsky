@@ -99,7 +99,7 @@
     </dependencies>
 
     <build>
-        <finalName>webapp</finalName>
+        <finalName>myapp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

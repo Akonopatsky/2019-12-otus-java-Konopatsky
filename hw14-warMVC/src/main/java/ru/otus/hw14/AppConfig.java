@@ -16,4 +16,5 @@ public class AppConfig {
         return HibernateUtils.buildSessionFactory(
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
     }
+
 }

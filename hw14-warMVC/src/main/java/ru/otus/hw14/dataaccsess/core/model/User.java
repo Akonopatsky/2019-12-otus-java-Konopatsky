@@ -19,10 +19,6 @@ public class User {
     @Column(name = "age")
     private int age;
 
-    public void setAddress(String address) {
-        this.address = new Address(address);
-    }
-
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -56,9 +52,10 @@ public class User {
         this.addPhone(phone);
     }
 
-    public User(String name, int age) {
+    public User(String name, int age, String address) {
         this.name = name;
         this.age = age;
+        this.setAddress(address);
     }
 
     public long getId() {
@@ -80,6 +77,10 @@ public class User {
     public String getAddress() {
         if (address != null) return address.toString();
         return "unknown";
+    }
+
+    public void setAddress(String address) {
+        this.address = new Address(address);
     }
 
     public List<Phone> getPhones() {

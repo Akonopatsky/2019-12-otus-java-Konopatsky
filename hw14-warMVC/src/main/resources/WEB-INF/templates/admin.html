@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Create user</title>
+    <title>Admin page</title>
     <style type="text/css">
         body {
             padding: 50px;
@@ -10,38 +10,24 @@
 
         label {
             display: inline-block;
-            width: 100px;
+            width: 60px;
         }
 
         input:read-only {
             background: lightgray;
         }
 
-        .row {
-            margin-top: 10px;
-        }
     </style>
 </head>
-<h4>Создать пользователя</h4>
-<form id="create-form" method="post" th:action="@{/user/save}" th:object="${createdUser}" accept-charset="utf-8">
-    <h1>New User:</h1>
+<body>
+<h3>Администрирование пользователей</h3>
 
-    <div class="row">
-        <label for="holder-input">Name:</label>
-        <input id="holder-input" name="name" type="text" th:value="${createdUser.name}" value="John Doe"/>
-        <label for="holder-input1">Age:</label>
-        <input id="holder-input1" name="age" type="text" th:value="${createdUser.age}" value="25"/>
-        <label for="holder-input2">Address:</label>
-        <input id="holder-input2" name="address" type="text" th:value="${createdUser.address}" value="Moskow"/>
-        <label for="holder-input3">Phone:</label>
-        <input id="holder-input3" name="phone" type="text" th:value="${createdUser.phones[0]}" value="00000000"/>
-    </div>
+<div th:insert="userCreate.html :: userCreat"></div>
+<br>
+<a th:href="@{/user/create}" href="userCreate.html">Можно создать пользователя и на отдельной странице!</a>
+<br>
 
-    <div class="row">
-        <button type="submit">Save</button>
-    </div>
-</form>
-<h4> Все пользователи 1</h4>
+<h4> Все пользователи</h4>
 
 <ul>
     <li th:each="user : ${users}" th:utext="
