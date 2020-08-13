@@ -3,6 +3,7 @@ package ru.otus.hw14.dataaccsess.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.otus.hw14.dataaccsess.cachehw.HwCache;
 import ru.otus.hw14.dataaccsess.cachehw.HwListener;
 import ru.otus.hw14.dataaccsess.core.dao.UserDao;
@@ -12,7 +13,7 @@ import ru.otus.hw14.dataaccsess.core.sessionmanager.SessionManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 public class DbServiceUserImplCache implements DBServiceUser {
     private static Logger logger = LoggerFactory.getLogger(DbServiceUserImplCache.class);
     private final UserDao userDao;
