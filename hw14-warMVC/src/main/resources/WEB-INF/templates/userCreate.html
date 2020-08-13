@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create user</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 60px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div th:fragment="userCreat">
+    <h4>Создать пользователя</h4>
+    <form id="create-form" method="post"
+          th:action="@{/user/save}"
+          th:object="${userDto}"
+          accept-charset="utf-8">
+        <div class="row">
+            <label for="name-input">Name:</label>
+            <input id="name-input" type="text" th:field="*{name}" th:placeholder="*{name}"/>
+            <label for="age-input">Age:</label>
+            <input id="age-input" type="number" th:field="*{age}" th:placeholder="*{age}" />
+            <label for="address-input">Address:</label>
+            <input id="address-input" type="text" th:field="*{address}" th:placeholder="*{address}"/>
+
+            <th:block th:each="phone, itemStat :*{phones}">
+                <br><br>
+                <label for="phone-input" th:text="Phone + ' ' + ${itemStat.count} + ':'">Phone:</label>
+                <input id="phone-input" type="tel" th:field="*{phones[__${itemStat.index}__]}"
+                       th:placeholder="*{phones[__${itemStat.index}__]}" />
+            </th:block>
+            <button type="submit" name="addPhone" th:formaction="@{/user/addPhone}">add phone</button>
+        </div>
+<br>
+        <div class="row">
+            <button type="submit" style="width:100px">Save</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

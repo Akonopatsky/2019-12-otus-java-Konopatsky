@@ -22,6 +22,7 @@
         <module>hw11-Cache</module>
         <module>hw12-WebServer</module>
         <module>hw13-IoC</module>
+        <module>hw14-warMVC</module>
 
     </modules>
     <developers>
