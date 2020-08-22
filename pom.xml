@@ -23,6 +23,7 @@
         <module>hw12-WebServer</module>
         <module>hw13-IoC</module>
         <module>hw14-warMVC</module>
+        <module>hw15-multithreading</module>
 
     </modules>
     <developers>
