@@ -14,19 +14,19 @@ public class DigitSequence {
     private synchronized void action() {
         boolean isOddThread = isOddStep;
         Thread.currentThread().setName(isOddThread ? "first" : "second");
-        checkStep(isOddThread);
+        changeStep(isOddThread);
 
         for (int i = 1; i <= 10; i++) {
-            checkStep(isOddThread);
+            changeStep(isOddThread);
             logger.info("{}", i);
         }
         for (int i = 9; i > 0; i--) {
-            checkStep(isOddThread);
+            changeStep(isOddThread);
             logger.info("{}", i);
         }
     }
 
-    private void checkStep(boolean isOddThread) {
+    private void changeStep(boolean isOddThread) {
         try {
             while (isOddThread != isOddStep) {
                 this.wait();
