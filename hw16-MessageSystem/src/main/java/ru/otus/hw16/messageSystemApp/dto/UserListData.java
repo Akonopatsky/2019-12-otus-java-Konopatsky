@@ -3,21 +3,23 @@ package ru.otus.hw16.messageSystemApp.dto;
 import ru.otus.hw16.dataaccsess.core.model.User;
 import ru.otus.hw16.messagesystem.client.ResultDataType;
 
-public class UserData extends ResultDataType {
-    private final User data;
+import java.util.List;
 
-    public UserData(User data) {
+public class UserListData extends ResultDataType {
+    private final List<User> data;
+
+    public UserListData(List<User> data) {
         this.data = data;
     }
 
-    public User getData() {
+    public List<User> getData() {
         return data;
     }
 
     @Override
     public String toString() {
-        return "UserData{" +
-                ", data='" + data + '\'' +
+        return "UserListData{" +
+                "data=" + data +
                 '}';
     }
 }

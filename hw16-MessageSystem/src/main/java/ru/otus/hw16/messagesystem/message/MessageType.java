@@ -1,7 +1,8 @@
 package ru.otus.hw16.messagesystem.message;
 
 public enum MessageType {
-    USER_DATA("UserData");
+    SAVE_USER ("SaveUser"),
+    GET_ALL_USER ("GetAllUsers");
 
     private final String name;
 

@@ -24,7 +24,7 @@ public class MessageBuilder {
 
     public static <T extends ResultDataType> Message buildReplyMessage(Message message, T data) {
         return buildMessage(message.getTo(), message.getFrom(), message.getId(), data,
-                MessageType.USER_DATA, message.getCallbackId());
+                MessageType.valueOf(message.getType()), message.getCallbackId());
     }
 
     private static <T extends ResultDataType> Message buildMessage(String from, String to, MessageId sourceMessageId,
