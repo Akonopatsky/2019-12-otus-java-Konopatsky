@@ -7,10 +7,26 @@ import ru.otus.hw16.dataaccsess.cachehw.MyCache;
 import ru.otus.hw16.dataaccsess.core.model.Address;
 import ru.otus.hw16.dataaccsess.core.model.Phone;
 import ru.otus.hw16.dataaccsess.core.model.User;
+import ru.otus.hw16.dataaccsess.core.service.DBServiceUser;
 import ru.otus.hw16.dataaccsess.hibernate.HibernateUtils;
+import ru.otus.hw16.messageSystemApp.db.handlers.GetAllUserDataRequestHandler;
+import ru.otus.hw16.messageSystemApp.db.handlers.SaveUserDataRequestHandler;
+import ru.otus.hw16.messageSystemApp.front.FrontendService;
+import ru.otus.hw16.messageSystemApp.front.FrontendServiceImpl;
+import ru.otus.hw16.messagesystem.HandlersStore;
+import ru.otus.hw16.messagesystem.HandlersStoreImpl;
+import ru.otus.hw16.messagesystem.MessageSystem;
+import ru.otus.hw16.messagesystem.MessageSystemImpl;
+import ru.otus.hw16.messagesystem.client.CallbackRegistry;
+import ru.otus.hw16.messagesystem.client.CallbackRegistryImpl;
+import ru.otus.hw16.messagesystem.client.MsClient;
+import ru.otus.hw16.messagesystem.client.MsClientImpl;
+import ru.otus.hw16.messagesystem.message.MessageType;
 
 @Configuration
 public class AppConfig {
+    private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
+    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
     @Bean
     public SessionFactory sessionFactory() {
@@ -21,6 +37,50 @@ public class AppConfig {
     @Bean
     public MyCache myCache() {
         return new MyCache();
+    }
+
+    @Bean
+    public CallbackRegistry callbackRegistry() {
+        return new CallbackRegistryImpl();
+    }
+
+    @Bean
+    public HandlersStore requestHandlerDatabaseStore(DBServiceUser dbService) {
+        HandlersStore requestHandlerDatabaseStore = new HandlersStoreImpl();
+        requestHandlerDatabaseStore.addHandler(MessageType.SAVE_USER, new SaveUserDataRequestHandler(dbService));
+        requestHandlerDatabaseStore.addHandler(MessageType.GET_ALL_USER, new GetAllUserDataRequestHandler(dbService));
+        return requestHandlerDatabaseStore;
+    }
+
+    @Bean("databaseMsClient")
+    public MsClient databaseMsClient(MessageSystem messageSystem, HandlersStore requestHandlerDatabaseStore,
+                                     CallbackRegistry callbackRegistry) {
+        MsClient databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME,
+                messageSystem, requestHandlerDatabaseStore, callbackRegistry);
+        messageSystem.addClient(databaseMsClient);
+        return databaseMsClient;
+    }
+
+    @Bean("frontendMsClient")
+    public MsClient frontendMsClient(MessageSystem messageSystem, HandlersStore requestHandlerFrontendStore,
+                                     CallbackRegistry callbackRegistry) {
+        MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME,
+                messageSystem, requestHandlerFrontendStore, callbackRegistry);
+        messageSystem.addClient(frontendMsClient);
+        return frontendMsClient;
+    }
+
+    @Bean
+    public MessageSystem messageSystem() {
+        MessageSystem messageSystem = new MessageSystemImpl();
+        messageSystem.start();
+        return messageSystem;
+    }
+
+    @Bean
+    public FrontendService frontendService(MsClient frontendMsClient) {
+        FrontendService frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
+        return frontendService;
     }
 
 }

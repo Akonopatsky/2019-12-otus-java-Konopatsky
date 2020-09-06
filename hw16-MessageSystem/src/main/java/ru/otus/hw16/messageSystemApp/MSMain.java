@@ -61,10 +61,18 @@ public class MSMain {
         FrontendService frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
         messageSystem.addClient(frontendMsClient);
 
+
+        User user1 = new User("Вася", 15, "Москва", "+7911 111 111" );
+        User user2 = new User("Петя", 16, "Тула", "+7911 111 222" );
+        dbService.saveUser(user1);
+        dbService.saveUser(user2);
+        logger.info("save 2 user ______________________________");
+        logger.info("all users: {}", dbService.getAllUsers() );
+
         frontendService.saveUser(new User("Вася", 15, "Москва", "+7911 111 111" ), data -> logger.info("saved user: {}", data.getData()));
         frontendService.saveUser(new User("Петя", 16, "Тула", "+7911 111 222" ), data -> logger.info("saved user: {}", data.getData()));
         frontendService.getAllUsers(data -> logger.info("all users: {}", data.getData()));
-
+logger.info("##################################################\n#####################################");
         Thread.sleep(100);
         messageSystem.dispose();
         logger.info("done");
