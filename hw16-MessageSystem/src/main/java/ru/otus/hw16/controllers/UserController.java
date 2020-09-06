@@ -1,12 +1,14 @@
 package ru.otus.hw16.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.otus.hw16.dataaccsess.core.model.User;
-import ru.otus.hw16.dataaccsess.core.service.DBServiceUser;
+import ru.otus.hw16.messageSystemApp.front.FrontendService;
 import ru.otus.hw16.services.UserCreationDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,20 +17,20 @@ import java.util.List;
 @Controller
 @SessionAttributes("userDto")
 public class UserController {
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final FrontendService frontendService;
 
-    private final DBServiceUser dbServiceUser;
-
-    public UserController(DBServiceUser dbServiceUser) {
-        this.dbServiceUser = dbServiceUser;
+    public UserController(FrontendService frontendService) {
+        this.frontendService = frontendService;
     }
+
 
     @GetMapping({"/", "/user/list"})
     public String userListView(
             Model model,
             @ModelAttribute("userDto") UserCreationDto userDto) {
         model.addAttribute("userDto", userDto);
-        List<User> users = dbServiceUser.getAllUsers();
-        model.addAttribute("users", users);
+        frontendService.getAllUsers(data -> model.addAttribute("users", data.getData()));
         return "admin.html";
     }
 
@@ -36,7 +38,7 @@ public class UserController {
     public RedirectView userSave(
             @ModelAttribute UserCreationDto userDto,
             RedirectAttributes redirectAttributes) {
-        dbServiceUser.saveUser(userDto.createUser());
+        frontendService.saveUser(userDto.createUser(), data -> logger.info("saved user: {}", data.getData()));
         userDto = new UserCreationDto();
         redirectAttributes.addFlashAttribute("userDto", userDto);
         return new RedirectView("/", true);

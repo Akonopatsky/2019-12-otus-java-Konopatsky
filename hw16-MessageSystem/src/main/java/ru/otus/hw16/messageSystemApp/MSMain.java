@@ -20,10 +20,7 @@ import ru.otus.hw16.messageSystemApp.db.handlers.SaveUserDataRequestHandler;
 import ru.otus.hw16.messageSystemApp.front.FrontendService;
 import ru.otus.hw16.messageSystemApp.front.FrontendServiceImpl;
 import ru.otus.hw16.messageSystemApp.front.handlers.GetUserDataResponseHandler;
-import ru.otus.hw16.messagesystem.HandlersStore;
-import ru.otus.hw16.messagesystem.HandlersStoreImpl;
-import ru.otus.hw16.messagesystem.MessageSystem;
-import ru.otus.hw16.messagesystem.MessageSystemImpl;
+import ru.otus.hw16.messagesystem.*;
 import ru.otus.hw16.messagesystem.client.CallbackRegistry;
 import ru.otus.hw16.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.hw16.messagesystem.client.MsClient;
@@ -54,7 +51,9 @@ public class MSMain {
         messageSystem.addClient(databaseMsClient);
 
         HandlersStore requestHandlerFrontendStore = new HandlersStoreImpl();
-        requestHandlerFrontendStore.addHandler(MessageType.GET_ALL_USER, new GetUserDataResponseHandler(callbackRegistry));
+        RequestHandler requestHandler = new GetUserDataResponseHandler(callbackRegistry);
+        requestHandlerFrontendStore.addHandler(MessageType.GET_ALL_USER, requestHandler);
+        requestHandlerFrontendStore.addHandler(MessageType.SAVE_USER, requestHandler);
 
         MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME,
                 messageSystem, requestHandlerFrontendStore, callbackRegistry);
@@ -62,18 +61,21 @@ public class MSMain {
         messageSystem.addClient(frontendMsClient);
 
 
-        User user1 = new User("Вася", 15, "Москва", "+7911 111 111" );
+/*        User user1 = new User("Вася", 15, "Москва", "+7911 111 111" );
         User user2 = new User("Петя", 16, "Тула", "+7911 111 222" );
         dbService.saveUser(user1);
         dbService.saveUser(user2);
         logger.info("save 2 user ______________________________");
         logger.info("all users: {}", dbService.getAllUsers() );
+        frontendService.getAllUsers(data -> logger.info("all users: {}", data.getData()));*/
 
         frontendService.saveUser(new User("Вася", 15, "Москва", "+7911 111 111" ), data -> logger.info("saved user: {}", data.getData()));
-        frontendService.saveUser(new User("Петя", 16, "Тула", "+7911 111 222" ), data -> logger.info("saved user: {}", data.getData()));
-        frontendService.getAllUsers(data -> logger.info("all users: {}", data.getData()));
-logger.info("##################################################\n#####################################");
+ //       frontendService.saveUser(new User("Петя", 16, "Тула", "+7911 111 222" ), data -> logger.info("saved user: {}", data.getData()));
         Thread.sleep(100);
+        frontendService.getAllUsers(data -> logger.info("all users: {}", data.getData()));
+
+
+        Thread.sleep(200);
         messageSystem.dispose();
         logger.info("done");
     }

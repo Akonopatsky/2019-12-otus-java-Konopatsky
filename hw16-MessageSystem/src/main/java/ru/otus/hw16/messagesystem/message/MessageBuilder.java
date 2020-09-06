@@ -19,18 +19,18 @@ public class MessageBuilder {
 
     public static <T extends ResultDataType> Message buildMessage(String from, String to, MessageId sourceMessageId,
                                                                      T data, MessageType msgType) {
-        return buildMessage(from, to, sourceMessageId, data, msgType, null);
+        return buildMessage(from, to, sourceMessageId, data, msgType.getName(), null);
     }
 
     public static <T extends ResultDataType> Message buildReplyMessage(Message message, T data) {
         return buildMessage(message.getTo(), message.getFrom(), message.getId(), data,
-                MessageType.valueOf(message.getType()), message.getCallbackId());
+                message.getType(), message.getCallbackId());
     }
 
     private static <T extends ResultDataType> Message buildMessage(String from, String to, MessageId sourceMessageId,
-                                                                     T data, MessageType msgType, CallbackId callbackId) {
+                                                                     T data, String msgType, CallbackId callbackId) {
         String id = UUID.randomUUID().toString();
-        return new Message(new MessageId(id), from, to, sourceMessageId, msgType.getName(),
+        return new Message(new MessageId(id), from, to, sourceMessageId, msgType,
                 Serializers.serialize(data), callbackId == null ? new CallbackId(id) : callbackId);
     }
 }

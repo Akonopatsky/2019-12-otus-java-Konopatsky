@@ -29,7 +29,7 @@ public class FrontendServiceImpl implements FrontendService {
     @Override
     public void getAllUsers(MessageCallback<UserListData> dataConsumer) {
         Message outMsg = msClient.produceMessage(databaseServiceClientName, new UserListData(null),
-                MessageType.SAVE_USER,dataConsumer);
+                MessageType.GET_ALL_USER,dataConsumer);
         msClient.sendMessage(outMsg);
     }
 }

@@ -21,7 +21,9 @@ public class SaveUserDataRequestHandler implements RequestHandler<UserData> {
     @Override
     public Optional<Message> handle(Message msg) {
         User user = ((UserData) MessageHelper.getPayload(msg)).getData();
-        dbService.saveUser(user);
+        synchronized (dbService) {
+            dbService.saveUser(user);
+        }
         UserData resultData = new UserData(user);
         return Optional.of(MessageBuilder.buildReplyMessage(msg, resultData));
     }

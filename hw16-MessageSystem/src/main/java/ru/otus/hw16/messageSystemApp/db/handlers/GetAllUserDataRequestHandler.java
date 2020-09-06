@@ -20,7 +20,9 @@ public class GetAllUserDataRequestHandler implements RequestHandler<UserListData
 
     @Override
     public Optional<Message> handle(Message msg) {
-        UserListData resultData =  new UserListData(dbService.getAllUsers());
+        synchronized (dbService) {
+            UserListData resultData = new UserListData(dbService.getAllUsers());}
         return Optional.of(MessageBuilder.buildReplyMessage(msg, resultData));
+
     }
 }
