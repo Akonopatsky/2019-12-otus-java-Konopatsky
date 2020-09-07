@@ -71,11 +71,13 @@ public class MSMain {
 
         frontendService.saveUser(new User("Вася", 15, "Москва", "+7911 111 111" ), data -> logger.info("saved user: {}", data.getData()));
  //       frontendService.saveUser(new User("Петя", 16, "Тула", "+7911 111 222" ), data -> logger.info("saved user: {}", data.getData()));
-        Thread.sleep(100);
+ //       Thread.sleep(100);
+        frontendService.saveUser(new User("Петя", 16, "Тула", "+7911 111 222" ), data -> logger.info("saved user: {}", data.getData()));
+  //      Thread.sleep(100);
         frontendService.getAllUsers(data -> logger.info("all users: {}", data.getData()));
-
-
-        Thread.sleep(200);
+   //     Thread.sleep(100);
+        frontendService.getAllUsers(data -> logger.info("all users: {}_____\n___________\n__________", data.getData()));
+        Thread.sleep(300);
         messageSystem.dispose();
         logger.info("done");
     }

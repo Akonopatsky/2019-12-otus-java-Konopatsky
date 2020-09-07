@@ -13,10 +13,8 @@ import ru.otus.hw16.messageSystemApp.db.handlers.GetAllUserDataRequestHandler;
 import ru.otus.hw16.messageSystemApp.db.handlers.SaveUserDataRequestHandler;
 import ru.otus.hw16.messageSystemApp.front.FrontendService;
 import ru.otus.hw16.messageSystemApp.front.FrontendServiceImpl;
-import ru.otus.hw16.messagesystem.HandlersStore;
-import ru.otus.hw16.messagesystem.HandlersStoreImpl;
-import ru.otus.hw16.messagesystem.MessageSystem;
-import ru.otus.hw16.messagesystem.MessageSystemImpl;
+import ru.otus.hw16.messageSystemApp.front.handlers.GetUserDataResponseHandler;
+import ru.otus.hw16.messagesystem.*;
 import ru.otus.hw16.messagesystem.client.CallbackRegistry;
 import ru.otus.hw16.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.hw16.messagesystem.client.MsClient;
@@ -44,12 +42,21 @@ public class AppConfig {
         return new CallbackRegistryImpl();
     }
 
-    @Bean
+    @Bean("requestHandlerDatabaseStore")
     public HandlersStore requestHandlerDatabaseStore(DBServiceUser dbService) {
         HandlersStore requestHandlerDatabaseStore = new HandlersStoreImpl();
         requestHandlerDatabaseStore.addHandler(MessageType.SAVE_USER, new SaveUserDataRequestHandler(dbService));
         requestHandlerDatabaseStore.addHandler(MessageType.GET_ALL_USER, new GetAllUserDataRequestHandler(dbService));
         return requestHandlerDatabaseStore;
+    }
+
+    @Bean("requestHandlerDatabaseStore")
+    public HandlersStore requestHandlerFrontendStore(CallbackRegistry callbackRegistry) {
+        HandlersStore requestHandlerFrontendStore = new HandlersStoreImpl();
+        RequestHandler requestHandler = new GetUserDataResponseHandler(callbackRegistry);
+        requestHandlerFrontendStore.addHandler(MessageType.GET_ALL_USER, requestHandler);
+        requestHandlerFrontendStore.addHandler(MessageType.SAVE_USER, requestHandler);
+        return requestHandlerFrontendStore;
     }
 
     @Bean("databaseMsClient")
