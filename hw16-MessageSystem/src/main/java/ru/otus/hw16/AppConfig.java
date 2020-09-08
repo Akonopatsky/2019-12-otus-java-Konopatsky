@@ -26,18 +26,18 @@ public class AppConfig {
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
-    @Bean
+    @Bean("sessionFactory")
     public SessionFactory sessionFactory() {
         return HibernateUtils.buildSessionFactory(
                 "hibernate.cfg.xml", User.class, Address.class, Phone.class);
     }
 
-    @Bean
+    @Bean("myCache")
     public MyCache myCache() {
         return new MyCache();
     }
 
-    @Bean
+    @Bean("callbackRegistry")
     public CallbackRegistry callbackRegistry() {
         return new CallbackRegistryImpl();
     }
@@ -50,7 +50,7 @@ public class AppConfig {
         return requestHandlerDatabaseStore;
     }
 
-    @Bean("requestHandlerDatabaseStore")
+    @Bean("requestHandlerFrontendStore")
     public HandlersStore requestHandlerFrontendStore(CallbackRegistry callbackRegistry) {
         HandlersStore requestHandlerFrontendStore = new HandlersStoreImpl();
         RequestHandler requestHandler = new GetUserDataResponseHandler(callbackRegistry);
@@ -77,14 +77,14 @@ public class AppConfig {
         return frontendMsClient;
     }
 
-    @Bean
+    @Bean("messageSystem")
     public MessageSystem messageSystem() {
         MessageSystem messageSystem = new MessageSystemImpl();
         messageSystem.start();
         return messageSystem;
     }
 
-    @Bean
+    @Bean("frontendService")
     public FrontendService frontendService(MsClient frontendMsClient) {
         FrontendService frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
         return frontendService;

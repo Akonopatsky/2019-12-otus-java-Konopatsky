@@ -12,6 +12,8 @@ import ru.otus.hw16.messageSystemApp.front.FrontendService;
 import ru.otus.hw16.services.UserCreationDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -19,6 +21,7 @@ import java.util.List;
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final FrontendService frontendService;
+    private List users;
 
     public UserController(FrontendService frontendService) {
         this.frontendService = frontendService;
@@ -30,7 +33,11 @@ public class UserController {
             Model model,
             @ModelAttribute("userDto") UserCreationDto userDto) {
         model.addAttribute("userDto", userDto);
-        frontendService.getAllUsers(data -> model.addAttribute("users", data.getData()));
+        frontendService.getAllUsers(data -> {
+            users = data.getData();
+            logger.info("all users: {}", data.getData());
+        });
+        model.addAttribute("users", users);
         return "admin.html";
     }
 
