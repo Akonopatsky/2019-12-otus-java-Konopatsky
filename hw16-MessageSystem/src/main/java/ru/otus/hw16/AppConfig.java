@@ -3,6 +3,10 @@ package ru.otus.hw16;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import ru.otus.hw16.dataaccsess.cachehw.MyCache;
 import ru.otus.hw16.dataaccsess.core.model.Address;
 import ru.otus.hw16.dataaccsess.core.model.Phone;
@@ -22,9 +26,21 @@ import ru.otus.hw16.messagesystem.client.MsClientImpl;
 import ru.otus.hw16.messagesystem.message.MessageType;
 
 @Configuration
-public class AppConfig {
+@EnableWebSocketMessageBroker
+public class AppConfig implements WebSocketMessageBrokerConfigurer {
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/user");
+        config.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/users-websocket").withSockJS();
+    }
 
     @Bean("sessionFactory")
     public SessionFactory sessionFactory() {
