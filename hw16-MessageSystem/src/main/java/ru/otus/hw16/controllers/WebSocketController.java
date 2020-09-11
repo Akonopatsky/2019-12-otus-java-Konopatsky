@@ -20,8 +20,7 @@ public class WebSocketController {
         this.frontendService = frontendService;
     }
 
-
-    @MessageMapping("/getAllusers")
+    @MessageMapping("/getAllUsers")
     public void getAllUsers() {
         frontendService.getAllUsers(userListData -> {
             this.template.convertAndSend("/user/list", userListData.getData());
@@ -29,7 +28,7 @@ public class WebSocketController {
         });
     }
 
-    @MessageMapping("/user/save")
+    @MessageMapping("/save")
     public void saveUser(@DestinationVariable User user) {
         frontendService.saveUser(user, data -> logger.info("saved user: {}", data.getData()));
     }
