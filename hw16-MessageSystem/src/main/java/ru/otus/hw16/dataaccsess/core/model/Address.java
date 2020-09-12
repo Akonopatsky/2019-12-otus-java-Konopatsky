@@ -25,7 +25,7 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "street='" + street;
+        return street;
     }
 
 }

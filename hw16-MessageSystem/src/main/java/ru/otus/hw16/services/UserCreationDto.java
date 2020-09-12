@@ -2,32 +2,31 @@ package ru.otus.hw16.services;
 
 import ru.otus.hw16.dataaccsess.core.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UserCreationDto {
 
     private String name = "";
     private int age;
     private String address = "";
-    private List<String> phones;
+    private String phone = "";
 
     public UserCreationDto() {
-        name = "Иванов Иван";
-        age = 25;
-        address = "ул. Луначарского";
-        phones = new ArrayList<>();
-        addBlankPhone();
+        name = "balnk Name";
+        age = 0;
+        address = "blank address";
+        phone = "+00000000000";
+    }
+
+    public UserCreationDto(String name, int age, String address, String phone) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.phone = phone;
     }
 
     public User createUser() {
         User user = new User(name, age, address);
-        phones.stream().forEach(user::addPhone);
+        user.addPhone(phone);
         return user;
-    }
-
-    public void addBlankPhone() {
-        this.phones.add("0000000");
     }
 
     public String getName() {
@@ -54,11 +53,21 @@ public class UserCreationDto {
         this.address = address;
     }
 
-    public List<String> getPhones() {
-        return phones;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhones(List<String> phones) {
-        this.phones = phones;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "UserCreationDto{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

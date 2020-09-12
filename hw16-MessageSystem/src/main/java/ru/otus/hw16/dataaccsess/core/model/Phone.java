@@ -28,6 +28,11 @@ public class Phone implements Serializable {
         this.number = number;
     }
 
+
+    public String getNumber() {
+        return number;
+    }
+
     @Override
     public String toString() {
         return "phone{" +

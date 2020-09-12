@@ -1,110 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
 
     <meta charset="UTF-8"/>
     <title>Admin page</title>
-
-    <style type="text/css">
-        body {
-            padding: 50px;
-        }
-
-        label {
-            display: inline-block;
-            width: 60px;
-        }
-
-        input:read-only {
-            background: lightgray;
-        }
-    </style>
 </head>
 <body>
-<script>
-    let stompClient = null;
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
 
-    const setConnected = (connected) => {
-        $("#connect").prop("disabled", connected);
-        $("#disconnect").prop("disabled", !connected);
-        console.log('disabled = ', connected);
-    }
-
-    const connect = () => {
-        stompClient = Stomp.over(new SockJS('/users-websocket'));
-        stompClient.connect({}, (frame) => {
-            setConnected(true);
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/user/list', (greeting) => showGreeting(JSON.parse(greeting.body).messageStr));
-        });
-        console.log('success connection');
-    }
-
-    const disconnect = () => {
-        if (stompClient !== null) {
-            stompClient.disconnect();
-        }
-        setConnected(false);
-        console.log("Disconnected");
-    }
-
-    const showGreeting = (messageStr) => $("#usersTable").append("<tr><td>" + messageStr + "</td></tr>")
-
-    const saveUser = () => {
-        let user = new Object();
-/*        user.name = document.getElementById("name-input").value;
-        alert(user.name);
-        user.age = document.getElementById("age-input").value;
-        user.address = document.getElementById("address-inputs").value;
-        user.phone = document.getElementById("phone-input").value;*/
-        user.name = "testName";
-        alert(user.name);
-        user.age = "100"
-        user.address = "testAddress"
-        user.phone = "1111111"
-        stompClient.send("/user/save", {}, JSON.stringify(user));
-    }
-
-</script>
-<button id="connect" onclick="connect()" type="submit">Connect</button>
-<button id="disconnect" onclick="disconnect()" type="submit" disabled="disabled">Disconnect
-</button>
-<h3>Администрирование пользователей</h3>
-
-<h4>Создать пользователя</h4>
-<form id="create-form" accept-charset="utf-8">
+<div id="main-content" class="container">
     <div class="row">
-        <label for="name-input">Name:</label>
-        <input id="name-input" type="text" placeholder="Вася"/>
-        <label for="age-input">Age:</label>
-        <input id="age-input" type="number" placeholder="15"/>
-        <label for="address-input">Address:</label>
-        <input id="address-input" type="text" placeholder="Москва"/>
-        <label for="phone-input">Phone:</label>
-        <input id="phone-input" placeholder="+7 141 211 15 16"/>
+        <div class="col-md-6 my-3" data-th-cellpadding="20">
+            <label for="connect">WebSocket</label>
+            <button id="connect" type="submit">Connect</button>
+            <button id="disconnect" type="submit" disabled="disabled">Disconnect
+            </button>
+
+        </div>
     </div>
-    <br>
+    <h4>Создать пользователя</h4>
     <div class="row">
-        <button type="submit" style="width:100px" onclick="saveUser()">Save</button>
+        <div class="col-md-3">
+            <label for="name-input">Name:</label>
+            <input id="name-input" type="text" value="Вася"/>
+        </div>
+        <div class="col-md-3">
+            <label for="age-input">Age:</label>
+            <input id="age-input" type="number" value="15"/>
+        </div>
+        <div class="col-md-3">
+            <label for="address-input">Address:</label>
+            <input id="address-input" type="text" value="Москва"/>
+        </div>
+        <div class="col-md-3">
+            <label for="phone-input">Phone:</label>
+            <input id="phone-input" value="+7 141 211 15 16"/>
+        </div>
+
+        <div class="col-md-12 my-4">
+            <button id="saveButton" type="submit" style="width:100px" disabled="disabled">Save</button>
+        </div>
     </div>
-</form>
 
-<h4> Все пользователи</h4>
-<tbody id="usersTable">
-<ul>
-    <li th:each="user : ${users}" th:utext="
-    '<b>name </b>'+${user.name} +
-    '<b> age </b>' + ${user.age} +
-    '<b> adress </b>' + ${user.address} +
-    '<b> phones </b>'+ ${user.getPhones()}">
-        Вася Пупкин
-    </li>
+</div>
 
-</ul>
-</tbody>
+<div class="row">
+    <div class="col-md-12">
+        <div class=" container">
+            <h4>Список пользователей</h4>
+            <table id="usersTable" cellpadding="5">
+            </table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

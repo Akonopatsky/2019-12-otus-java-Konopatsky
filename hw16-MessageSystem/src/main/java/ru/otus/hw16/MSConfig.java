@@ -77,7 +77,7 @@ public class MSConfig {
         return frontendMsClient;
     }
 
-    @Bean("messageSystem")
+    @Bean(destroyMethod = "dispose")
     public MessageSystem messageSystem() {
         MessageSystem messageSystem = new MessageSystemImpl();
         messageSystem.start();
@@ -86,8 +86,7 @@ public class MSConfig {
 
     @Bean("frontendService")
     public FrontendService frontendService(MsClient frontendMsClient) {
-        FrontendService frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
-        return frontendService;
+        return new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
     }
 
 }
