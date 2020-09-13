@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import ru.otus.hw16.messageSystemApp.front.FrontendService;
-import ru.otus.hw16.services.UserCreationDto;
+import ru.otus.hw16.controllers.services.UserCreationDto;
 
 
 @Controller

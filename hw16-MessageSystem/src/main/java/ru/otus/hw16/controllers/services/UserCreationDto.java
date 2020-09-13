@@ -1,4 +1,4 @@
-package ru.otus.hw16.services;
+package ru.otus.hw16.controllers.services;
 
 import ru.otus.hw16.dataaccsess.core.model.User;
 
@@ -10,7 +10,7 @@ public class UserCreationDto {
     private String phone = "";
 
     public UserCreationDto() {
-        name = "balnk Name";
+        name = "blank Name";
         age = 0;
         address = "blank address";
         phone = "+00000000000";

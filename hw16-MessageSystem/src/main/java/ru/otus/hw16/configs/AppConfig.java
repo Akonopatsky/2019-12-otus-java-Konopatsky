@@ -1,4 +1,4 @@
-package ru.otus.hw16;
+package ru.otus.hw16.configs;
 
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import ru.otus.hw16.messagesystem.client.MsClientImpl;
 import ru.otus.hw16.messagesystem.message.MessageType;
 
 @Configuration
-public class MSConfig {
+public class AppConfig {
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
