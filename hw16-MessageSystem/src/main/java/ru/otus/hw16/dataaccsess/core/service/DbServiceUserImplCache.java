@@ -17,18 +17,18 @@ import java.util.Optional;
 public class DbServiceUserImplCache implements DBServiceUser {
     private static Logger logger = LoggerFactory.getLogger(DbServiceUserImplCache.class);
     private final UserDao userDao;
-    private HwCache<Long, User> cache = null;
+    private HwCache<String, User> cache = null;
 
 /*    public DbServiceUserImplCache(UserDao userDao) {
         this.userDao = userDao;
     }*/
 
-    public DbServiceUserImplCache(UserDao userDao, HwCache<Long, User> cache) {
+    public DbServiceUserImplCache(UserDao userDao, HwCache<String, User> cache) {
         this.userDao = userDao;
         this.cache = cache;
-        HwListener<Long, User> listener = new HwListener<>() {
+        HwListener<String, User> listener = new HwListener<>() {
             @Override
-            public void notify(Long key, User value, String action) {
+            public void notify(String key, User value, String action) {
                 logger.info("key:{}, value:{}, action: {}", key, value, action);
             }
         };
@@ -55,7 +55,7 @@ public class DbServiceUserImplCache implements DBServiceUser {
     @Override
     public Optional<User> getUser(long id) {
         if (cache != null) {
-            User cachedUser = cache.get(id);
+            User cachedUser = cache.get(String.valueOf(id));
             if (cachedUser != null) return Optional.of(cachedUser);
         }
         try (SessionManager sessionManager = userDao.getSessionManager()) {
@@ -90,6 +90,6 @@ public class DbServiceUserImplCache implements DBServiceUser {
     }
 
     private void putInCache(User user) throws InterruptedException {
-        if (cache != null) cache.put(user.getId(), user);
+        if (cache != null) cache.put(String.valueOf(user.getId()), user);
     }
 }

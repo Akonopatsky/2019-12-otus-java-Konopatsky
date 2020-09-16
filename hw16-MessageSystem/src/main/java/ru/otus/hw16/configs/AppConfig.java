@@ -11,6 +11,7 @@ import ru.otus.hw16.dataaccsess.core.service.DBServiceUser;
 import ru.otus.hw16.dataaccsess.hibernate.HibernateUtils;
 import ru.otus.hw16.messageSystemApp.db.handlers.GetAllUserDataRequestHandler;
 import ru.otus.hw16.messageSystemApp.db.handlers.SaveUserDataRequestHandler;
+import ru.otus.hw16.messageSystemApp.dto.UserData;
 import ru.otus.hw16.messageSystemApp.front.FrontendService;
 import ru.otus.hw16.messageSystemApp.front.FrontendServiceImpl;
 import ru.otus.hw16.messageSystemApp.front.handlers.GetUserDataResponseHandler;
@@ -33,8 +34,8 @@ public class AppConfig {
     }
 
     @Bean("myCache")
-    public MyCache myCache() {
-        return new MyCache();
+    public MyCache<String, User> myCache() {
+        return new MyCache<>();
     }
 
     @Bean("callbackRegistry")
@@ -53,7 +54,7 @@ public class AppConfig {
     @Bean("requestHandlerFrontendStore")
     public HandlersStore requestHandlerFrontendStore(CallbackRegistry callbackRegistry) {
         HandlersStore requestHandlerFrontendStore = new HandlersStoreImpl();
-        RequestHandler requestHandler = new GetUserDataResponseHandler(callbackRegistry);
+        RequestHandler<UserData> requestHandler = new GetUserDataResponseHandler(callbackRegistry);
         requestHandlerFrontendStore.addHandler(MessageType.GET_ALL_USER, requestHandler);
         requestHandlerFrontendStore.addHandler(MessageType.SAVE_USER, requestHandler);
         return requestHandlerFrontendStore;
