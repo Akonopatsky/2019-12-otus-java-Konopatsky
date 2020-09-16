@@ -6,7 +6,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hw16-MessageSystem</artifactId>
-    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
