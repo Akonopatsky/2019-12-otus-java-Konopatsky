@@ -23,3 +23,4 @@ Akonopatsky@gmail.com
 13. hw13-IoC Собственный IoC контейнер
 14. hw14-warMVC Веб-приложение на Spring MVC
 15. hw15-multithreading Последовательность чисел
+16. hw16-MessageSystem MessageSystem
