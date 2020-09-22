@@ -26,6 +26,7 @@
         <module>hw15-multithreading</module>
         <module>hw16-MessageSystem</module>
         <module>hw17-MessageServer</module>
+        <module>hw17-MessageServer</module>
 
     </modules>
     <developers>
