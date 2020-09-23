@@ -33,4 +33,6 @@ public class MessageBuilder {
         return new Message(new MessageId(id), from, to, sourceMessageId, msgType.getName(),
                 Serializers.serialize(data), callbackId == null ? new CallbackId(id) : callbackId);
     }
+
+
 }

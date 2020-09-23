@@ -2,6 +2,7 @@ package ru.otus.hw17.msserver.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.hw17.messagesystem.MessageSystem;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
 
@@ -11,7 +12,14 @@ import java.net.Socket;
 
 public class MSServerImpl implements MSServer{
     private final Logger logger = LoggerFactory.getLogger(MSServerImpl.class);
+    private final MessageSystem messageSystem;
     private static final int PORT = 8090;
+
+    public MSServerImpl(MessageSystem messageSystem) {
+        this.messageSystem = messageSystem;
+    }
+
+
     @Override
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
