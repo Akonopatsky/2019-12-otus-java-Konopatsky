@@ -1,7 +1,5 @@
 package ru.otus.hw17.dataaccsess.cachehw;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

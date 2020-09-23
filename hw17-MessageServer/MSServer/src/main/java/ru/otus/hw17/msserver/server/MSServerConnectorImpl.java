@@ -22,7 +22,7 @@ public class MSServerConnectorImpl implements MSServerConnector{
     }
 
     @Override
-    public boolean isConnection() {
+    public boolean isReady() {
         return false;
     }
 }
