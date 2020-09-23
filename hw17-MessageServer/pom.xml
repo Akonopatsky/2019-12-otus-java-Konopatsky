@@ -11,6 +11,8 @@
 
     <artifactId>hw17-MessageServer</artifactId>
 
+    <packaging>pom</packaging>
+
     <modules>
         <module>MSServer</module>
         <module>DBClient</module>
