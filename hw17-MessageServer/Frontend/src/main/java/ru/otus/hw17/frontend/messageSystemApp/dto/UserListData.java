@@ -1,4 +1,4 @@
-package ru.otus.hw17.messageSystemApp.dto;
+package ru.otus.hw17.frontend.messageSystemApp.dto;
 
 import ru.otus.hw17.dataaccsess.core.model.User;
 import ru.otus.hw17.messagesystem.client.ResultDataType;

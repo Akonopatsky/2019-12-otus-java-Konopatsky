@@ -1,12 +1,12 @@
-package ru.otus.hw17.controllers;
+package ru.otus.hw17.frontend.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import ru.otus.hw17.messageSystemApp.front.FrontendService;
-import ru.otus.hw17.controllers.services.UserCreationDto;
+import ru.otus.hw17.frontend.controllers.services.UserCreationDto;
+import ru.otus.hw17.frontend.messageSystemApp.front.FrontendService;
 
 
 @Controller

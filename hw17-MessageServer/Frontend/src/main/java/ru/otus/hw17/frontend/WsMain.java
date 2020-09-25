@@ -1,4 +1,4 @@
-package ru.otus.hw17;
+package ru.otus.hw17.frontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

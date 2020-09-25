@@ -1,7 +1,7 @@
-package ru.otus.hw17.messageSystemApp.db.handlers;
+package ru.otus.hw17.frontend.messageSystemApp.db.handlers;
 
 import ru.otus.hw17.dataaccsess.core.service.DBServiceUser;
-import ru.otus.hw17.messageSystemApp.dto.UserListData;
+import ru.otus.hw17.frontend.messageSystemApp.dto.UserListData;
 import ru.otus.hw17.messagesystem.RequestHandler;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;

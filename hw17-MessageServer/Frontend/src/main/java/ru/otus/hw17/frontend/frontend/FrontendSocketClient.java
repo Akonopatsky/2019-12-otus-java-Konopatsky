@@ -1,11 +1,10 @@
-package ru.otus.hw17.frontend;
+package ru.otus.hw17.frontend.frontend;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
 import ru.otus.hw17.messagesystem.message.MessageType;
-import ru.otus.hw17.messagesystem.message.*;
 
 import java.io.*;
 import java.net.Socket;

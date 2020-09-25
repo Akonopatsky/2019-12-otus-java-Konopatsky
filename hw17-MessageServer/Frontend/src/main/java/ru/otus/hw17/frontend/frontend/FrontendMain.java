@@ -1,4 +1,4 @@
-package ru.otus.hw17.frontend;
+package ru.otus.hw17.frontend.frontend;
 
 public class FrontendMain {
     public static void main(String[] args) {

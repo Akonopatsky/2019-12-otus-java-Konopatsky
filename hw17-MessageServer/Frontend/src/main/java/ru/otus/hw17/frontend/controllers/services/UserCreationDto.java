@@ -1,4 +1,4 @@
-package ru.otus.hw17.controllers.services;
+package ru.otus.hw17.frontend.controllers.services;
 
 import ru.otus.hw17.dataaccsess.core.model.User;
 

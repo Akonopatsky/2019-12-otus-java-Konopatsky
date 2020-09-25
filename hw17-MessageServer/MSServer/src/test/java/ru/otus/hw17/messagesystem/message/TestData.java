@@ -1,6 +1,7 @@
 package ru.otus.hw17.messagesystem.message;
 
 import ru.otus.hw17.messagesystem.client.ResultDataType;
+
 import java.util.Objects;
 
 class TestData extends ResultDataType {

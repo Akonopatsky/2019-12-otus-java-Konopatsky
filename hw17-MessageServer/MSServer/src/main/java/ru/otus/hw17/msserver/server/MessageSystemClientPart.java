@@ -1,15 +1,6 @@
 package ru.otus.hw17.msserver.server;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.otus.hw17.messagesystem.MessageSystem;
-import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.message.Message;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-public class MessageSystemClientPart implements MessageSystem, MessageServerClient {
+/*public class MessageSystemClientPart implements MessageSystem {
     private final Logger logger = LoggerFactory.getLogger(MessageSystemClientPart.class);
     private final Map<String, MsClient> clientMap = new ConcurrentHashMap<>();
     private final MSServerConnector msServerConnector;
@@ -88,4 +79,4 @@ public class MessageSystemClientPart implements MessageSystem, MessageServerClie
             }
         }
     }
-}
+}*/

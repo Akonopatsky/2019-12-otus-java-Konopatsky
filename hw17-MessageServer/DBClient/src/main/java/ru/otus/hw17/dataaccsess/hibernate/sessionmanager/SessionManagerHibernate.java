@@ -3,11 +3,10 @@ package ru.otus.hw17.dataaccsess.hibernate.sessionmanager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 import ru.otus.hw17.dataaccsess.core.sessionmanager.SessionManager;
 import ru.otus.hw17.dataaccsess.core.sessionmanager.SessionManagerException;
 
-@Component
+
 public class SessionManagerHibernate implements SessionManager {
 
     private DatabaseSessionHibernate databaseSession;
