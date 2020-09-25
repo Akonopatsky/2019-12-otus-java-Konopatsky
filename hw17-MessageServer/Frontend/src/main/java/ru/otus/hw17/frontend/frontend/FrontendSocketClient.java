@@ -2,11 +2,12 @@ package ru.otus.hw17.frontend.frontend;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.hw17.messagesystem.message.Message;
-import ru.otus.hw17.messagesystem.message.MessageBuilder;
-import ru.otus.hw17.messagesystem.message.MessageType;
+import ru.otus.hw17.frontend.messagesystem.message.Message;
+import ru.otus.hw17.frontend.messagesystem.message.MessageBuilder;
+import ru.otus.hw17.frontend.messagesystem.message.MessageType;
 
-import java.io.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +28,7 @@ public class FrontendSocketClient {
                             "to1",
                             null,
                             null,
-                            MessageType.USER_DATA);
+                            MessageType.GET_ALL_USER);
                     logger.info("sending message {}");
                     outputStream.writeObject(message);
 

@@ -3,12 +3,12 @@ package ru.otus.hw17.frontend.messageSystemApp.front.handlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserData;
-import ru.otus.hw17.messagesystem.RequestHandler;
-import ru.otus.hw17.messagesystem.client.CallbackRegistry;
-import ru.otus.hw17.messagesystem.client.MessageCallback;
-import ru.otus.hw17.messagesystem.client.ResultDataType;
-import ru.otus.hw17.messagesystem.message.Message;
-import ru.otus.hw17.messagesystem.message.MessageHelper;
+import ru.otus.hw17.frontend.messagesystem.RequestHandler;
+import ru.otus.hw17.frontend.messagesystem.client.CallbackRegistry;
+import ru.otus.hw17.frontend.messagesystem.client.MessageCallback;
+import ru.otus.hw17.frontend.messagesystem.client.ResultDataType;
+import ru.otus.hw17.frontend.messagesystem.message.Message;
+import ru.otus.hw17.frontend.messagesystem.message.MessageHelper;
 
 import java.util.Optional;
 

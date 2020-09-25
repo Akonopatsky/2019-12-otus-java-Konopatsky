@@ -1,4 +1,4 @@
-package ru.otus.hw17.frontend.messageSystemApp.db.handlers;
+package ru.otus.hw17.dataaccsess.handlers;
 
 import ru.otus.hw17.dataaccsess.core.service.DBServiceUser;
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserListData;
