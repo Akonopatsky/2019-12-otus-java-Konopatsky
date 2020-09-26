@@ -7,11 +7,10 @@ import ru.otus.hw17.frontend.messageSystemApp.front.FrontendService;
 import ru.otus.hw17.frontend.messageSystemApp.front.FrontendServiceImpl;
 import ru.otus.hw17.frontend.messageSystemApp.front.handlers.GetUserDataResponseHandler;
 import ru.otus.hw17.frontend.messagesystem.*;
-import ru.otus.hw17.frontend.messagesystem.client.CallbackRegistry;
-import ru.otus.hw17.frontend.messagesystem.client.CallbackRegistryImpl;
-import ru.otus.hw17.frontend.messagesystem.client.MsClient;
-import ru.otus.hw17.frontend.messagesystem.client.MsClientImpl;
+import ru.otus.hw17.frontend.messagesystem.client.*;
 import ru.otus.hw17.frontend.messagesystem.message.MessageType;
+import ru.otus.hw17.frontend.socket.MSSocketClient;
+import ru.otus.hw17.frontend.socket.MSSocketClientImpl;
 
 
 @Configuration
@@ -43,6 +42,13 @@ public class AppConfig {
         return frontendMsClient;
     }
 
+    @Bean("databaseMsClient")
+    public MsClient databaseMsClient(MessageSystem messageSystem, MSSocketClient msSocketClient) {
+        MsClient databaseMsClient = new MSClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, msSocketClient);
+        messageSystem.addClient(databaseMsClient);
+        return databaseMsClient;
+    }
+
     @Bean(destroyMethod = "dispose")
     public MessageSystem messageSystem() {
         MessageSystem messageSystem = new MessageSystemImpl();
@@ -53,6 +59,11 @@ public class AppConfig {
     @Bean("frontendService")
     public FrontendService frontendService(MsClient frontendMsClient) {
         return new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
+    }
+
+    @Bean
+    public MSSocketClient msSocketClient() {
+        return new MSSocketClientImpl();
     }
 
 }
