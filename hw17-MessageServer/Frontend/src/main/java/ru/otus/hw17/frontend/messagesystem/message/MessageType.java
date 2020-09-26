@@ -2,7 +2,8 @@ package ru.otus.hw17.frontend.messagesystem.message;
 
 public enum MessageType {
     SAVE_USER ("SaveUser"),
-    GET_ALL_USER ("GetAllUsers");
+    GET_ALL_USER ("GetAllUsers"),
+    GET_CONNECTION("getConnection");
 
     private final String name;
 
