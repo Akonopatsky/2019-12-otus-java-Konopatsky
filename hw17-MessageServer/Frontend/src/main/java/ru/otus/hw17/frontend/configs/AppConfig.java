@@ -6,11 +6,11 @@ import ru.otus.hw17.frontend.messageSystemApp.dto.UserData;
 import ru.otus.hw17.frontend.messageSystemApp.front.FrontendService;
 import ru.otus.hw17.frontend.messageSystemApp.front.FrontendServiceImpl;
 import ru.otus.hw17.frontend.messageSystemApp.front.handlers.GetUserDataResponseHandler;
-import ru.otus.hw17.frontend.messagesystem.*;
-import ru.otus.hw17.frontend.messagesystem.client.*;
-import ru.otus.hw17.frontend.messagesystem.message.MessageType;
-import ru.otus.hw17.frontend.socket.MSSocketClient;
-import ru.otus.hw17.frontend.socket.MSSocketClientImpl;
+import ru.otus.hw17.messagesystem.*;
+import ru.otus.hw17.messagesystem.client.*;
+import ru.otus.hw17.messagesystem.message.MessageType;
+import ru.otus.hw17.msserver.socket.SocketClient;
+import ru.otus.hw17.msserver.socket.SocketClientImpl;
 
 
 @Configuration
@@ -43,9 +43,10 @@ public class AppConfig {
     }
 
     @Bean("databaseMsClient")
-    public MsClient databaseMsClient(MessageSystem messageSystem, MSSocketClient msSocketClient) {
-        MsClient databaseMsClient = new MSClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, msSocketClient);
+    public MsClient databaseMsClient(MessageSystem messageSystem, SocketClient socketClient) {
+        MsClient databaseMsClient = new MsClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, socketClient);
         messageSystem.addClient(databaseMsClient);
+        socketClient.setMsClient(databaseMsClient);
         return databaseMsClient;
     }
 
@@ -62,8 +63,8 @@ public class AppConfig {
     }
 
     @Bean
-    public MSSocketClient msSocketClient() {
-        return new MSSocketClientImpl();
+    public SocketClient msSocketClient() {
+        return new SocketClientImpl();
     }
 
 }

@@ -1,10 +1,10 @@
 package ru.otus.hw17.messagesystem.message;
 
 import org.junit.jupiter.api.Test;
-import ru.otus.hw17.messagesystem.client.CallbackId;
-import ru.otus.hw17.messagesystem.message.Message;
-import ru.otus.hw17.messagesystem.message.MessageHelper;
-import ru.otus.hw17.messagesystem.message.MessageId;
+import ru.otus.hw17.messagesystem1.client.CallbackId;
+import ru.otus.hw17.messagesystem1.message.Message;
+import ru.otus.hw17.messagesystem1.message.MessageHelper;
+import ru.otus.hw17.messagesystem1.message.MessageId;
 
 import java.util.UUID;
 

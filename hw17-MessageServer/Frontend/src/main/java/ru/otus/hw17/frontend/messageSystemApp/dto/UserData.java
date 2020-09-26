@@ -1,7 +1,7 @@
 package ru.otus.hw17.frontend.messageSystemApp.dto;
 
 import ru.otus.hw17.frontend.messageSystemApp.model.User;
-import ru.otus.hw17.frontend.messagesystem.client.ResultDataType;
+import ru.otus.hw17.messagesystem.client.ResultDataType;
 
 public class UserData extends ResultDataType {
     private final User data;

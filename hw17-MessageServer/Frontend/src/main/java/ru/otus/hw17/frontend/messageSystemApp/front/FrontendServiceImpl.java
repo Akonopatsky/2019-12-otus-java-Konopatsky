@@ -3,10 +3,10 @@ package ru.otus.hw17.frontend.messageSystemApp.front;
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserData;
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserListData;
 import ru.otus.hw17.frontend.messageSystemApp.model.User;
-import ru.otus.hw17.frontend.messagesystem.client.MessageCallback;
-import ru.otus.hw17.frontend.messagesystem.client.MsClient;
-import ru.otus.hw17.frontend.messagesystem.message.Message;
-import ru.otus.hw17.frontend.messagesystem.message.MessageType;
+import ru.otus.hw17.messagesystem.client.MessageCallback;
+import ru.otus.hw17.messagesystem.client.MsClient;
+import ru.otus.hw17.messagesystem.message.Message;
+import ru.otus.hw17.messagesystem.message.MessageType;
 
 
 public class FrontendServiceImpl implements FrontendService {

@@ -1,8 +1,8 @@
 package ru.otus.hw17.frontend.messageSystemApp.front.handlers;
 
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserData;
-import ru.otus.hw17.frontend.messagesystem.RequestHandler;
-import ru.otus.hw17.frontend.messagesystem.message.Message;
+import ru.otus.hw17.messagesystem.RequestHandler;
+import ru.otus.hw17.messagesystem.message.Message;
 
 import java.util.Optional;
 

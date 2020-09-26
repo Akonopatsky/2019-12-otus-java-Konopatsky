@@ -1,33 +1,33 @@
-package ru.otus.hw17.frontend.messagesystem.client;
+package ru.otus.hw17.messagesystem.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.hw17.frontend.messagesystem.MessageSystem;
-import ru.otus.hw17.frontend.messagesystem.message.Message;
-import ru.otus.hw17.frontend.messagesystem.message.MessageBuilder;
-import ru.otus.hw17.frontend.messagesystem.message.MessageType;
-import ru.otus.hw17.frontend.socket.MSSocketClient;
+import ru.otus.hw17.messagesystem.MessageSystem;
+import ru.otus.hw17.messagesystem.message.Message;
+import ru.otus.hw17.messagesystem.message.MessageBuilder;
+import ru.otus.hw17.messagesystem.message.MessageType;
+import ru.otus.hw17.msserver.socket.SocketClient;
 
 import java.util.Objects;
 
-public class MSClientConnector implements MsClient {
-    private static final Logger logger = LoggerFactory.getLogger(MSClientConnector.class);
+public class MsClientConnector implements MsClient {
+    private static final Logger logger = LoggerFactory.getLogger(MsClientConnector.class);
     private final MessageSystem messageSystem;
-    private final MSSocketClient msSocketClient;
+    private final SocketClient socketClient;
 
     private final String name;
 
-    public MSClientConnector(String name, MessageSystem messageSystem, MSSocketClient msSocketClient) {
-        this.msSocketClient = msSocketClient;
+    public MsClientConnector(String name, MessageSystem messageSystem, SocketClient socketClient) {
+        this.socketClient = socketClient;
         this.name = name;
         this.messageSystem = messageSystem;
     }
 
     @Override
     public boolean sendMessage(Message msg) {
-        if (msSocketClient.isReady()) {
+        if (socketClient.isReady()) {
             logger.info("new message id {} from {} to {} ", msg.getId(), msg.getFrom(), msg.getTo());
-            msSocketClient.send(msg);
+            socketClient.send(msg);
             return true;
         } else {
             logger.warn("socketClient is not ready");
@@ -60,7 +60,7 @@ public class MSClientConnector implements MsClient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MSClientConnector msClient = (MSClientConnector) o;
+        MsClientConnector msClient = (MsClientConnector) o;
         return Objects.equals(name, msClient.name);
     }
 
