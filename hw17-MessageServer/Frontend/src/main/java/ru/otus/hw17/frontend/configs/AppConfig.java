@@ -1,5 +1,7 @@
 package ru.otus.hw17.frontend.configs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.hw17.frontend.messageSystemApp.dto.UserData;
@@ -12,11 +14,17 @@ import ru.otus.hw17.messagesystem.message.MessageType;
 import ru.otus.hw17.msserver.socket.SocketClient;
 import ru.otus.hw17.msserver.socket.SocketClientImpl;
 
+import java.io.IOException;
+import java.net.Socket;
+
 
 @Configuration
 public class AppConfig {
+    private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
+    private static final int PORT = 8090;
+    private static final String HOST = "localhost";
 
     @Bean("callbackRegistry")
     public CallbackRegistry callbackRegistry() {
@@ -47,6 +55,8 @@ public class AppConfig {
         MsClient databaseMsClient = new MsClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, socketClient);
         messageSystem.addClient(databaseMsClient);
         socketClient.setMsClient(databaseMsClient);
+        logger.info("        socketClient.start();");
+        socketClient.start();
         return databaseMsClient;
     }
 
@@ -62,9 +72,19 @@ public class AppConfig {
         return new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
     }
 
-    @Bean
-    public SocketClient msSocketClient() {
-        return new SocketClientImpl();
+    @Bean("msSocketClient")
+    public SocketClient msSocketClient(Socket socket) {
+        return new SocketClientImpl(socket);
+    }
+
+    @Bean("socket")
+    public Socket socket() {
+        try {
+            return new Socket(HOST, PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

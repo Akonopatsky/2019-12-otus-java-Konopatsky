@@ -12,12 +12,13 @@ import java.util.Objects;
 
 public class MsClientConnector implements MsClient {
     private static final Logger logger = LoggerFactory.getLogger(MsClientConnector.class);
+
     private final MessageSystem messageSystem;
     private final SocketClient socketClient;
 
     private final String name;
 
-    public MsClientConnector(String name, MessageSystem messageSystem, SocketClient socketClient) {
+    public MsClientConnector(String name, MessageSystem messageSystem,  SocketClient socketClient) {
         this.socketClient = socketClient;
         this.name = name;
         this.messageSystem = messageSystem;

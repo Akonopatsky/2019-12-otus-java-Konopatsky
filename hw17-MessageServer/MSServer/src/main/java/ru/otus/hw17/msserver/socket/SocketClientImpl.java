@@ -9,17 +9,26 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SocketClientImpl implements SocketClient {
-    private static final int PORT = 8090;
-    private static final String HOST = "localhost";
     private static final Logger logger = LoggerFactory.getLogger(SocketClientImpl.class);
-
     private MsClient msClient;
     private boolean isReady = false;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private Socket socket;
+    private final Socket socket;
+
+    private ExecutorService processor = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable);
+        thread.setName("msg-processor-thread");
+        return thread;
+    });
+
+    public SocketClientImpl(Socket socket) {
+        this.socket = socket;
+    }
 
     public void send(Message msg) {
         try {
@@ -43,11 +52,13 @@ public class SocketClientImpl implements SocketClient {
     @Override
     public void start() {
         try {
-            socket = new Socket(HOST, PORT);
+            logger.info("start socketClient connected with msClient {} ", msClient.getName());
+            logger.info("socket closed {} ", socket.isClosed());
+            isReady = true;
+            logger.info(" socketClient Ready {}", this.isReady);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-            isReady = true;
-            listening();
+            processor.submit(() -> listening());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -66,7 +77,7 @@ public class SocketClientImpl implements SocketClient {
         }
     }
 
-    private void listening() {
+/*    private void listening() {
         try {
             Object input = null;
             while (isReady && !Thread.currentThread().isInterrupted()) {
@@ -80,5 +91,29 @@ public class SocketClientImpl implements SocketClient {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }*/
+    private void listening() {
+        logger.info("listening() ");
+        try {
+            Object input = inputStream.readObject();
+            logger.info(input.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+/*        try {
+            Object input = null;
+            while (!Thread.currentThread().isInterrupted()) {
+                input = inputStream.readObject();
+                logger.info("read object {}", input.toString());
+                Message message = (Message) input;
+                logger.info("get message id {}, from {}, to {}", message.getId(), message.getFrom(), message.getTo());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
     }
 }

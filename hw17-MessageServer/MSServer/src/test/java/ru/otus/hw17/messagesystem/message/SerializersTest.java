@@ -1,7 +1,7 @@
 package ru.otus.hw17.messagesystem.message;
 
 import org.junit.jupiter.api.Test;
-import ru.otus.hw17.messagesystem1.message.Serializers;
+import ru.otus.hw17.messagesystem.message.Serializers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
