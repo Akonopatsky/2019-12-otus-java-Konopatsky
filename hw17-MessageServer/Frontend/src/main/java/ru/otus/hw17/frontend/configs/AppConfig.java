@@ -41,16 +41,26 @@ public class AppConfig {
         return requestHandlerFrontendStore;
     }
 
-    @Bean("frontendMsClient")
+/*    @Bean("frontendMsClient")
     public MsClient frontendMsClient(MessageSystem messageSystem, HandlersStore requestHandlerFrontendStore,
                                      CallbackRegistry callbackRegistry) {
         MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME,
                 messageSystem, requestHandlerFrontendStore, callbackRegistry);
         messageSystem.addClient(frontendMsClient);
         return frontendMsClient;
+    }*/
+
+    @Bean("frontendMsClient")
+    public MsClient frontendMsClient(SocketClient msSocketClient, HandlersStore requestHandlerFrontendStore,
+                                     CallbackRegistry callbackRegistry) {
+        MsClient frontendMsClient = new MsClientConnector2(FRONTEND_SERVICE_CLIENT_NAME,
+                msSocketClient, requestHandlerFrontendStore, callbackRegistry);
+        msSocketClient.setMsClient(frontendMsClient);
+        msSocketClient.start();
+        return frontendMsClient;
     }
 
-    @Bean("databaseMsClient")
+/*    @Bean("databaseMsClient")
     public MsClient databaseMsClient(MessageSystem messageSystem, SocketClient socketClient) {
         MsClient databaseMsClient = new MsClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, socketClient);
         messageSystem.addClient(databaseMsClient);
@@ -64,7 +74,7 @@ public class AppConfig {
         MessageSystem messageSystem = new MessageSystemImpl();
         messageSystem.start();
         return messageSystem;
-    }
+    }*/
 
     @Bean("frontendService")
     public FrontendService frontendService(MsClient frontendMsClient) {

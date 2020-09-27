@@ -1,11 +1,14 @@
-package ru.otus.hw17.msserver.socket;
+package ru.otus.hw17.msserver.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.hw17.messagesystem.MessageSystem;
 import ru.otus.hw17.messagesystem.client.MsClient;
+import ru.otus.hw17.messagesystem.client.MsClientConnector;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
 import ru.otus.hw17.messagesystem.message.MessageType;
+import ru.otus.hw17.msserver.socket.SocketClient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,13 +17,13 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SocketClientImpl implements SocketClient {
-    private static final Logger logger = LoggerFactory.getLogger(SocketClientImpl.class);
+public class SocketServerResponsePart implements SocketClient {
+    private static final Logger logger = LoggerFactory.getLogger(SocketServerResponsePart.class);
     private final Socket socket;
+    private final MessageSystem messageSystem;
     private MsClient msClient;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private boolean isReady = false;
 
 
     private ExecutorService processor = Executors.newSingleThreadExecutor(runnable -> {
@@ -29,8 +32,9 @@ public class SocketClientImpl implements SocketClient {
         return thread;
     });
 
-    public SocketClientImpl(Socket socket) {
+    public SocketServerResponsePart(Socket socket, MessageSystem messageSystem) {
         this.socket = socket;
+        this.messageSystem = messageSystem;
     }
 
     public void send(Message msg) {
@@ -50,25 +54,19 @@ public class SocketClientImpl implements SocketClient {
 
     @Override
     public boolean isReady() {
-        return isReady;
+        return !socket.isClosed();
     }
 
     @Override
     public void start() {
         try {
-            logger.info("start socketClient connected with msClient {} ", msClient.getName());
+            logger.info("start socketClient connected with msClient");
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             processor.submit(() -> listening());
-            handshake();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void handshake() {
-        Message handShakeMessage = MessageBuilder.buildMessage(msClient.getName(), "MsServer", null, null, MessageType.HANDSHAKE);
-        send(handShakeMessage);
     }
 
     @Override
@@ -90,11 +88,10 @@ public class SocketClientImpl implements SocketClient {
                 input = inputStream.readObject();
                 logger.info("read object {}", input.toString());
                 Message msg = (Message) input;
-                if (msg.getType().equals("handshake")) {
-                    isReady = true;
-                }
-                else {
-                    msClient.handle(msg);
+                if (msg.getType().equals(MessageType.HANDSHAKE)) {
+                    init(msg);
+                } else {
+                    handle(msg);
                 }
             }
         } catch (IOException e) {
@@ -102,5 +99,23 @@ public class SocketClientImpl implements SocketClient {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handle(Message msg) {
+        if (msg.getType().equals("handshake")) {
+            logger.info("initializing by {}", msg.getFrom());
+            init(msg);
+        }
+        else {
+            msClient.handle(msg);
+        }
+    }
+
+    private void init(Message msg) {
+        logger.info("initialize server part MsClientConnector{} ", msg.getFrom());
+        MsClient msClient = new MsClientConnector(msg.getFrom(), messageSystem, this);
+        messageSystem.addClient(msClient);
+        this.setMsClient(msClient);
+        send(MessageBuilder.buildReplyMessage(msg,null));
     }
 }

@@ -3,7 +3,7 @@ package ru.otus.hw17.messagesystem.message;
 public enum MessageType {
     SAVE_USER ("SaveUser"),
     GET_ALL_USER ("GetAllUsers"),
-    GET_CONNECTION("getConnection");
+    HANDSHAKE("handshake");
 
     private final String name;
 

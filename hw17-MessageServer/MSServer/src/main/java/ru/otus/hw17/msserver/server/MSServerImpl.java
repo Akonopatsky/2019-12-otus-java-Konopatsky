@@ -3,14 +3,9 @@ package ru.otus.hw17.msserver.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.messagesystem.MessageSystem;
-import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.client.MsClientConnector;
-import ru.otus.hw17.msserver.socket.SocketClient;
-import ru.otus.hw17.msserver.socket.SocketClientImpl;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -57,10 +52,7 @@ public class MSServerImpl implements MSServer{
     }
 
     private void handleClientConnection(Socket socket) {
-        SocketClient socketClient = new SocketClientImpl(socket);
-        MsClient msClient = new MsClientConnector(UUID.randomUUID().toString(), messageSystem, socketClient);
-        messageSystem.addClient(msClient);
-        socketClient.setMsClient(msClient);
+        SocketServerResponsePart socketClient = new SocketServerResponsePart(socket, messageSystem);
         socketClient.start();
     }
 }
