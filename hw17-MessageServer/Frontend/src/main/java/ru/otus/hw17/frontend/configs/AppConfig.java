@@ -55,7 +55,6 @@ public class AppConfig {
         MsClient databaseMsClient = new MsClientConnector(DATABASE_SERVICE_CLIENT_NAME, messageSystem, socketClient);
         messageSystem.addClient(databaseMsClient);
         socketClient.setMsClient(databaseMsClient);
-        logger.info("        socketClient.start();");
         socketClient.start();
         return databaseMsClient;
     }

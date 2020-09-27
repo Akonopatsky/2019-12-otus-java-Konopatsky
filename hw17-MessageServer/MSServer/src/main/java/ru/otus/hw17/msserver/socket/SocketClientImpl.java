@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 public class SocketClientImpl implements SocketClient {
     private static final Logger logger = LoggerFactory.getLogger(SocketClientImpl.class);
     private MsClient msClient;
-    private boolean isReady = false;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private final Socket socket;
@@ -46,16 +45,13 @@ public class SocketClientImpl implements SocketClient {
     }
     @Override
     public boolean isReady() {
-        return isReady;
+        return !socket.isClosed();
     }
 
     @Override
     public void start() {
         try {
             logger.info("start socketClient connected with msClient {} ", msClient.getName());
-            logger.info("socket closed {} ", socket.isClosed());
-            isReady = true;
-            logger.info(" socketClient Ready {}", this.isReady);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             processor.submit(() -> listening());
@@ -68,7 +64,6 @@ public class SocketClientImpl implements SocketClient {
     public void stop() {
         try {
             logger.info("Try to stop.");
-            isReady = false;
             outputStream.close();
             inputStream.close();
             socket.close();
@@ -77,43 +72,20 @@ public class SocketClientImpl implements SocketClient {
         }
     }
 
-/*    private void listening() {
-        try {
-            Object input = null;
-            while (isReady && !Thread.currentThread().isInterrupted()) {
-                input = inputStream.readObject();
-                logger.info("read object {}", input.toString());
-                Message msg = (Message) input;
-                msClient.handle(msg);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
     private void listening() {
-        logger.info("listening() ");
         try {
-            Object input = inputStream.readObject();
-            logger.info(input.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-/*        try {
             Object input = null;
             while (!Thread.currentThread().isInterrupted()) {
                 input = inputStream.readObject();
                 logger.info("read object {}", input.toString());
-                Message message = (Message) input;
-                logger.info("get message id {}, from {}, to {}", message.getId(), message.getFrom(), message.getTo());
+                Message msg = (Message) input;
+                msClient.handle(msg);
+                msClient.
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

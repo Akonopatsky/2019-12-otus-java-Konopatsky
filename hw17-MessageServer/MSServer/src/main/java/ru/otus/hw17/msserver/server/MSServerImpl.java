@@ -10,6 +10,7 @@ import ru.otus.hw17.msserver.socket.SocketClientImpl;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -41,11 +42,9 @@ public class MSServerImpl implements MSServer{
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (!Thread.currentThread().isInterrupted()) {
                 logger.info("waiting for client connection");
-                try (Socket socket = serverSocket.accept()) {
+                Socket socket = serverSocket.accept() ;
                     logger.info("socket in start {} ", socket.isClosed());
- //                   socketHandler.submit(() -> handleClientConnection(socket));
-                    handleClientConnection(socket);
-                }
+                    socketHandler.submit(() -> handleClientConnection(socket));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -58,13 +57,10 @@ public class MSServerImpl implements MSServer{
     }
 
     private void handleClientConnection(Socket socket) {
-        logger.info("handleClientConnection invoked");
-        logger.info("socket in handleClientConnection {} ", socket.isClosed());
         SocketClient socketClient = new SocketClientImpl(socket);
-        MsClient msClient = new MsClientConnector("test", messageSystem, socketClient);
+        MsClient msClient = new MsClientConnector(UUID.randomUUID().toString(), messageSystem, socketClient);
         messageSystem.addClient(msClient);
         socketClient.setMsClient(msClient);
         socketClient.start();
     }
-
 }
