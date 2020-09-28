@@ -1,4 +1,4 @@
-package ru.otus.hw17.frontend.messageSystemApp.model;
+package ru.otus.hw17.dataaccsess.core.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

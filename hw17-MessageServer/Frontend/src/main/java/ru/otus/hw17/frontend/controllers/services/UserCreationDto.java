@@ -1,7 +1,7 @@
 package ru.otus.hw17.frontend.controllers.services;
 
 
-import ru.otus.hw17.frontend.messageSystemApp.model.User;
+import ru.otus.hw17.dataaccsess.core.model.User;
 
 public class UserCreationDto {
 
