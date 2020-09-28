@@ -28,7 +28,7 @@ public class MsClientConnector2 implements MsClient{
     @Override
     public boolean sendMessage(Message msg) {
         if (socketClient.isReady()) {
-            logger.info("new message id {} from {} to {} ", msg.getId(), msg.getFrom(), msg.getTo());
+            logger.info(" send {} from {} to {} ", msg.getId(), msg.getFrom(), msg.getTo());
             socketClient.send(msg);
             return true;
         } else {
@@ -43,6 +43,7 @@ public class MsClientConnector2 implements MsClient{
         try {
             RequestHandler requestHandler = handlersStore.getHandlerByType(msg.getType());
             if (requestHandler != null) {
+                logger.info("requestHandler.handle {} ", requestHandler.toString() );
                 requestHandler.handle(msg).ifPresent(message -> sendMessage((Message) message));
             } else {
                 logger.error("handler not found for the message type:{}", msg.getType());

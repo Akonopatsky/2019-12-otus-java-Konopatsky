@@ -9,10 +9,10 @@
     </appender>
 
     <!--<logger name="org.hibernate.SQL" level="ERROR"/>-->
-    <logger name="org.hibernate" level="ERROR"/>
+<!--    <logger name="org.hibernate" level="ERROR"/>
     <logger name="ch.qos.logback" level="ERROR"/>
     <logger name="ru.otus.UserDaoHibernate" level="OFF" additivity="false"/>
-    <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImpl" level="OFF" additivity="false"/>
+    <logger name="ru.otus.homework.hibernate.core.service.DbServiceUserImpl" level="OFF" additivity="false"/>-->
     <logger name="ru.otus.DbServiceUserImplCache" level="OFF" additivity="false"/>
 
     <root level="INFO">

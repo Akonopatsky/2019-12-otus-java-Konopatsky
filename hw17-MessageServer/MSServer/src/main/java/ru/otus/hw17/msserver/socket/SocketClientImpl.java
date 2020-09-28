@@ -36,7 +36,7 @@ public class SocketClientImpl implements SocketClient {
     public void send(Message msg) {
         try {
             outputStream.writeObject(msg);
-            outputStream.flush();
+    //        outputStream.flush();
             logger.info("has sent message {}", msg.toString());
         } catch (IOException e) {
             e.printStackTrace();
