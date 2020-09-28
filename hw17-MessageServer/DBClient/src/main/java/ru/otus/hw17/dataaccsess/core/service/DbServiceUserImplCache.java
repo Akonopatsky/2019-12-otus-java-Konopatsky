@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.otus.hw17.dataaccsess.cachehw.HwCache;
 import ru.otus.hw17.dataaccsess.cachehw.HwListener;
 import ru.otus.hw17.dataaccsess.core.dao.UserDao;
-import ru.otus.hw17.dataaccsess.core.model.User;
+import ru.otus.hw17.msserver.model.User;
 import ru.otus.hw17.dataaccsess.core.sessionmanager.SessionManager;
 
 import java.util.List;

@@ -1,25 +1,29 @@
-package ru.otus.hw17.frontend.messageSystemApp.front.dbhandlers;
+package ru.otus.hw17.dbclient.dbhandlers;
+
 
 import ru.otus.hw17.dataaccsess.core.service.DBServiceUser;
-import ru.otus.hw17.frontend.messageSystemApp.dto.UserListData;
 import ru.otus.hw17.messagesystem.RequestHandler;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
+import ru.otus.hw17.messagesystem.message.MessageHelper;
+import ru.otus.hw17.msserver.dto.UserData;
+import ru.otus.hw17.msserver.model.User;
 
 import java.util.Optional;
 
+public class SaveUserDataRequestHandler implements RequestHandler<UserData> {
 
-public class GetAllUserDataRequestHandler implements RequestHandler<UserListData> {
     private final DBServiceUser dbService;
 
-    public GetAllUserDataRequestHandler(DBServiceUser dbService) {
+    public SaveUserDataRequestHandler(DBServiceUser dbService) {
         this.dbService = dbService;
     }
 
     @Override
     public Optional<Message> handle(Message msg) {
-        UserListData resultData;
-        resultData = new UserListData(dbService.getAllUsers());
+        User user = ((UserData) MessageHelper.getPayload(msg)).getData();
+            dbService.saveUser(user);
+        UserData resultData = new UserData(user);
         return Optional.of(MessageBuilder.buildReplyMessage(msg, resultData));
     }
 }

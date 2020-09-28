@@ -1,4 +1,4 @@
-package ru.otus.hw17.dataaccsess.core.model;
+package ru.otus.hw17.msserver.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

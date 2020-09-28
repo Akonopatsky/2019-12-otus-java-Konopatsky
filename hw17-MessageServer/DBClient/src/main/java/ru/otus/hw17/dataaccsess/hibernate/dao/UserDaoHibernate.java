@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.dataaccsess.core.dao.UserDao;
 import ru.otus.hw17.dataaccsess.core.dao.UserDaoException;
-import ru.otus.hw17.dataaccsess.core.model.User;
+import ru.otus.hw17.msserver.model.User;
 import ru.otus.hw17.dataaccsess.core.sessionmanager.SessionManager;
 import ru.otus.hw17.dataaccsess.hibernate.sessionmanager.DatabaseSessionHibernate;
 import ru.otus.hw17.dataaccsess.hibernate.sessionmanager.SessionManagerHibernate;

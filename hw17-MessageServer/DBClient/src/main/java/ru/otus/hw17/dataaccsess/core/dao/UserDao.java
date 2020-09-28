@@ -1,7 +1,7 @@
 package ru.otus.hw17.dataaccsess.core.dao;
 
 
-import ru.otus.hw17.dataaccsess.core.model.User;
+import ru.otus.hw17.msserver.model.User;
 import ru.otus.hw17.dataaccsess.core.sessionmanager.SessionManager;
 
 import java.util.List;

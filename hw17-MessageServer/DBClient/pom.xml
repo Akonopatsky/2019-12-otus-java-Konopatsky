@@ -53,6 +53,13 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate-core.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>ru.otus</groupId>
+            <artifactId>MSServer</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <packaging>jar</packaging>

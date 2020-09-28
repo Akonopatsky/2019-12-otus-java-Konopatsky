@@ -1,7 +1,8 @@
-package ru.otus.hw17.frontend.messageSystemApp.dto;
+package ru.otus.hw17.msserver.dto;
 
-import ru.otus.hw17.dataaccsess.core.model.User;
+
 import ru.otus.hw17.messagesystem.client.ResultDataType;
+import ru.otus.hw17.msserver.model.User;
 
 public class UserData extends ResultDataType {
     private final User data;

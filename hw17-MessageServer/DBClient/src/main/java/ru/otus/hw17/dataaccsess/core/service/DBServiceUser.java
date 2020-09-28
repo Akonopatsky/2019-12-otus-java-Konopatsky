@@ -1,6 +1,6 @@
 package ru.otus.hw17.dataaccsess.core.service;
 
-import ru.otus.hw17.dataaccsess.core.model.User;
+import ru.otus.hw17.msserver.model.User;
 
 import java.util.List;
 import java.util.Optional;
