@@ -21,6 +21,5 @@ public class GetAllUserDataRequestHandler implements RequestHandler<UserListData
         UserListData resultData;
         resultData = new UserListData(dbService.getAllUsers());
         return Optional.of(MessageBuilder.buildReplyMessage(msg, resultData));
-
     }
 }
