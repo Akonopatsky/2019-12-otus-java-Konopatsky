@@ -10,6 +10,8 @@ import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageHelper;
 import ru.otus.hw17.msserver.dto.UserData;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 public class GetUserDataResponseHandler implements RequestHandler<UserData> {
@@ -27,11 +29,11 @@ public class GetUserDataResponseHandler implements RequestHandler<UserData> {
         try {
             MessageCallback<? extends ResultDataType> callback = callbackRegistry.getAndRemove(msg.getCallbackId());
             if (callback != null) {
-                logger.error("deserialize ____________________??????????????");
-                logger.error("deserialize msg {} ", msg.toString());
-                logger.error("deserialize msg data {} ", msg.getPayload().toString());
-
-                logger.error("deserialize {}", MessageHelper.getPayload(msg).toString());
+                try (FileOutputStream fout = new FileOutputStream("f222.txt")) {
+                    fout.write(msg.getPayload());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 callback.accept(MessageHelper.getPayload(msg));
             } else {
                 logger.error("callback for Id:{} not found", msg.getCallbackId());
