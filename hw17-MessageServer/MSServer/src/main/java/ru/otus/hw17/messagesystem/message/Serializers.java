@@ -20,14 +20,7 @@ class Serializers {
     static Object deserialize(byte[] data) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(data);
              ObjectInputStream is = new ObjectInputStream(bis)) {
-            try (FileOutputStream fout = new FileOutputStream("f333.txt")) {
-                fout.write(data);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Object o = is.readObject();
-            return o;
-         //   return is.readObject();
+            return is.readObject();
         } catch (Exception e) {
             throw new SerializerError("DeSerialization error", e);
         }

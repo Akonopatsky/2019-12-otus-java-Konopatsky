@@ -2,6 +2,7 @@ package ru.otus.hw17.frontend.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.hw17.frontend.messageSystemApp.front.FrontendService;
@@ -13,7 +14,7 @@ import ru.otus.hw17.messagesystem.RequestHandler;
 import ru.otus.hw17.messagesystem.client.CallbackRegistry;
 import ru.otus.hw17.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.client.MsClientConnector2;
+import ru.otus.hw17.messagesystem.client.MsClientRemoteConnector;
 import ru.otus.hw17.messagesystem.message.MessageType;
 import ru.otus.hw17.msserver.dto.UserData;
 import ru.otus.hw17.msserver.socket.SocketClient;
@@ -26,10 +27,14 @@ import java.net.Socket;
 @Configuration
 public class AppConfig {
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
-    private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
-    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
-    private static final int PORT = 8090;
-    private static final String HOST = "localhost";
+    @Value("${frontend.service.name}")
+    private String frontendServiceName;
+    @Value("${database.service.name}")
+    private String databaseServiceName;
+    @Value("${msServer.port}")
+    private int port;
+    @Value("${msServer.address}")
+    private String host;
 
     @Bean("callbackRegistry")
     public CallbackRegistry callbackRegistry() {
@@ -48,7 +53,7 @@ public class AppConfig {
     @Bean("frontendMsClient")
     public MsClient frontendMsClient(SocketClient msSocketClient, HandlersStore requestHandlerFrontendStore,
                                      CallbackRegistry callbackRegistry) {
-        MsClient frontendMsClient = new MsClientConnector2(FRONTEND_SERVICE_CLIENT_NAME,
+        MsClient frontendMsClient = new MsClientRemoteConnector(frontendServiceName,
                 msSocketClient, requestHandlerFrontendStore, callbackRegistry);
         msSocketClient.setMsClient(frontendMsClient);
         msSocketClient.start();
@@ -57,7 +62,7 @@ public class AppConfig {
 
     @Bean("frontendService")
     public FrontendService frontendService(MsClient frontendMsClient) {
-        return new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
+        return new FrontendServiceImpl(frontendMsClient, databaseServiceName);
     }
 
     @Bean("msSocketClient")
@@ -68,7 +73,7 @@ public class AppConfig {
     @Bean("socket")
     public Socket socket() {
         try {
-            return new Socket(HOST, PORT);
+            return new Socket(host, port);
         } catch (IOException e) {
             e.printStackTrace();
         }

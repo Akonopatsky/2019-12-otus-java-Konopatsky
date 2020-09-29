@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MSServerImpl implements MSServer{
+public class MSServerImpl implements MSServer {
     private static final int PORT = 8090;
     private static final int SOCKET_HANDLER_THREAD_LIMIT = 6;
     private final Logger logger = LoggerFactory.getLogger(MSServerImpl.class);
@@ -20,6 +20,7 @@ public class MSServerImpl implements MSServer{
     private final ExecutorService socketHandler = Executors.newFixedThreadPool(SOCKET_HANDLER_THREAD_LIMIT,
             new ThreadFactory() {
                 private final AtomicInteger threadNameSeq = new AtomicInteger(0);
+
                 @Override
                 public Thread newThread(Runnable runnable) {
                     Thread thread = new Thread(runnable);
@@ -37,9 +38,9 @@ public class MSServerImpl implements MSServer{
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (!Thread.currentThread().isInterrupted()) {
                 logger.info("waiting for client connection");
-                Socket socket = serverSocket.accept() ;
-                    logger.info("socket in start {} ", socket.isClosed());
-                    socketHandler.submit(() -> handleClientConnection(socket));
+                Socket socket = serverSocket.accept();
+                logger.info("socket in start {} ", socket.isClosed());
+                socketHandler.submit(() -> handleClientConnection(socket));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

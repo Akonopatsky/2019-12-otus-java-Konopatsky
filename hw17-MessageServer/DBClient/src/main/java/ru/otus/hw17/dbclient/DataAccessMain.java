@@ -7,6 +7,5 @@ public class DataAccessMain {
     public static void main(String[] args) {
         DataAccessSystem dataAccessSystem = new DataAccessSystem(DATABASE_SERVICE_CLIENT_NAME, PORT, HOST);
         dataAccessSystem.start();
-
     }
 }

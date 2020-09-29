@@ -10,6 +10,5 @@ public class MSServerMain {
         MessageSystem messageSystem = new MessageSystemImpl();
         MSServer msServer = new MSServerImpl(messageSystem);
         msServer.start();
-
     }
 }
