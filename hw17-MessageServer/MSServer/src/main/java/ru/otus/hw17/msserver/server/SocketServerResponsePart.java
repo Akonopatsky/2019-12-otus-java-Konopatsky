@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.messagesystem.MessageSystem;
 import ru.otus.hw17.messagesystem.client.MsClient;
+import ru.otus.hw17.messagesystem.client.MsClientConnector;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
 import ru.otus.hw17.messagesystem.message.MessageType;
