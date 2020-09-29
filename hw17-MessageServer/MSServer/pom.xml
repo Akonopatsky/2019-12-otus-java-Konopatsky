@@ -8,10 +8,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.0.RELEASE</version>
 
+    <groupId>ru.otus</groupId>
     <artifactId>MSServer</artifactId>
-    <packaging>jar</packaging>
+    <version>1.0</version>
 
     <properties>
         <hibernate-core.version>5.4.4.Final</hibernate-core.version>
@@ -55,6 +55,9 @@
         </dependency>
     </dependencies>
 
+
+    <packaging>jar</packaging>
+
     <build>
         <plugins>
             <plugin>
@@ -70,4 +73,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

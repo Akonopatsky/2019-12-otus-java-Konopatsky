@@ -14,7 +14,7 @@ import ru.otus.hw17.messagesystem.RequestHandler;
 import ru.otus.hw17.messagesystem.client.CallbackRegistry;
 import ru.otus.hw17.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.client.MsClientRemoteConnector;
+import ru.otus.hw17.messagesystem.client.MsClientSocketConnector;
 import ru.otus.hw17.messagesystem.message.MessageType;
 import ru.otus.hw17.msserver.dto.UserData;
 import ru.otus.hw17.msserver.socket.SocketClient;
@@ -53,7 +53,7 @@ public class AppConfig {
     @Bean("frontendMsClient")
     public MsClient frontendMsClient(SocketClient msSocketClient, HandlersStore requestHandlerFrontendStore,
                                      CallbackRegistry callbackRegistry) {
-        MsClient frontendMsClient = new MsClientRemoteConnector(frontendServiceName,
+        MsClient frontendMsClient = new MsClientSocketConnector(frontendServiceName,
                 msSocketClient, requestHandlerFrontendStore, callbackRegistry);
         msSocketClient.setMsClient(frontendMsClient);
         msSocketClient.start();

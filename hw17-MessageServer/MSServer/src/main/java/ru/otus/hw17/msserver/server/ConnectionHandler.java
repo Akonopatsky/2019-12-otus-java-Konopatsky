@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.messagesystem.MessageSystem;
 import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.client.MsClientConnector;
+import ru.otus.hw17.messagesystem.client.SocketToMSConnector;
 import ru.otus.hw17.messagesystem.message.Message;
 import ru.otus.hw17.messagesystem.message.MessageBuilder;
 import ru.otus.hw17.messagesystem.message.MessageType;
@@ -14,25 +14,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class SocketServerResponsePart implements SocketClient {
-    private static final Logger logger = LoggerFactory.getLogger(SocketServerResponsePart.class);
+public class ConnectionHandler implements SocketClient {
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionHandler.class);
     private final Socket socket;
     private final MessageSystem messageSystem;
     private MsClient msClient;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
 
-
-    private ExecutorService processor = Executors.newSingleThreadExecutor(runnable -> {
-        Thread thread = new Thread(runnable);
-        thread.setName("msg-processor-thread");
-        return thread;
-    });
-
-    public SocketServerResponsePart(Socket socket, MessageSystem messageSystem) {
+    public ConnectionHandler(Socket socket, MessageSystem messageSystem) {
         this.socket = socket;
         this.messageSystem = messageSystem;
     }
@@ -43,7 +34,7 @@ public class SocketServerResponsePart implements SocketClient {
             outputStream.flush();
             logger.info("has sent message {}", msg.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Send message error cause by {} ", e);
         }
     }
 
@@ -63,10 +54,9 @@ public class SocketServerResponsePart implements SocketClient {
             logger.info("start socketClient connected with msClient");
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-            //processor.submit(() -> listening());
             listening();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Start connection handler error cause by {} ", e);
         }
     }
 
@@ -78,7 +68,7 @@ public class SocketServerResponsePart implements SocketClient {
             inputStream.close();
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Stop server connection error cause by {} ", e);
         }
     }
 
@@ -95,11 +85,10 @@ public class SocketServerResponsePart implements SocketClient {
                     handle(msg);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Listening error cause by {} ", e);
         }
+
     }
 
     private void handle(Message msg) {
@@ -114,7 +103,7 @@ public class SocketServerResponsePart implements SocketClient {
 
     private void init(Message msg) {
         logger.info("initialize server part MsClientConnector{} ", msg.getFrom());
-        MsClient msClient = new MsClientConnector(msg.getFrom(), messageSystem, this);
+        MsClient msClient = new SocketToMSConnector(msg.getFrom(), messageSystem, this);
         messageSystem.addClient(msClient);
         this.setMsClient(msClient);
         send(MessageBuilder.buildReplyMessage(msg,null));

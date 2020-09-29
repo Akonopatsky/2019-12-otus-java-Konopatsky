@@ -5,7 +5,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>ru.otus</groupId>
     <artifactId>DBClient</artifactId>
+    <version>1.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -57,7 +59,7 @@
         <dependency>
             <groupId>ru.otus</groupId>
             <artifactId>MSServer</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>

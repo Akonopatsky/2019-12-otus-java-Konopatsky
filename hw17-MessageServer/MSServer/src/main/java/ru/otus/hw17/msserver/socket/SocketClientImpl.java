@@ -39,7 +39,7 @@ public class SocketClientImpl implements SocketClient {
             outputStream.flush();
             logger.info("has sent message {}", msg.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Send message error cause by {} ", e);
         }
     }
 
@@ -61,8 +61,8 @@ public class SocketClientImpl implements SocketClient {
             inputStream = new ObjectInputStream(socket.getInputStream());
             processor.submit(() -> listening());
             handshake();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Start socketClient error cause by {} ", e);
         }
     }
 
@@ -79,7 +79,7 @@ public class SocketClientImpl implements SocketClient {
             inputStream.close();
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Stop socketClient error cause by {} ", e);
         }
     }
 
@@ -97,10 +97,8 @@ public class SocketClientImpl implements SocketClient {
                     msClient.handle(msg);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Listening socketClient error cause by {} ", e);
         }
     }
 }

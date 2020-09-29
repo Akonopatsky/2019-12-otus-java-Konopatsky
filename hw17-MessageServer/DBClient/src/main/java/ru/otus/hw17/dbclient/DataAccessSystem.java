@@ -17,7 +17,7 @@ import ru.otus.hw17.messagesystem.HandlersStoreImpl;
 import ru.otus.hw17.messagesystem.client.CallbackRegistry;
 import ru.otus.hw17.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.hw17.messagesystem.client.MsClient;
-import ru.otus.hw17.messagesystem.client.MsClientRemoteConnector;
+import ru.otus.hw17.messagesystem.client.MsClientSocketConnector;
 import ru.otus.hw17.messagesystem.message.MessageType;
 import ru.otus.hw17.msserver.socket.SocketClient;
 import ru.otus.hw17.msserver.socket.SocketClientImpl;
@@ -50,7 +50,7 @@ public class DataAccessSystem {
             CallbackRegistry callbackRegistry = new CallbackRegistryImpl();
             Socket socket = new Socket(hostName, port);
             SocketClient socketClient = new SocketClientImpl(socket);
-            MsClient databaseMsClient = new MsClientRemoteConnector(databaseServiceClientName,
+            MsClient databaseMsClient = new MsClientSocketConnector(databaseServiceClientName,
                     socketClient, requestHandlerDatabaseStore, callbackRegistry);
             socketClient.setMsClient(databaseMsClient);
             socketClient.start();

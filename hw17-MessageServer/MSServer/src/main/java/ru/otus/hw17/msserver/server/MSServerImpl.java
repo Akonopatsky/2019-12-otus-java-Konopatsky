@@ -3,6 +3,7 @@ package ru.otus.hw17.msserver.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw17.messagesystem.MessageSystem;
+import ru.otus.hw17.messagesystem.message.MessageBuilder;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +21,6 @@ public class MSServerImpl implements MSServer {
     private final ExecutorService socketHandler = Executors.newFixedThreadPool(SOCKET_HANDLER_THREAD_LIMIT,
             new ThreadFactory() {
                 private final AtomicInteger threadNameSeq = new AtomicInteger(0);
-
                 @Override
                 public Thread newThread(Runnable runnable) {
                     Thread thread = new Thread(runnable);
@@ -43,17 +43,18 @@ public class MSServerImpl implements MSServer {
                 socketHandler.submit(() -> handleClientConnection(socket));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("start server error {} ", ex);
         }
     }
 
     @Override
     public void stop() {
         logger.info("Try to stop.");
+        messageSystem.newMessage(MessageBuilder.getVoidMessage());
     }
 
     private void handleClientConnection(Socket socket) {
-        SocketServerResponsePart socketClient = new SocketServerResponsePart(socket, messageSystem);
+        ConnectionHandler socketClient = new ConnectionHandler(socket, messageSystem);
         socketClient.start();
     }
 }
